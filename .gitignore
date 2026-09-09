@@ -1,6 +1,9 @@
 # Local notes — never publish
 NOTES.local.md
 
+# Per-machine Claude Code settings
+.claude/settings.local.json
+
 # Python
 __pycache__/
 *.py[cod]
