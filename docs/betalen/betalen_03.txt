@@ -1,0 +1,4 @@
+Categorie: Betalen
+
+Vraag: Kan ik betalen met creditcard bij De Rode Winkel?
+Antwoord: Ja. Selecteer creditcard bij het afrekenen, vul de gevraagde gegevens in op het volgende scherm en het bedrag wordt automatisch van de kaart afgeschreven.

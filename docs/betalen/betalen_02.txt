@@ -1,0 +1,4 @@
+Categorie: Betalen
+
+Vraag: Hoe werkt betalen met iDEAL bij De Rode Winkel?
+Antwoord: Selecteer iDEAL bij het afrekenen, kies je bank en je wordt doorgeleid naar je online bankieromgeving waar de aankoopgegevens al zijn ingevuld. Na goedkeuring via je vertrouwde bankomgeving word je teruggeleid om de transactie te voltooien.

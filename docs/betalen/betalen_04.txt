@@ -1,0 +1,4 @@
+Categorie: Betalen
+
+Vraag: Is Apple Pay geaccepteerd bij De Rode Winkel?
+Antwoord: Ja. Klik op Apple Pay bij het afrekenen of in het winkelmandje. De stappen verlopen automatisch en adresgegevens worden automatisch ingevuld.
