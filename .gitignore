@@ -1,0 +1,17 @@
+# Local notes — never publish
+NOTES.local.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.env
+
+# Rasa
+models/
+.rasa/
+
+# OS
+.DS_Store
+Thumbs.db

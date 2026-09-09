@@ -1,0 +1,22 @@
+recipe: default.v1
+language: en
+assistant_id: mode-reader
+pipeline:
+- name: SearchReadyLLMCommandGenerator
+  llm:
+    model_group: ollama_command_llm
+  flow_retrieval:
+    active: false
+  prompt_template: prompts/command_generator.jinja2
+policies:
+- name: FlowPolicy
+- name: EnterpriseSearchPolicy
+  llm:
+    model_group: ollama_answer_llm
+  embeddings:
+    model_group: ollama_embeddings
+  vector_store:
+    type: faiss
+    source: ./docs
+  check_relevancy: true
+  prompt_template: prompts/enterprise_search.jinja2

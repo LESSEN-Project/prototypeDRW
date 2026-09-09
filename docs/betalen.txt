@@ -1,0 +1,25 @@
+Categorie: Betalen
+
+Vraag: Wat zijn de betaalmogelijkheden bij De Rode Winkel?
+Antwoord: Online kun je betalen met iDEAL, WERO, Creditcard, PayPal, Apple Pay en Billink. Ook de online cadeaukaart van De Rode Winkel is een betaalmogelijkheid. Fysieke cadeaukaarten werken alleen in de winkel. VVV- en Fashioncheque-kaarten werken niet online maar wel in de fysieke winkel in Utrecht.
+
+Vraag: Hoe werkt betalen met iDEAL bij De Rode Winkel?
+Antwoord: Selecteer iDEAL bij het afrekenen, kies je bank en je wordt doorgeleid naar je online bankieromgeving waar de aankoopgegevens al zijn ingevuld. Na goedkeuring via je vertrouwde bankomgeving word je teruggeleid om de transactie te voltooien.
+
+Vraag: Kan ik betalen met creditcard bij De Rode Winkel?
+Antwoord: Ja. Selecteer creditcard bij het afrekenen, vul de gevraagde gegevens in op het volgende scherm en het bedrag wordt automatisch van de kaart afgeschreven.
+
+Vraag: Is Apple Pay geaccepteerd bij De Rode Winkel?
+Antwoord: Ja. Klik op Apple Pay bij het afrekenen of in het winkelmandje. De stappen verlopen automatisch en adresgegevens worden automatisch ingevuld.
+
+Vraag: Kan ik betalen met PayPal bij De Rode Winkel?
+Antwoord: Ja, maar er geldt een toeslag van 3,20%. Klik op PayPal bij het afrekenen en volg de stappen.
+
+Vraag: Hoe werkt betalen met Billink bij De Rode Winkel?
+Antwoord: Klik op Billink bij het afrekenen en de stappen volgen vanzelf. Je hebt tot 14 dagen na ontvangst om te betalen. Klarna en Afterpay worden niet geaccepteerd.
+
+Vraag: Hoe werkt een fysieke cadeaukaart online bij De Rode Winkel?
+Antwoord: Mail naar info@derodewinkel.nl of stuur een bericht via de contactknop op de website met de barcodegegevens van je fysieke cadeaukaart. Je ontvangt dan een nieuwe code voor gebruik in de webshop.
+
+Vraag: Kan ik producten reserveren bij De Rode Winkel?
+Antwoord: Ja. Mail naar info@derodewinkel.nl om artikelen te reserveren zolang de voorraad strekt. Je kunt dan de artikelen passen in de winkel en daarna betalen. Je kunt ook een paskamer reserveren via de afspraakpagina op de website.

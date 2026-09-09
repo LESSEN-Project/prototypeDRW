@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "rasa-tools": {
+      "command": "C:\\Users\\juria\\git\\prototypeDRW\\venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "rasa",
+        "tools",
+        "run",
+        "--mode",
+        "stdio",
+        "--project-path",
+        "C:\\Users\\juria\\git\\prototypeDRW"
+      ]
+    }
+  }
+}

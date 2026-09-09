@@ -1,0 +1,16 @@
+flows:
+  pattern_cancel_flow:
+    description: Overrides the default cancel flow response in Dutch
+    steps:
+      - action: utter_flow_cancelled
+
+  pattern_completed:
+    description: Silent flow completion
+    steps:
+      - action: utter_completed
+
+  pattern_search:
+    description: Flow for handling knowledge-based questions
+    name: pattern search
+    steps:
+      - action: action_trigger_search

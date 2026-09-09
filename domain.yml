@@ -1,0 +1,26 @@
+version: "3.1"
+
+responses:
+  utter_cannot_help:
+    - text: "Daar kan ik je helaas niet mee helpen. Neem contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
+
+  utter_cannot_handle:
+    - text: "Daar kan ik je helaas niet mee helpen. Neem contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
+
+  utter_flow_cancelled:
+    - text: "Oké, ik heb dat geannuleerd. Kan ik je nog ergens anders mee helpen?"
+
+  utter_internal_error_rasa:
+    - text: "Er is een technisch probleem opgetreden. Probeer het over een paar minuten opnieuw."
+
+  utter_user_input_empty_error_rasa:
+    - text: "Ik heb een leeg bericht ontvangen. Waarmee kan ik je helpen?"
+
+  utter_no_relevant_answer_found:
+    - text: "Daar kan ik je helaas niet mee helpen. Neem contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
+
+  utter_ask_rephrase:
+    - text: "Dat heb ik niet goed begrepen. Kun je het op een andere manier omschrijven?"
+
+  utter_completed:
+    - text: "Kan ik je nog ergens anders mee helpen?"
