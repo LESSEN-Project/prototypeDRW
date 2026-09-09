@@ -28,7 +28,7 @@ Two things worth noting in the design:
 
 ### Knowledge base
 
-`docs/` holds 72 Dutch Q&A files in 12 categories, distilled from anonymized customer WhatsApp conversations using the extraction pipeline in `scripts/` (LLM extraction into fixed categories → embedding-based clustering → LLM synthesis of archetype Q&As). The pre-split source files live in `docs_source/`; `scripts/split_docs.py` regenerates the per-Q&A layout.
+`docs/` holds 72 Dutch Q&A files in 12 categories, distilled from anonymized customer WhatsApp conversations. The raw chat logs were first pseudonymized with [discombobulator](https://github.com/Jurian/discombobulator), a rule-based toolkit that parses chat logs and replaces personal data (names, emails, phone numbers, addresses, tracking codes) with placeholders — so no personal data ever enters the pipeline. The cleaned conversations were then processed by the extraction pipeline in `scripts/` (LLM extraction into fixed categories → embedding-based clustering → LLM synthesis of archetype Q&As). The pre-split source files live in `docs_source/`; `scripts/split_docs.py` regenerates the per-Q&A layout.
 
 ## Setup
 
