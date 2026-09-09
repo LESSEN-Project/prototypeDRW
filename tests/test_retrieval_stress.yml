@@ -1,0 +1,139 @@
+# Retrieval stress test: every query is deliberately worded differently from
+# the knowledge base text (synonyms, colloquial Dutch) to verify that
+# enterprise search retrieves on meaning rather than exact vocabulary.
+# One test case per knowledge base category, plus abstention checks.
+#
+# Run with the SSH tunnel to the Ollama server open:
+#   rasa test e2e tests/test_retrieval_stress.yml
+
+test_cases:
+  - test_case: retouren - terugsturen kosten (colloquial for retourkosten)
+    steps:
+      - user: "Wat kost het om iets terug te sturen?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Retourkosten bedragen €7 en worden achteraf verrekend. Bij ruilen zijn er geen kosten, ook niet bij bestellingen onder €49. Aankopen met een cadeaukaart worden teruggestort als tegoedbon, niet als contant geld."
+
+  - test_case: verzending - gratis verzending drempel
+    steps:
+      - user: "Vanaf welk bedrag hoef ik geen verzendkosten te betalen?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Bestellingen van €49 of meer worden gratis verzonden. Bij bestellingen onder €49 bedragen de verzendkosten €6,96. Internationale verzending naar Europese landen kost €10 tot €15. Er wordt verzonden naar alle landen in Europa."
+
+  - test_case: verzending - bezorging Belgie (previously missed in English)
+    steps:
+      - user: "Bezorgen jullie ook in België?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Er wordt verzonden naar alle landen in Europa. Internationale verzending naar Europese landen kost €10 tot €15."
+
+  - test_case: bestellen - account verplicht
+    steps:
+      - user: "Moet ik verplicht een account hebben om iets te kopen?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Online bestellen kan ook zonder account."
+
+  - test_case: betalen - achteraf betalen (colloquial for Billink)
+    steps:
+      - user: "Kan ik m'n bestelling ook achteraf betalen?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Met Billink heb je tot 14 dagen na ontvangst om te betalen. Klarna en Afterpay worden niet geaccepteerd."
+
+  - test_case: kortingscode - studentenkorting
+    steps:
+      - user: "Krijg ik korting als student?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Studenten ontvangen 10% korting. In de winkel toon je je studentenpas; online vul je een formulier in waarna je een kortingscode ontvangt."
+
+  - test_case: cadeaukaart - cadeaubon online gebruiken (synonym cadeaubon)
+    steps:
+      - user: "Ik heb een cadeaubon gekregen, kan ik die op de site gebruiken?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Ja, een cadeaubon is op de site te gebruiken. Fysieke cadeaukaarten kunnen worden omgezet naar een online code door een e-mail te sturen naar info@derodewinkel.nl of een bericht via de WhatsApp-knop onderaan de pagina, met de barcodegegevens. Je krijgt dan een nieuwe code voor de webshop om mee te betalen. De online cadeaukaart voer je in bij het afrekenen na het invullen van je adres."
+
+  - test_case: maatadvies - welke jeans past bij figuur
+    steps:
+      - user: "Welke spijkerbroek past het beste bij mijn figuur?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "De winkel helpt door je figuur te analyseren en te bepalen welk jeansmodel bij je lichaamsbouw past. Meer lezen kan via de blog of neem contact op via WhatsApp voor persoonlijk advies. De winkel biedt een uitgebreide maatgids aan en is bereikbaar via meerdere kanalen voor persoonlijk maatadvies."
+
+  - test_case: producten - milieuvriendelijk (synonym for duurzaam)
+    steps:
+      - user: "Zijn jullie spijkerbroeken een beetje milieuvriendelijk?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "De Rode Winkel selecteert merken zorgvuldig op duurzaamheid. Duurzame producten zijn herkenbaar aan het groene blad-icoontje in de webshop. Geen enkele spijkerbroek is volledig duurzaam, maar dit zijn de minst belastende alternatieven."
+
+  - test_case: fysieke winkel - openingstijd donderdag (colloquial)
+    steps:
+      - user: "Tot hoe laat kan ik donderdag bij jullie terecht?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Op donderdag is De Rode Winkel geopend van 10:00 tot 21:00. Feestdagentijden kunnen afwijken; raadpleeg de openingstijdenpagina op de website voor actuele informatie."
+
+  - test_case: garantie - broek stuk na 3 maanden (colloquial, no garantie keyword)
+    steps:
+      - user: "M'n broek is na drie maanden alweer stuk, wat nu?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Op jeans geldt een minimale garantietermijn van 6 maanden. Een broek die na drie maanden stukgaat valt dus nog binnen de garantietermijn. Je kunt het artikel meenemen naar de winkel voor beoordeling of foto's sturen naar info@derodewinkel.nl als winkelbezoek niet mogelijk is. Je ontvangt binnen 14 dagen een inhoudelijke reactie. De wettelijke garantie geldt voor alle aankopen."
+
+  - test_case: loyaliteitspunten - waarde gespaarde punten
+    steps:
+      - user: "Hoeveel korting leveren m'n gespaarde punten eigenlijk op?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "Je spaart 5% van je aankoopbedrag. Voor elke €100 die je besteedt, spaar je €5 korting op je volgende aankoop. Bij het afrekenen staat een sectie met kortingscode, cadeaubon en spaarpunten waar je punten kunt inzetten als korting."
+
+  - test_case: bedrijfsgegevens - leeftijd van de zaak (colloquial)
+    steps:
+      - user: "Hoe oud is jullie zaak eigenlijk?"
+        assertions:
+          - generative_response_is_grounded:
+              threshold: 0.80
+              utter_source: EnterpriseSearchPolicy
+              ground_truth: "De Rode Winkel is opgericht op 19 maart 1837 door Johannes Broekman en Annaatje van Essenberg als kleermakerij en winkel in fournituren. Het bedrijf bestaat dus al sinds 1837 en de continuïteit bestaat tot vandaag. Na het overlijden van Johannes zette Annaatje de zaak voort als Weduwe Johannes Broekman. In 2017 is het familiebedrijf overgegaan naar de zesde generatie. In 2012 ontving De Rode Winkel het predicaat Hofleverancier. Het uitgangspunt van De Rode Winkel is betekenisvol ondernemen, vertaald naar betrouwbaar zijn en lange termijn denken, met duurzame relaties met klanten en leveranciers."
+
+  - test_case: abstention - out of scope product
+    steps:
+      - user: "Verkopen jullie ook wasmachines?"
+        assertions:
+          - bot_uttered:
+              utter_name: utter_no_relevant_answer_found
+
+  - test_case: abstention - unanswerable sizing question (known content gap)
+    steps:
+      - user: "Valt jullie kleding groot of klein?"
+        assertions:
+          - bot_uttered:
+              utter_name: utter_no_relevant_answer_found
