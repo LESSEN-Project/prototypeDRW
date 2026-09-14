@@ -7,15 +7,19 @@ same command after an interruption and finished runs are skipped.
 
 Phases (edit PHASES below to change the study):
     name        answer model                          conditions   repeats  concurrency
-    12b         gemma3:12b                            full         5        4
-    4b          gemma3:4b                             core         5        4
-    27b         gemma3:27b                            core         5        4
-    qwen9b      qwen3.5:9b (thinking off)             core         5        4
-    qwen27b     qwen3.5:27b (thinking off)            core         5        4
-    mistral     mistral-small3.2                      core         5        4
-    geitje      GEITje-7B-ultra (Dutch, Mistral-7B)   core         5        4
-    fietje      fietje-2-chat (Dutch, 2.7B)           core         5        4
-    ref70b      llama3.3:70b (reference ceiling)      reference    5        1
+    12b         gemma3:12b                            full         5        6
+    4b          gemma3:4b                             core         5        6
+    27b         gemma3:27b                            core         5        6
+    qwen9b      qwen3.5:9b (thinking off)             core         5        6
+    qwen27b     qwen3.5:27b (thinking off)            core         5        6
+    mistral     mistral-small3.2                      core         5        6
+    geitje      GEITje-7B-ultra (Dutch, Mistral-7B)   core         5        6
+    fietje      fietje-2-chat (Dutch, 2.7B)           core         5        6
+    eurollm     EuroLLM-9B-Instruct (EU multilingual) core         5        6
+    ref70b      llama3.3:70b (reference ceiling,      reference    5        2
+                also its own command generator)
+
+Concurrency 6 assumes OLLAMA_NUM_PARALLEL=8 on limmy (set 2026-09-14).
 
 Usage:
     venv/Scripts/python experiments/contrastive/run_study.py                 # everything
@@ -39,15 +43,15 @@ SUITE = run_grid.ROOT / "tests" / "test_contrastive_suite.yml"
 # The 70b reference reuses itself as command generator: 42 GB of weights plus
 # gemma3:4b and bge-m3 would not fit two 24 GB cards, and the command prompt is tiny.
 PHASES = [
-    ("12b", "gemma3:12b", "full", 5, 4, None),
-    ("4b", "gemma3:4b", "core", 5, 4, None),
-    ("27b", "gemma3:27b", "core", 5, 4, None),
-    ("qwen9b", "qwen3.5:9b", "core", 5, 4, None),
-    ("qwen27b", "qwen3.5:27b", "core", 5, 4, None),
-    ("mistral", "mistral-small3.2", "core", 5, 4, None),
-    ("geitje", "hf.co/BramVanroy/GEITje-7B-ultra-GGUF:Q4_K_M", "core", 5, 4, None),
-    ("fietje", "hf.co/BramVanroy/fietje-2-chat-GGUF:Q4_K_M", "core", 5, 4, None),
-    ("eurollm", "hf.co/bartowski/EuroLLM-9B-Instruct-GGUF:Q4_K_M", "core", 5, 4, None),
+    ("12b", "gemma3:12b", "full", 5, 6, None),
+    ("4b", "gemma3:4b", "core", 5, 6, None),
+    ("27b", "gemma3:27b", "core", 5, 6, None),
+    ("qwen9b", "qwen3.5:9b", "core", 5, 6, None),
+    ("qwen27b", "qwen3.5:27b", "core", 5, 6, None),
+    ("mistral", "mistral-small3.2", "core", 5, 6, None),
+    ("geitje", "hf.co/BramVanroy/GEITje-7B-ultra-GGUF:Q4_K_M", "core", 5, 6, None),
+    ("fietje", "hf.co/BramVanroy/fietje-2-chat-GGUF:Q4_K_M", "core", 5, 6, None),
+    ("eurollm", "hf.co/bartowski/EuroLLM-9B-Instruct-GGUF:Q4_K_M", "core", 5, 6, None),
     ("ref70b", "llama3.3:70b", "reference", 5, 2, "llama3.3:70b"),
 ]
 
