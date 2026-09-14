@@ -101,6 +101,14 @@ venv\Scripts\python experiments\contrastive\aggregate.py --results experiments\c
 
 The judge is resumable per judge file; `--sample N` restricts a judge to a random subset for agreement checks.
 
+## 7c. Morning checklist (after an overnight run)
+
+1. Tunnel up: `curl -s http://localhost:11434/api/tags | head -c 60` prints JSON. If not: `ssh -fNL 11434:localhost:11434 limmy` in WSL.
+2. `venv\Scripts\python experiments\contrastive\status.py` shows every phase with runs done, internal-error counts, and a NEXT line. Green state: all phases at their expected counts, zero internal errors, "Generation is COMPLETE".
+3. If runs are missing, relaunch `run_study.py`; it skips finished runs. If a run has internal errors, delete that run's directory and relaunch; the tunnel dropping is the usual cause.
+4. When generation is complete and nobody else needs the GPUs: `venv\Scripts\python experiments\contrastive\run_judging.py`. It collects answers, judges with llama3.3:70b (about 20 s per unique answer, both cards), then gpt-oss:20b, then writes `results_study/summary.md`. Interruptible; rerun resumes.
+5. Read `results_study/summary.md`. Judge agreement is at the bottom.
+
 ## 8. Order of work
 
 1. Suite expansion: paraphrases, near-miss cases with grep verification, out-of-scope cases. Reviewed by a person before the run, since the near-miss ground truth is a human judgement.
