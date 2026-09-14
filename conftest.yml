@@ -1,8 +1,14 @@
+# LLM judge for e2e generative assertions.
+# mistral-small3.2 chosen 2026-09-14: valid JSON without thinking tokens,
+# ~9 s per judgement, and a different model family from the gemma3 answer
+# model (avoids self-preference bias). temperature 0 for repeatability.
 llm_judge:
   llm:
     provider: ollama
-    model: gemma3:12b
+    model: mistral-small3.2
     api_base: "http://localhost:11434"
+    num_ctx: 4096
+    temperature: 0.0
   embeddings:
     provider: ollama
     model: bge-m3

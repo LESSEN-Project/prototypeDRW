@@ -13,6 +13,19 @@
 action_endpoint:
   actions_module: "actions"
 
+# Custom contrastive retriever (addons/contrastive_retriever.py):
+# embeds all docs under `source` at startup, returns top-4 relevant
+# plus `contrast_k` least-similar documents labeled as contrast.
+vector_store:
+  type: addons.contrastive_retriever.ContrastiveFAISS
+  source: "./docs"
+  # relevant documents passed to the LLM (Rasa default 4)
+  top_k: 4
+  contrast_k: 2
+  # bottom | random | next  (see addons/contrastive_retriever.py)
+  contrast_mode: bottom
+  contrast_seed: 0
+
 # Tracker store which is used to store the conversations.
 # By default the conversations are stored in memory.
 # https://rasa.com/docs/rasa-pro/production/tracker-stores
@@ -48,6 +61,7 @@ model_groups:
         model: gemma3:4b
         api_base: "http://localhost:11434"
         num_ctx: 4096
+        temperature: 0.0
 
   - id: ollama_answer_llm
     models:
@@ -55,6 +69,7 @@ model_groups:
         model: gemma3:12b
         api_base: "http://localhost:11434"
         num_ctx: 4096
+        temperature: 0.0
 
   - id: ollama_embeddings
     models:

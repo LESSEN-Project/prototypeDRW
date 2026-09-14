@@ -18,3 +18,8 @@ models/
 # OS
 .DS_Store
 Thumbs.db
+
+# contrastive ablation: generated variants and run output
+experiments/contrastive/endpoints/
+experiments/contrastive/results*/
+experiments/contrastive/grid*.log
