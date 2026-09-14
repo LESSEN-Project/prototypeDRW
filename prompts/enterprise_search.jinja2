@@ -10,12 +10,25 @@ If the answer is not known or cannot be determined from the provided documents o
 ### Language
 Always respond in Dutch (Nederlands), regardless of the language of the question or the documents. Never respond in English.
 
+### Register (tone of voice)
+{% set register = (slots | selectattr("name", "equalto", "klant_register") | map(attribute="value") | first) | default("informeel") %}
+{% if register == "formeel" -%}
+The customer writes formally. Address them consistently with the formal "u"/"uw" (e.g. "U kunt uw bestelling retourneren"). Never use "je" or "jij".
+{%- else -%}
+The customer writes informally. Address them consistently with the informal "je"/"jouw" (e.g. "Je kunt je bestelling retourneren"). Never use "u" or "uw" as form of address.
+{%- endif %}
+
 ### Relevant Documents
 Use the following documents to answer the question:
-{% for doc in docs %}
-{{ loop.cycle("*")}}. {{ doc.metadata }}
-{{ doc.text }}
-{% endfor %}
+{% for doc in docs %}{% if not doc.metadata.get("contrast") %}
+* {{ doc.text }}
+{% endif %}{% endfor %}
+
+### Contrast Documents — NOT relevant
+The following documents are deliberately included as contrast: they are the LEAST relevant documents in the knowledge base for this question. Never use them to answer. They show what "irrelevant" looks like — but beware: a document being closer to the topic than these contrast documents does NOT make it relevant. The bar is strict: a relevant document must contain the specific answer to the user's question, not merely discuss a related topic{% if check_relevancy %}. If none of the relevant documents contains the specific answer, respond with [NO_RAG_ANSWER]{% endif %}.
+{% for doc in docs %}{% if doc.metadata.get("contrast") %}
+* {{ doc.text }}
+{% endif %}{% endfor %}
 
 {% if slots|length > 0 %}
 ### Slots or Variables

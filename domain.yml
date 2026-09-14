@@ -1,26 +1,75 @@
 version: "3.1"
 
+slots:
+  klant_register:
+    type: categorical
+    values:
+      - formeel
+      - informeel
+    initial_value: informeel
+    mappings:
+      - type: custom
+        action: action_detect_register
+
+actions:
+  - action_detect_register
+
 responses:
   utter_cannot_help:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Daar kan ik u helaas niet mee helpen. Neemt u contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
     - text: "Daar kan ik je helaas niet mee helpen. Neem contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
 
   utter_cannot_handle:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Daar kan ik u helaas niet mee helpen. Neemt u contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
     - text: "Daar kan ik je helaas niet mee helpen. Neem contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
 
   utter_flow_cancelled:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Oké, ik heb dat geannuleerd. Kan ik u nog ergens anders mee helpen?"
     - text: "Oké, ik heb dat geannuleerd. Kan ik je nog ergens anders mee helpen?"
 
   utter_internal_error_rasa:
     - text: "Er is een technisch probleem opgetreden. Probeer het over een paar minuten opnieuw."
 
   utter_user_input_empty_error_rasa:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Ik heb een leeg bericht ontvangen. Waarmee kan ik u helpen?"
     - text: "Ik heb een leeg bericht ontvangen. Waarmee kan ik je helpen?"
 
   utter_no_relevant_answer_found:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Daar kan ik u helaas niet mee helpen. Neemt u contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
     - text: "Daar kan ik je helaas niet mee helpen. Neem contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl)."
 
   utter_ask_rephrase:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Dat heb ik niet goed begrepen. Kunt u het op een andere manier omschrijven?"
     - text: "Dat heb ik niet goed begrepen. Kun je het op een andere manier omschrijven?"
 
   utter_completed:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Kan ik u nog ergens anders mee helpen?"
     - text: "Kan ik je nog ergens anders mee helpen?"

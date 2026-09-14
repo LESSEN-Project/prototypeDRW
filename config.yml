@@ -16,7 +16,6 @@ policies:
   embeddings:
     model_group: ollama_embeddings
   vector_store:
-    type: faiss
-    source: ./docs
+    type: addons.contrastive_retriever.ContrastiveFAISS
   check_relevancy: true
   prompt_template: prompts/enterprise_search.jinja2

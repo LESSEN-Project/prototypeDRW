@@ -14,7 +14,7 @@ test_cases:
           - generative_response_is_grounded:
               threshold: 0.80
               utter_source: EnterpriseSearchPolicy
-              ground_truth: "Retourkosten bedragen €7 en worden achteraf verrekend. Bij ruilen zijn er geen kosten, ook niet bij bestellingen onder €49. Aankopen met een cadeaukaart worden teruggestort als tegoedbon, niet als contant geld."
+              ground_truth: "Retourkosten bedragen €7 en worden achteraf verrekend. Bij ruilen zijn er geen kosten, ook niet bij bestellingen onder €49. Artikelen kunnen binnen 14 dagen na ontvangst worden geretourneerd, mits in originele staat, via het retourportaal. Aankopen met een cadeaukaart worden teruggestort als tegoedbon, niet als contant geld."
 
   - test_case: verzending - gratis verzending drempel
     steps:
@@ -32,7 +32,7 @@ test_cases:
           - generative_response_is_grounded:
               threshold: 0.80
               utter_source: EnterpriseSearchPolicy
-              ground_truth: "Er wordt verzonden naar alle landen in Europa. Internationale verzending naar Europese landen kost €10 tot €15."
+              ground_truth: "Er wordt verzonden naar alle landen in Europa, dus ook naar België. Internationale verzending naar Europese landen kost €10 tot €15. Bestellingen worden verzonden via PostNL; als het pakket verstuurd is ontvang je van PostNL meer informatie over het levermoment."
 
   - test_case: bestellen - account verplicht
     steps:
@@ -50,7 +50,7 @@ test_cases:
           - generative_response_is_grounded:
               threshold: 0.80
               utter_source: EnterpriseSearchPolicy
-              ground_truth: "Met Billink heb je tot 14 dagen na ontvangst om te betalen. Klarna en Afterpay worden niet geaccepteerd."
+              ground_truth: "Ja, achteraf betalen kan met Billink. Klik op Billink bij het afrekenen en de stappen volgen vanzelf. Met Billink heb je tot 14 dagen na ontvangst om te betalen. Klarna en Afterpay worden niet geaccepteerd. Andere betaalmogelijkheden in de webshop zijn iDEAL, WERO, Creditcard, PayPal, Apple Pay en de online cadeaukaart."
 
   - test_case: kortingscode - studentenkorting
     steps:
@@ -86,7 +86,7 @@ test_cases:
           - generative_response_is_grounded:
               threshold: 0.80
               utter_source: EnterpriseSearchPolicy
-              ground_truth: "De Rode Winkel selecteert merken zorgvuldig op duurzaamheid. Duurzame producten zijn herkenbaar aan het groene blad-icoontje in de webshop. Geen enkele spijkerbroek is volledig duurzaam, maar dit zijn de minst belastende alternatieven."
+              ground_truth: "De Rode Winkel selecteert merken zorgvuldig op duurzaamheid en stelt hogere inkoopeisen; recent toegevoegde merken richten zich op duurzame productie. De winkel werkt uitsluitend met transparante merken die duurzaamheidseisen nakomen, zoals Kuyichi, Nudie Jeans en MUD Jeans, die hun productiefaciliteiten publiceren. Duurzame producten zijn herkenbaar aan het groene blad-icoontje in de webshop en gebruiken duurzame materialen zoals GOTS-katoen. Geen enkele spijkerbroek is volledig duurzaam, maar dit zijn de minst belastende alternatieven. Volgens onderzoek van Impact Institute en ABN AMRO zou een spijkerbroek €33 meer moeten kosten als alle verborgen milieu- en sociale kosten (waterverontreiniging, katoenteelt, kinderarbeid, onderbetaling, onveilige omstandigheden) worden meegeteld. De productie van één kilogram jeansstof kost 10.000 liter water, jaarlijks wordt 92 miljoen ton kleding weggegooid waarvan minder dan 1% wordt gerecycled, en de mode-industrie is verantwoordelijk voor 10% van de wereldwijde CO2-uitstoot."
 
   - test_case: fysieke winkel - openingstijd donderdag (colloquial)
     steps:

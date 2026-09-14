@@ -13,18 +13,31 @@ User message
 SearchReadyLLMCommandGenerator ── gemma3:4b ──► "search and reply"
     │
     ▼
-pattern_search ──► EnterpriseSearchPolicy
-                       │
-                       ├── embed query ── bge-m3 ──► FAISS index (72 Q&A docs)
-                       │
-                       └── generate answer ── gemma3:12b ──► Dutch response
-                            (check_relevancy: abstains when no relevant doc)
+pattern_search
+    │
+    ├── action_detect_register ──► klant_register slot (formeel/informeel)
+    │
+    └──► EnterpriseSearchPolicy
+             │
+             ├── embed query ── bge-m3 ──► ContrastiveFAISS (73 Q&A docs)
+             │                                │
+             │                                └──► top-4 relevant + 2 contrast docs
+             │
+             └── generate answer ── gemma3:12b ──► Dutch response, matching register
+                  (check_relevancy: abstains when relevant docs don't beat contrast docs)
 ```
 
 Two things worth noting in the design:
 
 - **Per-component model routing** via Rasa `model_groups`: the high-frequency, trivial task (command generation) runs on a small fast model (gemma3:4b), while answer writing gets a stronger one (gemma3:12b). Both fit together on a single 24 GB GPU.
 - **One Q&A per document**: Rasa's FAISS ingestion chunks files at 1000 characters, which merges unrelated Q&As into diluted vectors. Keeping each Q&A in its own file gives every question a focused embedding — this, plus the multilingual bge-m3 embedding model, is what makes retrieval robust to colloquial rewordings ("m'n rits is kapot" finds the repair atelier doc).
+
+## Personalization features (AP-Bots)
+
+Two features adapted from [Yazan, Verberne & Situmeang, *Improving RAG for Personalization with Author Features and Contrastive Examples*](https://arxiv.org/abs/2504.08745) ([AP-Bots](https://github.com/myazann/AP-Bots)), developed within the LESSEN project:
+
+- **Register matching (author features).** A custom action (`actions/actions.py`) classifies each customer's writing style as formal (*u/uw*) or informal (*je/jij*) by counting Dutch register markers across their messages, and stores it in a slot. The enterprise search prompt instructs the LLM to mirror that register, and fixed template responses switch via conditional response variations — so a customer who writes "Kunt u mij helpen?" gets consistent *u* throughout, while "Hoi, kun je me helpen?" gets *je*.
+- **Contrastive documents (contrastive examples).** A custom information retriever (`addons/contrastive_retriever.py`) returns the top-4 relevant documents *plus* the 2 least similar documents in the knowledge base, labeled as contrast. The prompt tells the model: if the relevant documents don't answer the question meaningfully better than the contrast documents, abstain (`[NO_RAG_ANSWER]`). This turns the abstention decision from an absolute confidence judgment (which LLMs do poorly) into a relative comparison (which they do well) — applying the paper's contrastive-examples idea to relevancy calibration, a direction its authors flag as open research. Tune via `contrast_k` in `endpoints.yml`; set it to `0` for an ablation baseline.
 
 ### Knowledge base
 
@@ -75,11 +88,13 @@ Run this after any change to the embedding model, docs structure, prompts, or Ra
 
 ```
 config.yml                  # pipeline: command generator + FlowPolicy + EnterpriseSearchPolicy
-endpoints.yml               # Ollama model groups (command LLM, answer LLM, embeddings)
-domain.yml                  # Dutch responses, incl. error/abstention messages
+endpoints.yml               # Ollama model groups + contrastive retriever settings
+domain.yml                  # Dutch responses (register-conditional), klant_register slot
 data/patterns.yml           # Dutch overrides for cancel/completed/search patterns
 prompts/                    # custom Jinja2 prompts (command generator, enterprise search)
-docs/                       # knowledge base: 72 Dutch Q&A files, 12 categories
+actions/                    # custom actions: register (u/je) detection
+addons/                     # custom contrastive FAISS retriever
+docs/                       # knowledge base: 73 Dutch Q&A files, 12 categories
 docs_source/                # original per-category files (not indexed)
 scripts/                    # WhatsApp extraction pipeline + docs splitter
 tests/                      # retrieval stress-test suite

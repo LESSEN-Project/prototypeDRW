@@ -13,4 +13,5 @@ flows:
     description: Flow for handling knowledge-based questions
     name: pattern search
     steps:
+      - action: action_detect_register
       - action: action_trigger_search
