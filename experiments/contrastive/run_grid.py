@@ -198,9 +198,12 @@ def run_grid(conditions, repeats, concurrency, suite: Path, results_root: Path,
     def launch(c: str, r: int) -> dict:
         nonlocal started
         with _print_lock:
-            delay = started * stagger
+            index = started
             started += 1
-        time.sleep(min(delay, stagger * (concurrency - 1)))
+        # Only the first wave is staggered (so index builds do not collide);
+        # later runs start as soon as a worker is free.
+        if index < concurrency:
+            time.sleep(index * stagger)
         return run_one(c, r, variants[c], suite, results_root)
 
     t0 = time.time()
