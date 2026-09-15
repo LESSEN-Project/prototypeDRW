@@ -57,11 +57,16 @@ CONDITION_SETS = {
 # Extra LiteLLM parameters per answer model. `reasoning_effort` outside
 # low/medium/high makes LiteLLM send `think: false` to Ollama, which switches
 # thinking off for Qwen-style models (verified 2026-09-14 on both Ollama routes).
+# fietje-2 (Phi-2, n_ctx_train 2048) rambles after its answer; without an output cap
+# prompt + generation run past 2048 positions and Ollama's CUDA runner dies with
+# "misaligned address" (2026-09-15). max_tokens -> num_predict via LiteLLM.
 MODEL_EXTRAS = {
     "qwen3.5:9b": {"reasoning_effort": "none"},
     "qwen3.5:27b": {"reasoning_effort": "none"},
     "qwen3:14b": {"reasoning_effort": "none"},
+    "hf.co/BramVanroy/fietje-2-chat-GGUF:Q4_K_M": {"num_ctx": 2048, "max_tokens": 160},
 }
+EXTRA_KEYS = sorted({k for v in MODEL_EXTRAS.values() for k in v})
 
 _print_lock = threading.Lock()
 ANSWER_MODEL: str | None = None
@@ -117,7 +122,7 @@ def write_endpoint_variants(base: Path, out_dir: Path, answer_model: str | None 
             sys.exit("could not locate the ollama_answer_llm block in endpoints.yml")
         indent = m.group(2)
         rest = m.group(3)
-        for key in ("reasoning_effort",):
+        for key in EXTRA_KEYS:
             rest = re.sub(rf"^{indent}{key}:.*\n", "", rest, flags=re.M)
         extras = "".join(f"{indent}{k}: {v}\n" for k, v in MODEL_EXTRAS.get(answer_model, {}).items())
         text = text[: m.start()] + f"{m.group(1)} {answer_model}{rest}{extras}" + text[m.end():]
