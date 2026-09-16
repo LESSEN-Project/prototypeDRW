@@ -4,6 +4,10 @@ Dutch-language customer service assistant for [De Rode Winkel](https://www.derod
 
 The assistant answers customer questions about products, returns, shipping, sizing advice, payments, gift cards, loyalty points, repairs, and the physical store — in Dutch, grounded in the knowledge base, and abstaining when it doesn't know the answer.
 
+## Purpose
+
+This prototype is a research testbed, not a product. It exists to test retrieval and knowledge-base techniques on real customer language in Dutch, a setting for which good conversational data is scarce outside English and Chinese. The knowledge base was distilled from anonymised WhatsApp conversations that De Rode Winkel made available for research, and the shop is a case study and data partner rather than a client. Two research lines currently use the testbed: contrastive examples for abstention in retrieval-augmented generation, and knowledge graphs as a knowledge base with formal reasoning, both asking how a technique that works in the literature behaves in a more realistic setting. The code, the test suite, and the study tooling are open source. Anyone who wants to run an assistant like this for real customers should treat the repository as a starting point and have it built, hosted, and maintained as a product.
+
 ## Architecture
 
 ```
