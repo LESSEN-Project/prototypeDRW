@@ -100,6 +100,8 @@ def main() -> None:
         for line in out_path.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 d = json.loads(line)
+                if d.get("score") is None:
+                    continue  # timed out / errored last time: judge it again
                 done[d["pair_id"]] = d
     todo = [pid for pid in pairs if pid not in done]
     if args.sample is not None:
