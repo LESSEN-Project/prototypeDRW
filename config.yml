@@ -18,4 +18,5 @@ policies:
   vector_store:
     type: addons.contrastive_retriever.ContrastiveFAISS
   check_relevancy: true
+  max_messages_in_query: 1   # embed only the user's message; the bot's previous line polluted retrieval
   prompt_template: prompts/enterprise_search.jinja2
