@@ -1,12 +1,12 @@
 # prototypeDRW — Dutch retail assistant on self-hosted LLMs
 
-Dutch-language customer service assistant for [De Rode Winkel](https://www.derodewinkel.nl/), a family-owned clothing retailer in Utrecht (est. 1837). Built as a demo of [Rasa CALM](https://rasa.com/docs/learn/concepts/calm/) with retrieval-augmented generation over a curated knowledge base, running **entirely on self-hosted open models** via [Ollama](https://ollama.com/) — no cloud LLM APIs involved.
+A Dutch-language customer service assistant for [De Rode Winkel](https://www.derodewinkel.nl/), a family-owned clothing retailer in Utrecht founded in 1837. It is built on [Rasa CALM](https://rasa.com/docs/learn/concepts/calm/) with retrieval-augmented generation over a curated knowledge base, and every model it uses runs on our own hardware through [Ollama](https://ollama.com/).
 
-The assistant answers customer questions about products, returns, shipping, sizing advice, payments, gift cards, loyalty points, repairs, and the physical store — in Dutch, grounded in the knowledge base, and abstaining when it doesn't know the answer.
+The assistant answers questions about products, returns, shipping, sizing, payments, gift cards, loyalty points, repairs and the physical store. It answers in Dutch, grounds every answer in the knowledge base, mirrors the customer's register (*u* or *je*), and says so when the knowledge base has no answer.
 
 ## Purpose
 
-This prototype is a research testbed, not a product. It exists to test retrieval and knowledge-base techniques on real customer language in Dutch, a setting for which good conversational data is scarce outside English and Chinese. The knowledge base was distilled from anonymised WhatsApp conversations that De Rode Winkel made available for research, and the shop is a case study and data partner rather than a client. Two research lines currently use the testbed: contrastive examples for abstention in retrieval-augmented generation, and knowledge graphs as a knowledge base with formal reasoning, both asking how a technique that works in the literature behaves in a more realistic setting. The code, the test suite, and the study tooling are open source. Anyone who wants to run an assistant like this for real customers should treat the repository as a starting point and have it built, hosted, and maintained as a product.
+The prototype is a research testbed. It lets us test retrieval and knowledge-base techniques on real customer language in Dutch, a setting for which good conversational data is scarce. The knowledge base was distilled from anonymised WhatsApp conversations that De Rode Winkel made available for research, which makes the shop our case study and data partner. Two research lines currently use the testbed: contrastive examples for abstention in retrieval-augmented generation, and knowledge graphs as a knowledge base with formal reasoning. Both ask how a technique from the literature behaves on realistic data. The code, the test suite and the study tooling are open source, developed within the LESSEN project. A company that wants to run an assistant like this for real customers can use the repository as a starting point and build, host and maintain it as a product.
 
 ## Architecture
 
@@ -14,93 +14,99 @@ This prototype is a research testbed, not a product. It exists to test retrieval
 User message
     │
     ▼
-SearchReadyLLMCommandGenerator ── gemma3:4b ──► "search and reply"
+SearchReadyLLMCommandGenerator ── gemma3:4b ──► "start flow begroeting" | "search and reply"
     │
-    ▼
-pattern_search
+    ├── begroeting ──► utter_begroeting (introduction, what the assistant can help with)
     │
-    ├── action_detect_register ──► klant_register slot (formeel/informeel)
-    │
-    └──► EnterpriseSearchPolicy
-             │
-             ├── embed query ── bge-m3 ──► ContrastiveFAISS (73 Q&A docs)
-             │                                │
-             │                                └──► top-4 relevant + 2 contrast docs
-             │
-             └── generate answer ── gemma3:12b ──► Dutch response, matching register
-                  (check_relevancy: abstains when relevant docs don't beat contrast docs)
+    └── pattern_search
+            │
+            ├── action_detect_register ──► klant_register slot (formeel/informeel)
+            │
+            └──► EnterpriseSearchPolicy
+                     │
+                     ├── embed the user message ── bge-m3 ──► ContrastiveFAISS (97 Q&A docs)
+                     │                                          │
+                     │                                          └──► top-4 relevant + 2 contrast docs
+                     │
+                     └── write the answer ── gemma3:12b ──► Dutch response in the customer's register,
+                                                            or [NO_RAG_ANSWER] when the documents lack the answer
 ```
 
-Two things worth noting in the design:
+Two design choices carry most of the retrieval quality. Command generation is a small, frequent task and runs on gemma3:4b, while answer writing runs on gemma3:12b; Rasa `model_groups` route each component to its own model, and both fit together on a single 24 GB GPU. Each question in the knowledge base lives in its own file, because Rasa chunks documents at 1000 characters and a file with several questions yields one diluted vector; one question per file gives every question a focused embedding, which together with the multilingual bge-m3 model makes retrieval robust to colloquial rewordings ("m'n rits is kapot" finds the repair atelier document).
 
-- **Per-component model routing** via Rasa `model_groups`: the high-frequency, trivial task (command generation) runs on a small fast model (gemma3:4b), while answer writing gets a stronger one (gemma3:12b). Both fit together on a single 24 GB GPU.
-- **One Q&A per document**: Rasa's FAISS ingestion chunks files at 1000 characters, which merges unrelated Q&As into diluted vectors. Keeping each Q&A in its own file gives every question a focused embedding — this, plus the multilingual bge-m3 embedding model, is what makes retrieval robust to colloquial rewordings ("m'n rits is kapot" finds the repair atelier doc).
+Only the user's own message is embedded for retrieval (`max_messages_in_query: 1`). The full conversation still reaches the answer prompt, so follow-up questions keep their context.
 
-## Personalization features (AP-Bots)
+## Research features
 
-Two features adapted from [Yazan, Verberne & Situmeang, *Improving RAG for Personalization with Author Features and Contrastive Examples*](https://arxiv.org/abs/2504.08745) ([AP-Bots](https://github.com/myazann/AP-Bots)), developed within the LESSEN project:
+Two features are adapted from [Yazan, Verberne & Situmeang, *Improving RAG for Personalization with Author Features and Contrastive Examples*](https://arxiv.org/abs/2504.08745) ([AP-Bots](https://github.com/myazann/AP-Bots)).
 
-- **Register matching (author features).** A custom action (`actions/actions.py`) classifies each customer's writing style as formal (*u/uw*) or informal (*je/jij*) by counting Dutch register markers across their messages, and stores it in a slot. The enterprise search prompt instructs the LLM to mirror that register, and fixed template responses switch via conditional response variations — so a customer who writes "Kunt u mij helpen?" gets consistent *u* throughout, while "Hoi, kun je me helpen?" gets *je*.
-- **Contrastive documents (contrastive examples).** A custom information retriever (`addons/contrastive_retriever.py`) returns the top-4 relevant documents *plus* the 2 least similar documents in the knowledge base, labeled as contrast. The prompt tells the model: if the relevant documents don't answer the question meaningfully better than the contrast documents, abstain (`[NO_RAG_ANSWER]`). This turns the abstention decision from an absolute confidence judgment (which LLMs do poorly) into a relative comparison (which they do well) — applying the paper's contrastive-examples idea to relevancy calibration, a direction its authors flag as open research. Tune via `contrast_k` in `endpoints.yml`; set it to `0` for an ablation baseline.
+**Register matching (author features).** A custom action in `actions/actions.py` classifies the customer's writing style as formal (*u/uw*) or informal (*je/jij*) from Dutch register markers and stores it in a slot. The latest message decides whenever it carries a marker, so a customer who switches to *u* is answered with *u* from then on. The enterprise search prompt instructs the model to mirror that register, and the fixed template responses switch through conditional response variations.
 
-### Knowledge base
+**Contrastive documents (contrastive examples).** A custom retriever in `addons/contrastive_retriever.py` returns the top-k relevant documents plus `contrast_k` additional documents labelled as contrast, chosen by `contrast_mode`: the least similar documents (`bottom`), random documents (`random`), or the documents ranked just below the relevant ones (`next`). The prompt presents the contrast documents as illustrations of irrelevance and keeps the bar for answering absolute: a relevant document must contain the specific answer, otherwise the model abstains with `[NO_RAG_ANSWER]`. An earlier comparative wording ("abstain if the relevant documents are no better than the contrast documents") weakened abstention, because next to the least similar documents everything looks relevant. All settings live in the `vector_store` block of `endpoints.yml`; `contrast_k: 0` gives the plain retrieval baseline. Whether and when contrast documents help is the subject of the study in `experiments/contrastive/`.
 
-`docs/` holds 72 Dutch Q&A files in 12 categories, distilled from anonymized customer WhatsApp conversations. The raw chat logs were first pseudonymized with [discombobulator](https://github.com/Jurian/discombobulator), a rule-based toolkit that parses chat logs and replaces personal data (names, emails, phone numbers, addresses, tracking codes) with placeholders — so no personal data ever enters the pipeline. The cleaned conversations were then processed by the extraction pipeline in `scripts/` (LLM extraction into fixed categories → embedding-based clustering → LLM synthesis of archetype Q&As). The pre-split source files live in `docs_source/`; `scripts/split_docs.py` regenerates the per-Q&A layout.
+## Knowledge base
+
+`docs/` holds 97 Dutch question-and-answer files in 13 categories. They were distilled from 2,112 customer WhatsApp conversations. The raw chat logs were first pseudonymised with [discombobulator](https://github.com/Jurian/discombobulator), a rule-based toolkit that parses chat logs and replaces names, e-mail addresses, phone numbers, addresses and tracking codes with placeholders, so the extraction pipeline only ever saw cleaned text. The pipeline in `scripts/` then extracted one question and answer per conversation with an LLM constrained to a fixed category list, clustered the results on embeddings, and synthesised one archetype Q&A per cluster. The assortment category was written afterwards to cover "verkopen jullie ook …?" questions. The pre-split source files live in `docs_source/`, and `scripts/split_docs.py` regenerates the per-question layout.
+
+The retriever rebuilds its index from `docs/` on every request, so a new or edited file takes effect immediately. Prompt, domain and config changes require a retrain.
 
 ## Setup
 
-Requirements: Python 3.10–3.13, a [Rasa Pro license](https://rasa.com/docs/rasa-pro/installation/python/licensing), and an Ollama server (local or remote) with these models pulled:
+Requirements: Python 3.10 to 3.13, a [Rasa Pro license](https://rasa.com/docs/rasa-pro/installation/python/licensing), and an Ollama server, local or remote, with these models pulled:
 
 ```bash
-ollama pull gemma3:4b       # command generation
-ollama pull gemma3:12b      # answer generation + LLM judge for tests
-ollama pull bge-m3          # embeddings
+ollama pull gemma3:4b            # command generation
+ollama pull gemma3:12b           # answer generation
+ollama pull bge-m3               # embeddings
+ollama pull mistral-small3.2     # LLM judge for the e2e tests (conftest.yml)
 ```
 
 ```bash
 python -m venv venv
-venv/Scripts/activate       # Windows; use venv/bin/activate on Linux/macOS
+venv/Scripts/activate            # Windows; use venv/bin/activate on Linux/macOS
 pip install rasa-pro
 ```
 
-The config expects Ollama at `http://localhost:11434`. If Ollama runs on a remote GPU host, open an SSH tunnel and keep it alive:
+The configuration expects Ollama at `http://localhost:11434`. When Ollama runs on a remote GPU host, open an SSH tunnel with a keepalive, since NAT idle timeouts otherwise drop the tunnel silently and every LLM call fails:
 
 ```bash
 ssh -o ServerAliveInterval=60 -L 11434:localhost:11434 <gpu-host> -N
 ```
 
-(Without the keepalive, NAT idle timeouts silently drop the tunnel and every LLM call fails.)
-
 ## Train and run
 
 ```bash
-rasa train          # builds the model + FAISS index (embeds all docs)
+rasa train          # bundles prompts, domain and config into a model
 rasa inspect        # chat with the assistant in the browser
 ```
 
-## Tests
+## Tests and study tooling
 
-`tests/test_retrieval_stress.yml` is a 15-case retrieval stress test: every query is deliberately worded differently from the knowledge base text (synonyms, colloquial Dutch) to verify retrieval works on meaning rather than vocabulary, plus abstention checks for out-of-scope questions. Answers are scored for groundedness by a local LLM judge (configured in `conftest.yml` — same Ollama models, no cloud calls).
+`tests/test_retrieval_stress.yml` is a 15-case retrieval stress test. Every query is worded differently from the knowledge base text, with synonyms and colloquial Dutch, to check that retrieval works on meaning, and it includes abstention checks for out-of-scope questions. Answers are scored for groundedness by a local LLM judge configured in `conftest.yml`.
 
 ```bash
 rasa test e2e tests/test_retrieval_stress.yml
 ```
 
-Run this after any change to the embedding model, docs structure, prompts, or Rasa version to catch retrieval regressions.
+`tests/test_contrastive_suite.yml` is the 124-case suite for the contrastive-examples study, with answerable, near-miss and out-of-scope strata. `experiments/contrastive/` contains the study tooling: `run_study.py` runs all conditions across several answer models, `collect.py` gathers the answers, `judge.py` scores them offline with a judge model, and `aggregate.py` produces the summary with confidence intervals. `experiments/contrastive/PLAN.md` describes the design.
+
+Run the stress test after any change to the embedding model, the document layout, the prompts or the Rasa version.
 
 ## Project layout
 
 ```
 config.yml                  # pipeline: command generator + FlowPolicy + EnterpriseSearchPolicy
 endpoints.yml               # Ollama model groups + contrastive retriever settings
-domain.yml                  # Dutch responses (register-conditional), klant_register slot
+domain.yml                  # Dutch responses (register-conditional), slots
+data/flows.yml              # greeting flow
 data/patterns.yml           # Dutch overrides for cancel/completed/search patterns
 prompts/                    # custom Jinja2 prompts (command generator, enterprise search)
 actions/                    # custom actions: register (u/je) detection
 addons/                     # custom contrastive FAISS retriever
-docs/                       # knowledge base: 73 Dutch Q&A files, 12 categories
-docs_source/                # original per-category files (not indexed)
+docs/                       # knowledge base: 97 Dutch Q&A files, 13 categories
+docs_source/                # original per-category files (kept out of the index)
 scripts/                    # WhatsApp extraction pipeline + docs splitter
-tests/                      # retrieval stress-test suite
+tests/                      # retrieval stress test and the 124-case study suite
+experiments/contrastive/    # study driver, offline judge, aggregation
 conftest.yml                # LLM judge config for e2e tests
 ```
