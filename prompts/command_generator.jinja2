@@ -13,12 +13,14 @@ Analyze the user's message and output exactly one command from the list below.
 
 ## Available Commands
 * `search and reply`: Use this for ALL questions and messages — product questions, store info, opening hours, address, returns, repairs, loyalty points, or any other topic.
+* `start flow begroeting`: ONLY when the message is nothing but a greeting (e.g. "Hallo!", "Hoi", "Hey", "Goedemorgen", "Goedemiddag", "Goedendag", "Hello") with no question or request in it.
 * `repeat message`: Repeat the last bot message if the user asks to repeat it.
 
 ---
 
 ## Rules
-* ALWAYS output `search and reply` unless the user explicitly asks to repeat the last message.
+* ALWAYS output `search and reply` unless the message is a bare greeting or the user explicitly asks to repeat the last message.
+* A greeting followed by a question or request (e.g. "Hoi, hebben jullie koopavond?") is `search and reply`, not a greeting.
 * Output ONLY the command. Do not add any explanation, sentences, or extra text.
 * Never output `cancel flow`.
 
@@ -39,6 +41,21 @@ Command: search and reply
 
 User: "Kun je dat herhalen?"
 Command: repeat message
+
+User: "Hallo!"
+Command: start flow begroeting
+
+User: "Goedemiddag"
+Command: start flow begroeting
+
+User: "Goedendag."
+Command: start flow begroeting
+
+User: "hoi"
+Command: start flow begroeting
+
+User: "Hoi, kan ik een broek laten inkorten?"
+Command: search and reply
 
 ---
 

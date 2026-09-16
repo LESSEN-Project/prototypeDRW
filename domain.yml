@@ -1,6 +1,11 @@
 version: "3.1"
 
 slots:
+  begroet:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: controlled
   klant_register:
     type: categorical
     values:
@@ -15,6 +20,14 @@ actions:
   - action_detect_register
 
 responses:
+  utter_begroeting:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Goedendag! Ik ben de digitale assistent van De Rode Winkel. U kunt mij vragen stellen over de winkel en openingstijden, bestellen, bezorgen, retourneren, betalen, maten en reparaties. Waarmee kan ik u helpen?"
+    - text: "Hallo! Ik ben de digitale assistent van De Rode Winkel. Je kunt me vragen stellen over de winkel en openingstijden, bestellen, bezorgen, retourneren, betalen, maten en reparaties. Waar kan ik je mee helpen?"
+
   utter_cannot_help:
     - condition:
         - type: slot

@@ -5,9 +5,18 @@ flows:
       - action: utter_flow_cancelled
 
   pattern_completed:
-    description: Silent flow completion
+    description: Ask whether there is anything else, except right after the greeting
     steps:
-      - action: utter_completed
+      - noop: true
+        next:
+          - if: slots.begroet
+            then:
+              - set_slots:
+                  - begroet: false
+                next: END
+          - else:
+              - action: utter_completed
+                next: END
 
   pattern_search:
     description: Flow for handling knowledge-based questions

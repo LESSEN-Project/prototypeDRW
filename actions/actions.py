@@ -44,9 +44,18 @@ def detect_register(user_messages: List[Text]) -> Text:
     Informal is the default: De Rode Winkel's own tone of voice is informal
     ("je"), so we only switch to formal when formal markers dominate.
     """
-    text = " ".join(user_messages).lower()
-    formal = sum(len(re.findall(p, text)) for p in FORMAL_PATTERNS)
-    informal = sum(len(re.findall(p, text)) for p in INFORMAL_PATTERNS)
+    def counts(text: Text):
+        text = text.lower()
+        return (sum(len(re.findall(p, text)) for p in FORMAL_PATTERNS),
+                sum(len(re.findall(p, text)) for p in INFORMAL_PATTERNS))
+
+    # The latest message decides when it carries any marker: a customer who
+    # switches to "u" mid-conversation should be answered with "u" from then on.
+    if user_messages:
+        formal, informal = counts(user_messages[-1])
+        if formal or informal:
+            return "formeel" if formal > informal else "informeel"
+    formal, informal = counts(" ".join(user_messages))
     return "formeel" if formal > informal else "informeel"
 
 

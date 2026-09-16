@@ -1,0 +1,10 @@
+flows:
+  begroeting:
+    description: De gebruiker begroet alleen (hallo, hoi, hey, goedemorgen, goedemiddag) zonder een vraag te stellen.
+    name: begroeting
+    persisted_slots:
+      - begroet
+    steps:
+      - action: utter_begroeting
+      - set_slots:
+          - begroet: true
