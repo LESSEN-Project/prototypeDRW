@@ -47,6 +47,7 @@ HEDGE_PATTERNS = [
     r"niet (expliciet |specifiek )?(vermeld|genoemd|beschreven|aangegeven)",
     r"kan ik (je |u )?(deze |die |jouw |uw )?vraag niet",
     r"niet (kunnen )?beantwoorden",
+    r"niet direct beantwoorden",
     r"geen (gegevens|details|informatie) over",
     r"niets? (over|vermeld)",
     r"(is|zijn) (mij )?niet bekend",
