@@ -6,7 +6,7 @@ The assistant answers questions about products, returns, shipping, sizing, payme
 
 ## Purpose
 
-The prototype is a research testbed. It lets us test retrieval and knowledge-base techniques on real customer language in Dutch, a setting for which good conversational data is scarce. The knowledge base was distilled from anonymised WhatsApp conversations that De Rode Winkel made available for research, which makes the shop our case study and data partner. Two research lines currently use the testbed: contrastive examples for abstention in retrieval-augmented generation, and knowledge graphs as a knowledge base with formal reasoning. Both ask how a technique from the literature behaves on realistic data. The code, the test suite and the study tooling are open source, developed within the LESSEN project. A company that wants to run an assistant like this for real customers can use the repository as a starting point and build, host and maintain it as a product.
+The prototype is a research testbed. It lets us test retrieval and knowledge-base techniques on real customer language in Dutch, a setting for which good conversational data is scarce. The knowledge base was distilled from anonymised WhatsApp conversations that De Rode Winkel made available for research, which makes the shop our case study and data partner. Two research lines currently use the testbed: contrastive examples for abstention in retrieval-augmented generation, and knowledge graphs as a knowledge base with formal reasoning. Both ask how a technique from the literature behaves on realistic data, and the register-matching feature from the same paper as the contrastive examples is measured alongside them. The code, the test suite and the study tooling are open source, developed within the LESSEN project. A company that wants to run an assistant like this for real customers can use the repository as a starting point and build, host and maintain it as a product.
 
 ## Architecture
 
@@ -67,6 +67,7 @@ ollama pull mistral-small3.2     # LLM judge for the e2e tests (conftest.yml)
 python -m venv venv
 venv/Scripts/activate            # Windows; use venv/bin/activate on Linux/macOS
 pip install rasa-pro
+pip install rdflib owlrl pyshacl # only for the knowledge-graph line in experiments/kg/
 ```
 
 The configuration expects Ollama at `http://localhost:11434`. When Ollama runs on a remote GPU host, open an SSH tunnel with a keepalive, since NAT idle timeouts otherwise drop the tunnel silently and every LLM call fails:
@@ -91,6 +92,14 @@ rasa test e2e tests/test_retrieval_stress.yml
 ```
 
 `tests/test_contrastive_suite.yml` is the 124-case suite for the contrastive-examples study, with answerable, near-miss and out-of-scope strata. `experiments/contrastive/` contains the study tooling: `run_study.py` runs all conditions across several answer models, `collect.py` gathers the answers, `judge.py` scores them offline with a judge model, and `aggregate.py` produces the summary with confidence intervals. `experiments/contrastive/PLAN.md` describes the design and `experiments/contrastive/RESULTS.md` reports the results: contrast documents shift the answer/abstain threshold towards answering and do not reduce false answers on near-miss questions; the answer model is the lever.
+
+`tests/test_register.yml` is the 36-case register suite (formal and informal questions, register switches, greetings); `experiments/register/analyze.py --e2e <dir>` reads its transcripts and reports the slot value and the register of each answer.
+
+```bash
+rasa test e2e tests/test_register.yml -o experiments/register/results/<run>
+```
+
+`experiments/kg/build.py` builds and validates the knowledge graph, and `experiments/kg/coverage.py --extra` runs the query templates over the 124-case suite and the repair questions and writes `coverage.md`.
 
 Run the stress test after any change to the embedding model, the document layout, the prompts or the Rasa version.
 
