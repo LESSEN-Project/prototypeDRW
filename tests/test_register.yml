@@ -1,0 +1,254 @@
+# Register-matching suite (experiments/register/). Checks that the bot answers a formal
+# customer (u/uw) formally and an informal one (je/jij) informally, and that the
+# "latest message decides" rule works across turns.
+#
+# Case names: "F |" formal single-turn, "I |" informal single-turn, "M |" multi-turn.
+# Assertions on the answer text use bot_did_not_utter with a regex, because a
+# bot_uttered regex would also be satisfied by the fixed follow-up utterances.
+# The final bot_uttered assertion never matches: it forces Rasa to record the
+# transcript, from which experiments/register/analyze.py --e2e reads the slot value
+# and the register of the enterprise-search answer itself.
+#
+#   rasa test e2e tests/test_register.yml -o experiments/register/results/<run>
+#   venv/Scripts/python experiments/register/analyze.py --e2e experiments/register/results/<run>
+
+test_cases:
+# ---- formal, single turn ---------------------------------------------------------------
+- test_case: F | retouren - terugsturen kosten
+  steps:
+  - user: Kunt u mij vertellen wat de kosten zijn als ik een artikel wil terugsturen?
+    assertions: &formal
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+    - bot_did_not_utter:
+        utter_name: utter_no_relevant_answer_found
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+    - bot_uttered:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: (?!)
+- test_case: F | retouren - online aankoop in winkel terugbrengen
+  steps:
+  - user: Ik heb online besteld. Kan ik het artikel in uw winkel in Utrecht terugbrengen?
+    assertions: *formal
+- test_case: F | retouren - wanneer geld terug
+  steps:
+  - user: Wanneer ontvang ik mijn geld terug nadat u mijn retour heeft ontvangen?
+    assertions: *formal
+- test_case: F | verzending - verzendkosten en drempel
+  steps:
+  - user: Wat zijn uw verzendkosten, en vanaf welk bedrag verzendt u gratis?
+    assertions: *formal
+- test_case: F | verzending - bezorging Belgie
+  steps:
+  - user: Bezorgt u ook in België?
+    assertions: *formal
+- test_case: F | verzending - levertijd
+  steps:
+  - user: Hoe lang duurt de levering bij u?
+    assertions: *formal
+- test_case: F | bestellen - account verplicht
+  steps:
+  - user: Moet ik een account aanmaken om bij u te kunnen bestellen?
+    assertions: *formal
+- test_case: F | producten - maat uitverkocht
+  steps:
+  - user: Mijn maat is online uitverkocht. Kunt u deze voor mij nabestellen?
+    assertions: *formal
+- test_case: F | betalen - achteraf betalen
+  steps:
+  - user: Is het mogelijk om achteraf te betalen bij u?
+    assertions: *formal
+- test_case: F | betalen - PayPal toeslag
+  steps:
+  - user: Rekent u extra kosten als ik met PayPal betaal?
+    assertions: *formal
+- test_case: F | betalen - Klarna (negative answer)
+  steps:
+  - user: Accepteert u Klarna?
+    assertions: *formal
+- test_case: F | kortingscode - studentenkorting
+  steps:
+  - user: Geeft u korting aan studenten?
+    assertions: *formal
+- test_case: F | cadeaukaart - cadeaubon online gebruiken
+  steps:
+  - user: Ik heb een cadeaubon ontvangen. Kan ik deze in uw webshop gebruiken?
+    assertions: *formal
+- test_case: F | maatadvies - afspraak om te passen
+  steps:
+  - user: Kan ik bij u een afspraak maken om rustig te komen passen?
+    assertions: *formal
+- test_case: F | fysieke winkel - openingstijd donderdag
+  steps:
+  - user: Tot hoe laat bent u op donderdag geopend?
+    assertions: *formal
+- test_case: F | fysieke winkel - zondag open
+  steps:
+  - user: Bent u op zondag geopend?
+    assertions: *formal
+- test_case: F | fysieke winkel - vestiging Amsterdam (negative answer)
+  steps:
+  - user: Heeft u ook een vestiging in Amsterdam?
+    assertions: *formal
+- test_case: F | garantie - broek stuk na 3 maanden
+  steps:
+  - user: Mijn broek is na drie maanden kapot. Wat kunt u voor mij doen?
+    assertions: *formal
+- test_case: F | garantie - Nudie jeans elders gekocht repareren
+  steps:
+  - user: Repareert u ook Nudie Jeans die ik elders heb gekocht?
+    assertions: *formal
+- test_case: F | loyaliteitspunten - waarde gespaarde punten
+  steps:
+  - user: Hoeveel korting leveren mijn gespaarde punten bij u op?
+    assertions: *formal
+- test_case: F | bedrijfsgegevens - contact
+  steps:
+  - user: Op welk telefoonnummer kan ik u bereiken?
+    assertions: *formal
+- test_case: F | assortiment - kinderkleding
+  steps:
+  - user: Verkoopt u ook kinderkleding?
+    assertions: *formal
+- test_case: F | assortiment - schoenen (negative answer)
+  steps:
+  - user: Heeft u ook schoenen in uw assortiment?
+    assertions: *formal
+- test_case: F | verzending - niet thuis bij bezorging
+  steps:
+  - user: Wat gebeurt er als ik niet thuis ben wanneer u het pakket bezorgt?
+    assertions: *formal
+
+# ---- informal, single turn (control) ---------------------------------------------------
+- test_case: I | retouren - terugsturen kosten
+  steps:
+  - user: Hoi, wat kost het als ik iets naar jullie terugstuur?
+    assertions: &informal
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+    - bot_did_not_utter:
+        utter_name: utter_no_relevant_answer_found
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: \b(je|jij|jou|jouw)\b
+    - bot_uttered:
+        text_matches: (?!)
+- test_case: I | verzending - bezorging Belgie
+  steps:
+  - user: Bezorgen jullie ook in België?
+    assertions: *informal
+- test_case: I | betalen - PayPal toeslag
+  steps:
+  - user: Betaal ik extra als ik met PayPal betaal bij jullie?
+    assertions: *informal
+- test_case: I | fysieke winkel - zondag open
+  steps:
+  - user: Zijn jullie op zondag open?
+    assertions: *informal
+- test_case: I | garantie - broek stuk na 3 maanden
+  steps:
+  - user: M'n broek is na drie maanden alweer stuk, wat nu?
+    assertions: *informal
+- test_case: I | assortiment - kinderkleding
+  steps:
+  - user: Hebben jullie ook iets voor kinderen?
+    assertions: *informal
+
+# ---- multi-turn: the latest message with a marker decides -----------------------------
+- test_case: M | informal then formal
+  steps:
+  - user: Wat kost het om iets terug te sturen?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+  - user: Kunt u mij ook vertellen hoe lang de levering duurt?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+    - bot_uttered:
+        text_matches: (?!)
+- test_case: M | formal then informal
+  steps:
+  - user: Kunt u mij vertellen wat de verzendkosten zijn?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+  - user: En bezorgen jullie ook in België?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: (?!)
+- test_case: M | formal then neutral follow-up keeps formal
+  steps:
+  - user: Tot hoe laat bent u op donderdag geopend?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+  - user: En op zondag?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+    - bot_uttered:
+        text_matches: (?!)
+- test_case: M | informal then neutral follow-up keeps informal
+  steps:
+  - user: Hoi! Tot hoe laat zijn jullie donderdag open?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+  - user: En op zondag?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: (?!)
+
+# ---- greeting flow picks the register-conditional response ----------------------------
+- test_case: M | formal greeting
+  steps:
+  - user: Goedemiddag, kunt u mij helpen?
+    assertions:
+    - bot_uttered:
+        utter_name: utter_begroeting
+        text_matches: Goedendag
+    - bot_uttered:
+        text_matches: (?!)
+- test_case: M | informal greeting
+  steps:
+  - user: Hoi! Kun je me helpen?
+    assertions:
+    - bot_uttered:
+        utter_name: utter_begroeting
+        text_matches: Hallo
+    - bot_uttered:
+        text_matches: (?!)

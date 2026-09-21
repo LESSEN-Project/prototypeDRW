@@ -40,7 +40,7 @@ Only the user's own message is embedded for retrieval (`max_messages_in_query: 1
 
 Two features are adapted from [Yazan, Verberne & Situmeang, *Improving RAG for Personalization with Author Features and Contrastive Examples*](https://arxiv.org/abs/2504.08745) ([AP-Bots](https://github.com/myazann/AP-Bots)). A third replaces the text knowledge base with a knowledge graph.
 
-**Register matching (author features).** A custom action in `actions/actions.py` classifies the customer's writing style as formal (*u/uw*) or informal (*je/jij*) from Dutch register markers and stores it in a slot. The latest message decides whenever it carries a marker, so a customer who switches to *u* is answered with *u* from then on. The enterprise search prompt instructs the model to mirror that register, and the fixed template responses switch through conditional response variations.
+**Register matching (author features).** A custom action in `actions/actions.py` classifies the customer's writing style as formal (*u/uw*) or informal (*je/jij*) from Dutch register markers and stores it in a slot. The latest message decides whenever it carries a marker, so a customer who switches to *u* is answered with *u* from then on. The enterprise search prompt instructs the model to mirror that register, and the fixed template responses switch through conditional response variations. `experiments/register/` measures it: on gemma3:12b every answer with a second-person marker follows the customer's register, in both directions and across register switches within a conversation, with or without contrast documents; the knowledge base is written in *je*, so the formal answers are rewrites by the model. The 124-case study suite turned out to contain no formal questions, so the formal direction has its own suite, `tests/test_register.yml`.
 
 **Contrastive documents (contrastive examples).** A custom retriever in `addons/contrastive_retriever.py` returns the top-k relevant documents plus `contrast_k` additional documents labelled as contrast, chosen by `contrast_mode`: the least similar documents (`bottom`), random documents (`random`), or the documents ranked just below the relevant ones (`next`). The prompt presents the contrast documents as illustrations of irrelevance and keeps the bar for answering absolute: a relevant document must contain the specific answer, otherwise the model abstains with `[NO_RAG_ANSWER]`. An earlier comparative wording ("abstain if the relevant documents are no better than the contrast documents") weakened abstention, because next to the least similar documents everything looks relevant. All settings live in the `vector_store` block of `endpoints.yml`; `contrast_k: 0` gives the plain retrieval baseline. Whether and when contrast documents help is the subject of the study in `experiments/contrastive/`; the results are in `experiments/contrastive/RESULTS.md`.
 
@@ -108,8 +108,9 @@ addons/                     # custom contrastive FAISS retriever
 docs/                       # knowledge base: 97 Dutch Q&A files, 13 categories
 docs_source/                # original per-category files (kept out of the index)
 scripts/                    # WhatsApp extraction pipeline + docs splitter
-tests/                      # retrieval stress test and the 124-case study suite
+tests/                      # retrieval stress test, the 124-case study suite, the register suite
 experiments/contrastive/    # contrastive-examples study: driver, offline judge, aggregation, RESULTS.md
 experiments/kg/             # knowledge graph: schema, vocabulary, hand-converted documents, build + queries
+experiments/register/       # register matching: offline analysis of the study answers + the register suite
 conftest.yml                # LLM judge config for e2e tests
 ```

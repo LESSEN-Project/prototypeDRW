@@ -1,0 +1,1416 @@
+test_results:
+
+- name: F | retouren - terugsturen kosten
+  pass_status: false
+  expected_steps:
+  - user: Kunt u mij vertellen wat de kosten zijn als ik een artikel wil terugsturen?
+    assertions: &formal
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+    - bot_did_not_utter:
+        utter_name: utter_no_relevant_answer_found
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+    - bot_uttered:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Kunt u mij vertellen wat de kosten zijn als ik een artikel wil terugsturen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('De retourkosten bedragen €7 en worden achteraf verrekend. Bij bestellingen onder €49 zijn er geen kosten voor ruilen. Aankopen met een cadeaukaart worden teruggestort als tegoedbon.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Kunt u mij vertellen wat de kosten zijn als ik een artikel wil terugsturen?\", \"execution_times\": {\"command_processor\": 3364.2992973327637, \"prediction_loop\": 7515.281677246094, \"rasa_processing_ms\": 10879.580974578857}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"61a2939f-25bc-4d74-b66e-e7e7fb483b30\"}, 1789988632.2975786)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 3364.2992973327637, \"prediction_loop\": 7735.091686248779, \"rasa_processing_ms\": 11099.390983581543}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"61a2939f-25bc-4d74-b66e-e7e7fb483b30\"}, 1789988632.5173883)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 3364.2992973327637, 'prediction_loop': 7737.16402053833, 'rasa_processing_ms': 11101.463317871094}, 'latency_breakdown': {'user_perceived_latency_ms': 3364.2992973327637, 'command_generator_ms': 3364.2992973327637, 'full_turn': {'prediction_loop_ms': 7737.16402053833}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '61a2939f-25bc-4d74-b66e-e7e7fb483b30'})"
+
+- name: F | retouren - online aankoop in winkel terugbrengen
+  pass_status: false
+  expected_steps:
+  - user: Ik heb online besteld. Kan ik het artikel in uw winkel in Utrecht terugbrengen?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Ik heb online besteld. Kan ik het artikel in uw winkel in Utrecht terugbrengen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('U kunt artikelen binnen 14 dagen na aankoop terugbrengen naar de fysieke winkel op Lange Elisabethstraat 13, 3511 JA Utrecht. Terugbetalingen worden direct afgehandeld bij de kassa zonder formulier. Ruilen voor andere artikelen is ook mogelijk, met directe prijsaanpassing.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Ik heb online besteld. Kan ik het artikel in uw winkel in Utrecht terugbrengen?\", \"execution_times\": {\"command_processor\": 652.5766849517822, \"prediction_loop\": 2602.1292209625244, \"rasa_processing_ms\": 3254.7059059143066}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"7b4a2e6d-fa9e-442a-a0fa-2a2339c115d5\"}, 1789988635.7794962)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 652.5766849517822, \"prediction_loop\": 2607.966899871826, \"rasa_processing_ms\": 3260.5435848236084}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"7b4a2e6d-fa9e-442a-a0fa-2a2339c115d5\"}, 1789988635.7853334)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 652.5766849517822, 'prediction_loop': 2609.8389625549316, 'rasa_processing_ms': 3262.415647506714}, 'latency_breakdown': {'user_perceived_latency_ms': 652.5766849517822, 'command_generator_ms': 652.5766849517822, 'full_turn': {'prediction_loop_ms': 2609.8389625549316}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '7b4a2e6d-fa9e-442a-a0fa-2a2339c115d5'})"
+
+- name: F | retouren - wanneer geld terug
+  pass_status: false
+  expected_steps:
+  - user: Wanneer ontvang ik mijn geld terug nadat u mijn retour heeft ontvangen?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Wanneer ontvang ik mijn geld terug nadat u mijn retour heeft ontvangen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Na ontvangst van uw retour duurt de verwerking 48 uur, waarna er nog 3 dagen verstreken voordat u een e-mailbevestiging ontvangt. De terugbetaling verschijnt vervolgens op de originele betaalmethode, verminderd met de €7 retourkosten. Houd er rekening mee dat de retour eerst bij De Rode Winkel moet aankomen, wat binnen 48 uur verwacht wordt.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Wanneer ontvang ik mijn geld terug nadat u mijn retour heeft ontvangen?\", \"execution_times\": {\"command_processor\": 638.775110244751, \"prediction_loop\": 2730.8349609375, \"rasa_processing_ms\": 3369.610071182251}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"06d8e424-916b-4476-99f1-c04e702a8aab\"}, 1789988639.1616683)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 638.775110244751, \"prediction_loop\": 2736.7069721221924, \"rasa_processing_ms\": 3375.4820823669434}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"06d8e424-916b-4476-99f1-c04e702a8aab\"}, 1789988639.1675403)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 638.775110244751, 'prediction_loop': 2738.5005950927734, 'rasa_processing_ms': 3377.2757053375244}, 'latency_breakdown': {'user_perceived_latency_ms': 638.775110244751, 'command_generator_ms': 638.775110244751, 'full_turn': {'prediction_loop_ms': 2738.5005950927734}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '06d8e424-916b-4476-99f1-c04e702a8aab'})"
+
+- name: F | verzending - verzendkosten en drempel
+  pass_status: false
+  expected_steps:
+  - user: Wat zijn uw verzendkosten, en vanaf welk bedrag verzendt u gratis?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Wat zijn uw verzendkosten, en vanaf welk bedrag verzendt u gratis?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('De verzendkosten bedragen €6,96 bij bestellingen onder de €49. Bestellingen van €49 of meer worden gratis verzonden. Internationale verzending naar Europese landen kost €10 tot €15.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Wat zijn uw verzendkosten, en vanaf welk bedrag verzendt u gratis?\", \"execution_times\": {\"command_processor\": 658.2045555114746, \"prediction_loop\": 2231.2541007995605, \"rasa_processing_ms\": 2889.458656311035}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"a9c4d5eb-7d76-4f1f-819f-fc4e332c7711\"}, 1789988642.0633383)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 658.2045555114746, \"prediction_loop\": 2236.865758895874, \"rasa_processing_ms\": 2895.0703144073486}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"a9c4d5eb-7d76-4f1f-819f-fc4e332c7711\"}, 1789988642.0689495)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 658.2045555114746, 'prediction_loop': 2238.8527393341064, 'rasa_processing_ms': 2897.057294845581}, 'latency_breakdown': {'user_perceived_latency_ms': 658.2045555114746, 'command_generator_ms': 658.2045555114746, 'full_turn': {'prediction_loop_ms': 2238.8527393341064}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'a9c4d5eb-7d76-4f1f-819f-fc4e332c7711'})"
+
+- name: F | verzending - bezorging Belgie
+  pass_status: false
+  expected_steps:
+  - user: Bezorgt u ook in België?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Bezorgt u ook in België?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, wij verzenden naar alle landen in Europa, waaronder ook België. Internationale verzending naar Europese landen kost €10 tot €15. U kunt de track & trace link in de gaten houden voor updates over het levermoment.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Bezorgt u ook in Belgi\\u00eb?\", \"execution_times\": {\"command_processor\": 644.4621086120605, \"prediction_loop\": 2352.900266647339, \"rasa_processing_ms\": 2997.3623752593994}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"5c17cb04-46fd-4287-ab2a-c6d5f4028702\"}, 1789988645.072914)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 644.4621086120605, \"prediction_loop\": 2358.8719367980957, \"rasa_processing_ms\": 3003.3340454101562}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"5c17cb04-46fd-4287-ab2a-c6d5f4028702\"}, 1789988645.078885)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 644.4621086120605, 'prediction_loop': 2360.717296600342, 'rasa_processing_ms': 3005.1794052124023}, 'latency_breakdown': {'user_perceived_latency_ms': 644.4621086120605, 'command_generator_ms': 644.4621086120605, 'full_turn': {'prediction_loop_ms': 2360.717296600342}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '5c17cb04-46fd-4287-ab2a-c6d5f4028702'})"
+
+- name: F | verzending - levertijd
+  pass_status: false
+  expected_steps:
+  - user: Hoe lang duurt de levering bij u?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Hoe lang duurt de levering bij u?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('De levertijd bij De Rode Winkel is over het algemeen binnen 48 uur. Bestellingen die op werkdagen vóór 16:00 uur geplaatst worden, worden dezelfde dag nog verzonden. U kunt dus binnen twee werkdagen uw bestelling verwachten.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Hoe lang duurt de levering bij u?\", \"execution_times\": {\"command_processor\": 624.8271465301514, \"prediction_loop\": 2383.929491043091, \"rasa_processing_ms\": 3008.756637573242}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"847737af-29ca-48b3-b78b-fa5352245938\"}, 1789988648.0939791)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 624.8271465301514, \"prediction_loop\": 2389.5158767700195, \"rasa_processing_ms\": 3014.343023300171}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"847737af-29ca-48b3-b78b-fa5352245938\"}, 1789988648.0995653)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 624.8271465301514, 'prediction_loop': 2391.39723777771, 'rasa_processing_ms': 3016.2243843078613}, 'latency_breakdown': {'user_perceived_latency_ms': 624.8271465301514, 'command_generator_ms': 624.8271465301514, 'full_turn': {'prediction_loop_ms': 2391.39723777771}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '847737af-29ca-48b3-b78b-fa5352245938'})"
+
+- name: F | bestellen - account verplicht
+  pass_status: false
+  expected_steps:
+  - user: Moet ik een account aanmaken om bij u te kunnen bestellen?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Moet ik een account aanmaken om bij u te kunnen bestellen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('U kunt online bestellen zonder een account aan te maken. Echter, met een account kunt u uw aankopen inzien en gespaarde punten inzetten als korting.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Moet ik een account aanmaken om bij u te kunnen bestellen?\", \"execution_times\": {\"command_processor\": 637.1440887451172, \"prediction_loop\": 2055.346965789795, \"rasa_processing_ms\": 2692.491054534912}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"e3cea90b-9045-4adb-a0c0-4a0693b15601\"}, 1789988650.7985635)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 637.1440887451172, \"prediction_loop\": 2060.97674369812, \"rasa_processing_ms\": 2698.1208324432373}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"e3cea90b-9045-4adb-a0c0-4a0693b15601\"}, 1789988650.804193)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 637.1440887451172, 'prediction_loop': 2062.901496887207, 'rasa_processing_ms': 2700.045585632324}, 'latency_breakdown': {'user_perceived_latency_ms': 637.1440887451172, 'command_generator_ms': 637.1440887451172, 'full_turn': {'prediction_loop_ms': 2062.901496887207}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'e3cea90b-9045-4adb-a0c0-4a0693b15601'})"
+
+- name: F | producten - maat uitverkocht
+  pass_status: false
+  expected_steps:
+  - user: Mijn maat is online uitverkocht. Kunt u deze voor mij nabestellen?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Mijn maat is online uitverkocht. Kunt u deze voor mij nabestellen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('U kunt via het productformulier een speciale bestelling voor een specifieke maat aanvragen. Sale-artikelen kunnen echter niet worden nabesteld, maar er worden wel alternatieven gesuggereerd. Er is wekelijks nieuwe voorraad beschikbaar.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Mijn maat is online uitverkocht. Kunt u deze voor mij nabestellen?\", \"execution_times\": {\"command_processor\": 682.10768699646, \"prediction_loop\": 2379.9121379852295, \"rasa_processing_ms\": 3062.0198249816895}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"33732246-d0a0-4137-bc51-6c441315d7b9\"}, 1789988653.8725622)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 682.10768699646, \"prediction_loop\": 2387.7878189086914, \"rasa_processing_ms\": 3069.8955059051514}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"33732246-d0a0-4137-bc51-6c441315d7b9\"}, 1789988653.8804376)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 682.10768699646, 'prediction_loop': 2389.5978927612305, 'rasa_processing_ms': 3071.7055797576904}, 'latency_breakdown': {'user_perceived_latency_ms': 682.10768699646, 'command_generator_ms': 682.10768699646, 'full_turn': {'prediction_loop_ms': 2389.5978927612305}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '33732246-d0a0-4137-bc51-6c441315d7b9'})"
+
+- name: F | betalen - achteraf betalen
+  pass_status: false
+  expected_steps:
+  - user: Is het mogelijk om achteraf te betalen bij u?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Is het mogelijk om achteraf te betalen bij u?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, dat is mogelijk. U kunt bij De Rode Winkel betalen met Billink; klik op Billink bij het afrekenen en de stappen volgen dan vanzelf. U heeft tot 14 dagen na ontvangst om te betalen.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Is het mogelijk om achteraf te betalen bij u?\", \"execution_times\": {\"command_processor\": 659.7716808319092, \"prediction_loop\": 2351.006507873535, \"rasa_processing_ms\": 3010.7781887054443}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"5a35225c-1085-40f4-b9c3-6fe87bacd63a\"}, 1789988656.8976176)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 659.7716808319092, \"prediction_loop\": 2356.6393852233887, \"rasa_processing_ms\": 3016.411066055298}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"5a35225c-1085-40f4-b9c3-6fe87bacd63a\"}, 1789988656.9032505)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 659.7716808319092, 'prediction_loop': 2358.4511280059814, 'rasa_processing_ms': 3018.2228088378906}, 'latency_breakdown': {'user_perceived_latency_ms': 659.7716808319092, 'command_generator_ms': 659.7716808319092, 'full_turn': {'prediction_loop_ms': 2358.4511280059814}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '5a35225c-1085-40f4-b9c3-6fe87bacd63a'})"
+
+- name: F | betalen - PayPal toeslag
+  pass_status: false
+  expected_steps:
+  - user: Rekent u extra kosten als ik met PayPal betaal?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Rekent u extra kosten als ik met PayPal betaal?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, u betaalt een toeslag van 3,20% wanneer u met PayPal betaalt. U kunt PayPal selecteren bij het afrekenen en de stappen volgen. De Rode Winkel accepteert PayPal als betaalmethode, maar er is een extra vergoeding van toepassing.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Rekent u extra kosten als ik met PayPal betaal?\", \"execution_times\": {\"command_processor\": 619.3881034851074, \"prediction_loop\": 2419.7709560394287, \"rasa_processing_ms\": 3039.159059524536}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"dcbd6ea0-16d5-4cab-be9c-a10fa2304a45\"}, 1789988659.9491336)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 619.3881034851074, \"prediction_loop\": 2425.36997795105, \"rasa_processing_ms\": 3044.758081436157}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"dcbd6ea0-16d5-4cab-be9c-a10fa2304a45\"}, 1789988659.954732)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 619.3881034851074, 'prediction_loop': 2427.1721839904785, 'rasa_processing_ms': 3046.560287475586}, 'latency_breakdown': {'user_perceived_latency_ms': 619.3881034851074, 'command_generator_ms': 619.3881034851074, 'full_turn': {'prediction_loop_ms': 2427.1721839904785}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'dcbd6ea0-16d5-4cab-be9c-a10fa2304a45'})"
+
+- name: F | betalen - Klarna (negative answer)
+  pass_status: false
+  expected_steps:
+  - user: Accepteert u Klarna?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Accepteert u Klarna?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Nee, Klarna wordt niet geaccepteerd bij De Rode Winkel. U kunt wel betalen met Billink, Apple Pay, creditcard of PayPal, waarbij voor PayPal een toeslag van 3,20% geldt. Klik op de gewenste betaalmethode bij het afrekenen om de stappen te volgen.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Accepteert u Klarna?\", \"execution_times\": {\"command_processor\": 632.2367191314697, \"prediction_loop\": 2488.3406162261963, \"rasa_processing_ms\": 3120.577335357666}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"8607e9d8-3d58-4f6a-a7c4-c0b06f9037bd\"}, 1789988663.0817962)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 632.2367191314697, \"prediction_loop\": 2494.018316268921, \"rasa_processing_ms\": 3126.2550354003906}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"8607e9d8-3d58-4f6a-a7c4-c0b06f9037bd\"}, 1789988663.0874734)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 632.2367191314697, 'prediction_loop': 2495.8465099334717, 'rasa_processing_ms': 3128.0832290649414}, 'latency_breakdown': {'user_perceived_latency_ms': 632.2367191314697, 'command_generator_ms': 632.2367191314697, 'full_turn': {'prediction_loop_ms': 2495.8465099334717}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '8607e9d8-3d58-4f6a-a7c4-c0b06f9037bd'})"
+
+- name: F | kortingscode - studentenkorting
+  pass_status: false
+  expected_steps:
+  - user: Geeft u korting aan studenten?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Geeft u korting aan studenten?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, De Rode Winkel biedt studentenkorting. Studenten ontvangen 10% korting op aankopen in de winkel in Utrecht, waar u uw studentenpas moet laten zien. Online kunt u een formulier invullen met uw gegevens en een foto van uw studentenpas om een kortingscode te ontvangen.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Geeft u korting aan studenten?\", \"execution_times\": {\"command_processor\": 671.0238456726074, \"prediction_loop\": 2460.036277770996, \"rasa_processing_ms\": 3131.0601234436035}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"7f82af71-77fb-4e5f-a3fa-c17d3fe49327\"}, 1789988666.2250345)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 671.0238456726074, \"prediction_loop\": 2465.8100605010986, \"rasa_processing_ms\": 3136.833906173706}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"7f82af71-77fb-4e5f-a3fa-c17d3fe49327\"}, 1789988666.2308078)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 671.0238456726074, 'prediction_loop': 2467.625856399536, 'rasa_processing_ms': 3138.6497020721436}, 'latency_breakdown': {'user_perceived_latency_ms': 671.0238456726074, 'command_generator_ms': 671.0238456726074, 'full_turn': {'prediction_loop_ms': 2467.625856399536}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '7f82af71-77fb-4e5f-a3fa-c17d3fe49327'})"
+
+- name: F | cadeaukaart - cadeaubon online gebruiken
+  pass_status: false
+  expected_steps:
+  - user: Ik heb een cadeaubon ontvangen. Kan ik deze in uw webshop gebruiken?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Ik heb een cadeaubon ontvangen. Kan ik deze in uw webshop gebruiken?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, u kunt uw cadeaubon gebruiken in de webshop. Indien u een fysieke cadeaubon heeft, kunt u de barcodegegevens naar info@derodewinkel.nl mailen om een nieuwe code te ontvangen voor gebruik in de webshop.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Ik heb een cadeaubon ontvangen. Kan ik deze in uw webshop gebruiken?\", \"execution_times\": {\"command_processor\": 650.3019332885742, \"prediction_loop\": 2417.1621799468994, \"rasa_processing_ms\": 3067.4641132354736}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"9c056e46-8bb6-4b62-aba2-87c5b89fcee8\"}, 1789988669.304662)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 650.3019332885742, \"prediction_loop\": 2423.4542846679688, \"rasa_processing_ms\": 3073.756217956543}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"9c056e46-8bb6-4b62-aba2-87c5b89fcee8\"}, 1789988669.310954)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 650.3019332885742, 'prediction_loop': 2425.2216815948486, 'rasa_processing_ms': 3075.523614883423}, 'latency_breakdown': {'user_perceived_latency_ms': 650.3019332885742, 'command_generator_ms': 650.3019332885742, 'full_turn': {'prediction_loop_ms': 2425.2216815948486}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '9c056e46-8bb6-4b62-aba2-87c5b89fcee8'})"
+
+- name: F | maatadvies - afspraak om te passen
+  pass_status: false
+  expected_steps:
+  - user: Kan ik bij u een afspraak maken om rustig te komen passen?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Kan ik bij u een afspraak maken om rustig te komen passen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, u kunt een paskamer reserveren bij De Rode Winkel. Ga hiervoor naar www.derodewinkel.nl/afspraak-maken om een afspraak te boeken. U kunt ook binnenlopen en direct hulp krijgen van specialisten.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Kan ik bij u een afspraak maken om rustig te komen passen?\", \"execution_times\": {\"command_processor\": 610.3160381317139, \"prediction_loop\": 2453.523635864258, \"rasa_processing_ms\": 3063.8396739959717}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"e6e81b14-ec88-4306-9770-87de06285510\"}, 1789988672.3810887)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 610.3160381317139, \"prediction_loop\": 2459.228038787842, \"rasa_processing_ms\": 3069.5440769195557}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"e6e81b14-ec88-4306-9770-87de06285510\"}, 1789988672.3867931)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 610.3160381317139, 'prediction_loop': 2461.0161781311035, 'rasa_processing_ms': 3071.3322162628174}, 'latency_breakdown': {'user_perceived_latency_ms': 610.3160381317139, 'command_generator_ms': 610.3160381317139, 'full_turn': {'prediction_loop_ms': 2461.0161781311035}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'e6e81b14-ec88-4306-9770-87de06285510'})"
+
+- name: F | fysieke winkel - openingstijd donderdag
+  pass_status: false
+  expected_steps:
+  - user: Tot hoe laat bent u op donderdag geopend?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Tot hoe laat bent u op donderdag geopend?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Op donderdag is De Rode Winkel open tot 21:00 uur. Dit is de koopavond, zoals vermeld in de documenten. U kunt dus tot 21:00 uur terecht op donderdag.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Tot hoe laat bent u op donderdag geopend?\", \"execution_times\": {\"command_processor\": 637.2270584106445, \"prediction_loop\": 2311.087131500244, \"rasa_processing_ms\": 2948.3141899108887}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"bf63f7b6-6c06-49ba-84b4-49c8f473c047\"}, 1789988675.3419363)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 637.2270584106445, \"prediction_loop\": 2317.0084953308105, \"rasa_processing_ms\": 2954.235553741455}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"bf63f7b6-6c06-49ba-84b4-49c8f473c047\"}, 1789988675.3478582)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 637.2270584106445, 'prediction_loop': 2318.8345432281494, 'rasa_processing_ms': 2956.061601638794}, 'latency_breakdown': {'user_perceived_latency_ms': 637.2270584106445, 'command_generator_ms': 637.2270584106445, 'full_turn': {'prediction_loop_ms': 2318.8345432281494}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'bf63f7b6-6c06-49ba-84b4-49c8f473c047'})"
+
+- name: F | fysieke winkel - zondag open
+  pass_status: false
+  expected_steps:
+  - user: Bent u op zondag geopend?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Bent u op zondag geopend?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, De Rode Winkel is op zondag geopend van 11:00 tot 18:00 uur. Feestdagentijden kunnen afwijken, dus raadpleeg de openingstijdenpagina voor actuele informatie. U kunt de openingstijdenpagina raadplegen voor meer details.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Bent u op zondag geopend?\", \"execution_times\": {\"command_processor\": 637.6726627349854, \"prediction_loop\": 2477.1032333374023, \"rasa_processing_ms\": 3114.7758960723877}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"c0ca2b1c-24d2-408d-b2d8-256107e86429\"}, 1789988678.4690564)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 637.6726627349854, \"prediction_loop\": 2482.793092727661, \"rasa_processing_ms\": 3120.4657554626465}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"c0ca2b1c-24d2-408d-b2d8-256107e86429\"}, 1789988678.4747458)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 637.6726627349854, 'prediction_loop': 2484.7168922424316, 'rasa_processing_ms': 3122.389554977417}, 'latency_breakdown': {'user_perceived_latency_ms': 637.6726627349854, 'command_generator_ms': 637.6726627349854, 'full_turn': {'prediction_loop_ms': 2484.7168922424316}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'c0ca2b1c-24d2-408d-b2d8-256107e86429'})"
+
+- name: F | fysieke winkel - vestiging Amsterdam (negative answer)
+  pass_status: false
+  expected_steps:
+  - user: Heeft u ook een vestiging in Amsterdam?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:27
+  assertion_failure:
+    assertion:
+      utter_name: utter_no_relevant_answer_found
+      text_matches: null
+      buttons: []
+      line: 27
+      type: bot_did_not_utter
+    error_message: Bot uttered a forbidden utterance 'utter_no_relevant_answer_found'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Heeft u ook een vestiging in Amsterdam?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_cancel_flow, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - 'FlowStarted(flow: pattern_cannot_handle)'
+    - 'ActionExecuted(action: utter_no_relevant_answer_found, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Daar kan ik u helaas niet mee helpen. Neemt u contact op via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl).', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_cannot_handle\", \"step_id\": \"pattern_cannot_handle_3_utter_no_relevant_answer_found\", \"utter_action\": \"utter_no_relevant_answer_found\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 649.8234272003174, \"prediction_loop\": 1800.3876209259033, \"rasa_processing_ms\": 2450.2110481262207}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"5b9be078-aea9-4620-99f5-f0fec9349cb2\"}, 1789988680.9313219)"
+    - 'FlowCompleted(flow: pattern_cannot_handle, step_id: pattern_cannot_handle_3_utter_no_relevant_answer_found)'
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 649.8234272003174, \"prediction_loop\": 1806.5922260284424, \"rasa_processing_ms\": 2456.4156532287598}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"5b9be078-aea9-4620-99f5-f0fec9349cb2\"}, 1789988680.937526)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 649.8234272003174, 'prediction_loop': 1808.6676597595215, 'rasa_processing_ms': 2458.491086959839}, 'latency_breakdown': {'user_perceived_latency_ms': 649.8234272003174, 'command_generator_ms': 649.8234272003174, 'full_turn': {'prediction_loop_ms': 1808.6676597595215}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '5b9be078-aea9-4620-99f5-f0fec9349cb2'})"
+
+- name: F | garantie - broek stuk na 3 maanden
+  pass_status: false
+  expected_steps:
+  - user: Mijn broek is na drie maanden kapot. Wat kunt u voor mij doen?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Mijn broek is na drie maanden kapot. Wat kunt u voor mij doen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Gezien uw broek na drie maanden kapot is, valt dit onder de wettelijke garantie. U kunt de broek meenemen naar de winkel voor beoordeling, of foto's sturen naar info@derodewinkel.nl als een winkelbezoek niet mogelijk is; u ontvangt dan binnen 14 dagen een inhoudelijke reactie. Op jeans geldt een minimale garantietermijn van 6 maanden.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Mijn broek is na drie maanden kapot. Wat kunt u voor mij doen?\", \"execution_times\": {\"command_processor\": 628.5481452941895, \"prediction_loop\": 2785.1295471191406, \"rasa_processing_ms\": 3413.67769241333}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"83d92653-9d76-4a2b-b98b-a862fea31429\"}, 1789988684.3591633)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 628.5481452941895, \"prediction_loop\": 2790.889263153076, \"rasa_processing_ms\": 3419.4374084472656}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"83d92653-9d76-4a2b-b98b-a862fea31429\"}, 1789988684.3649225)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 628.5481452941895, 'prediction_loop': 2792.72198677063, 'rasa_processing_ms': 3421.2701320648193}, 'latency_breakdown': {'user_perceived_latency_ms': 628.5481452941895, 'command_generator_ms': 628.5481452941895, 'full_turn': {'prediction_loop_ms': 2792.72198677063}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '83d92653-9d76-4a2b-b98b-a862fea31429'})"
+
+- name: F | garantie - Nudie jeans elders gekocht repareren
+  pass_status: false
+  expected_steps:
+  - user: Repareert u ook Nudie Jeans die ik elders heb gekocht?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Repareert u ook Nudie Jeans die ik elders heb gekocht?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, De Rode Winkel is een officiële Nudie Jeans reparatielocatie en herstelt ook Nudie jeans die elders zijn gekocht. U kunt hiervoor de reparatiepagina op de website bezoeken voor gedetailleerde mogelijkheden. Voor andere reparaties beschikt De Rode Winkel over een atelier waar specialisten dagelijks reparaties uitvoeren.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Repareert u ook Nudie Jeans die ik elders heb gekocht?\", \"execution_times\": {\"command_processor\": 624.9139308929443, \"prediction_loop\": 2541.5122509002686, \"rasa_processing_ms\": 3166.426181793213}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"7fd93417-0446-4d8f-87b6-76ee85d43b10\"}, 1789988687.5378563)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 624.9139308929443, \"prediction_loop\": 2547.4021434783936, \"rasa_processing_ms\": 3172.316074371338}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"7fd93417-0446-4d8f-87b6-76ee85d43b10\"}, 1789988687.5437458)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 624.9139308929443, 'prediction_loop': 2549.328327178955, 'rasa_processing_ms': 3174.2422580718994}, 'latency_breakdown': {'user_perceived_latency_ms': 624.9139308929443, 'command_generator_ms': 624.9139308929443, 'full_turn': {'prediction_loop_ms': 2549.328327178955}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '7fd93417-0446-4d8f-87b6-76ee85d43b10'})"
+
+- name: F | loyaliteitspunten - waarde gespaarde punten
+  pass_status: false
+  expected_steps:
+  - user: Hoeveel korting leveren mijn gespaarde punten bij u op?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Hoeveel korting leveren mijn gespaarde punten bij u op?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('U kunt uw spaarpunten inzetten bij het afrekenen via de sectie \"kortingscode, cadeaubon en spaarpunten\". U kunt dan het gewenste aantal punten inzetten als korting op uw aankoop. Voor elke €100 die u besteedt, spaart u €5 korting op uw volgende aankoop.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Hoeveel korting leveren mijn gespaarde punten bij u op?\", \"execution_times\": {\"command_processor\": 789.04128074646, \"prediction_loop\": 2583.125114440918, \"rasa_processing_ms\": 3372.166395187378}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"b0a47d9e-3e72-4763-b1eb-c0d821551ae1\"}, 1789988690.9227896)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 789.04128074646, \"prediction_loop\": 2589.510440826416, \"rasa_processing_ms\": 3378.551721572876}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"b0a47d9e-3e72-4763-b1eb-c0d821551ae1\"}, 1789988690.929175)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 789.04128074646, 'prediction_loop': 2591.289281845093, 'rasa_processing_ms': 3380.3305625915527}, 'latency_breakdown': {'user_perceived_latency_ms': 789.04128074646, 'command_generator_ms': 789.04128074646, 'full_turn': {'prediction_loop_ms': 2591.289281845093}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'b0a47d9e-3e72-4763-b1eb-c0d821551ae1'})"
+
+- name: F | bedrijfsgegevens - contact
+  pass_status: false
+  expected_steps:
+  - user: Op welk telefoonnummer kan ik u bereiken?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Op welk telefoonnummer kan ik u bereiken?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('U kunt De Rode Winkel bereiken op telefoonnummer 030 233 63 03. U kunt ook contact opnemen via e-mail: info@derodewinkel.nl of via WhatsApp via de knop op de website. Bezoek de contactpagina voor alle contactgegevens.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Op welk telefoonnummer kan ik u bereiken?\", \"execution_times\": {\"command_processor\": 642.1854496002197, \"prediction_loop\": 2515.7361030578613, \"rasa_processing_ms\": 3157.921552658081}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"15aee508-86ea-4ec4-abe1-403debbc5a68\"}, 1789988694.0934377)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 642.1854496002197, \"prediction_loop\": 2521.4970111846924, \"rasa_processing_ms\": 3163.682460784912}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"15aee508-86ea-4ec4-abe1-403debbc5a68\"}, 1789988694.0991986)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 642.1854496002197, 'prediction_loop': 2523.3116149902344, 'rasa_processing_ms': 3165.497064590454}, 'latency_breakdown': {'user_perceived_latency_ms': 642.1854496002197, 'command_generator_ms': 642.1854496002197, 'full_turn': {'prediction_loop_ms': 2523.3116149902344}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '15aee508-86ea-4ec4-abe1-403debbc5a68'})"
+
+- name: F | assortiment - kinderkleding
+  pass_status: false
+  expected_steps:
+  - user: Verkoopt u ook kinderkleding?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Verkoopt u ook kinderkleding?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, wij hebben een Kids-categorie met kinderkleding in de webshop, met name kinderjeans en shirts van merken zoals G-Star Kids en Denham. Het aanbod is echter kleiner dan dat van dames- en herenmode, dus aarzel niet om contact met ons op te nemen als u iets specifieks zoekt. U kunt ons bellen of e-mailen voor meer informatie.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Verkoopt u ook kinderkleding?\", \"execution_times\": {\"command_processor\": 665.6932830810547, \"prediction_loop\": 2816.7498111724854, \"rasa_processing_ms\": 3482.44309425354}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"650152ef-a6aa-444b-abf6-04df9dc6cdcc\"}, 1789988697.5879285)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 665.6932830810547, \"prediction_loop\": 2822.356700897217, \"rasa_processing_ms\": 3488.0499839782715}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"650152ef-a6aa-444b-abf6-04df9dc6cdcc\"}, 1789988697.5935352)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 665.6932830810547, 'prediction_loop': 2824.2347240448, 'rasa_processing_ms': 3489.9280071258545}, 'latency_breakdown': {'user_perceived_latency_ms': 665.6932830810547, 'command_generator_ms': 665.6932830810547, 'full_turn': {'prediction_loop_ms': 2824.2347240448}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '650152ef-a6aa-444b-abf6-04df9dc6cdcc'})"
+
+- name: F | assortiment - schoenen (negative answer)
+  pass_status: false
+  expected_steps:
+  - user: Heeft u ook schoenen in uw assortiment?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Heeft u ook schoenen in uw assortiment?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Nee, schoenen verkopen wij niet. Wij zijn gespecialiseerd in kleding en accessoires voor dames en heren, zoals broeken, overhemden, truien en tassen. U kunt dus prima bij ons terecht voor de rest van uw outfit.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Heeft u ook schoenen in uw assortiment?\", \"execution_times\": {\"command_processor\": 640.8734321594238, \"prediction_loop\": 2357.2044372558594, \"rasa_processing_ms\": 2998.077869415283}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"2acad715-2939-46df-b5b3-3199e306675c\"}, 1789988700.5979722)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 640.8734321594238, \"prediction_loop\": 2363.0599975585938, \"rasa_processing_ms\": 3003.9334297180176}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"2acad715-2939-46df-b5b3-3199e306675c\"}, 1789988700.6038277)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 640.8734321594238, 'prediction_loop': 2364.8624420166016, 'rasa_processing_ms': 3005.7358741760254}, 'latency_breakdown': {'user_perceived_latency_ms': 640.8734321594238, 'command_generator_ms': 640.8734321594238, 'full_turn': {'prediction_loop_ms': 2364.8624420166016}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '2acad715-2939-46df-b5b3-3199e306675c'})"
+
+- name: F | verzending - niet thuis bij bezorging
+  pass_status: false
+  expected_steps:
+  - user: Wat gebeurt er als ik niet thuis ben wanneer u het pakket bezorgt?
+    assertions: *formal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:32
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 32
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Wat gebeurt er als ik niet thuis ben wanneer u het pakket bezorgt?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('De vervoerder zal proberen de bezorging opnieuw te doen. Houd uw track & trace link in de gaten voor updates over het nieuwe levermoment. U kunt de status van uw pakket volgen via deze link.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Wat gebeurt er als ik niet thuis ben wanneer u het pakket bezorgt?\", \"execution_times\": {\"command_processor\": 661.2598896026611, \"prediction_loop\": 2343.3632850646973, \"rasa_processing_ms\": 3004.6231746673584}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"2a999a19-2c9f-4fb6-aa1b-055b5c5d14b8\"}, 1789988703.6148193)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 661.2598896026611, \"prediction_loop\": 2349.0099906921387, \"rasa_processing_ms\": 3010.2698802948}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"2a999a19-2c9f-4fb6-aa1b-055b5c5d14b8\"}, 1789988703.620466)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 661.2598896026611, 'prediction_loop': 2350.933313369751, 'rasa_processing_ms': 3012.193202972412}, 'latency_breakdown': {'user_perceived_latency_ms': 661.2598896026611, 'command_generator_ms': 661.2598896026611, 'full_turn': {'prediction_loop_ms': 2350.933313369751}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '2a999a19-2c9f-4fb6-aa1b-055b5c5d14b8'})"
+
+- name: I | retouren - terugsturen kosten
+  pass_status: false
+  expected_steps:
+  - user: Hoi, wat kost het als ik iets naar jullie terugstuur?
+    assertions: &informal
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+    - bot_did_not_utter:
+        utter_name: utter_no_relevant_answer_found
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: \b(je|jij|jou|jouw)\b
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:143
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 143
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Hoi, wat kost het als ik iets naar jullie terugstuur?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Hoi! De retourkosten bedragen €7 en worden achteraf verrekend. Bij een ruilen zijn er geen kosten, en ook niet als je bestelling onder de €49 is. Je kunt de retour online registreren via het retourportaal.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Hoi, wat kost het als ik iets naar jullie terugstuur?\", \"execution_times\": {\"command_processor\": 636.4495754241943, \"prediction_loop\": 2252.401828765869, \"rasa_processing_ms\": 2888.8514041900635}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"979ea95b-9994-45aa-9e01-ceac217e1fa0\"}, 1789988706.5158026)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 636.4495754241943, \"prediction_loop\": 2258.3205699920654, \"rasa_processing_ms\": 2894.7701454162598}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"979ea95b-9994-45aa-9e01-ceac217e1fa0\"}, 1789988706.5217216)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 636.4495754241943, 'prediction_loop': 2260.1284980773926, 'rasa_processing_ms': 2896.578073501587}, 'latency_breakdown': {'user_perceived_latency_ms': 636.4495754241943, 'command_generator_ms': 636.4495754241943, 'full_turn': {'prediction_loop_ms': 2260.1284980773926}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '979ea95b-9994-45aa-9e01-ceac217e1fa0'})"
+
+- name: I | verzending - bezorging Belgie
+  pass_status: false
+  expected_steps:
+  - user: Bezorgen jullie ook in België?
+    assertions: *informal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:143
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 143
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Bezorgen jullie ook in België?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, we verzenden naar alle landen in Europa, dus ook naar België. Internationale verzending naar Europese landen kost €10 tot €15. Je ontvangt meer informatie over het levermoment van PostNL zodra je pakket verzonden is.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Bezorgen jullie ook in Belgi\\u00eb?\", \"execution_times\": {\"command_processor\": 639.7302150726318, \"prediction_loop\": 2181.680679321289, \"rasa_processing_ms\": 2821.410894393921}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"23bff3e8-d41f-4911-b777-2794f028fd3f\"}, 1789988709.3494558)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 639.7302150726318, \"prediction_loop\": 2187.5336170196533, \"rasa_processing_ms\": 2827.263832092285}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"23bff3e8-d41f-4911-b777-2794f028fd3f\"}, 1789988709.3553085)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 639.7302150726318, 'prediction_loop': 2189.371347427368, 'rasa_processing_ms': 2829.1015625}, 'latency_breakdown': {'user_perceived_latency_ms': 639.7302150726318, 'command_generator_ms': 639.7302150726318, 'full_turn': {'prediction_loop_ms': 2189.371347427368}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '23bff3e8-d41f-4911-b777-2794f028fd3f'})"
+
+- name: I | betalen - PayPal toeslag
+  pass_status: false
+  expected_steps:
+  - user: Betaal ik extra als ik met PayPal betaal bij jullie?
+    assertions: *informal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:143
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 143
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Betaal ik extra als ik met PayPal betaal bij jullie?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, je betaalt een toeslag van 3,20% als je met PayPal betaalt. Klik op PayPal bij het afrekenen en volg dan de stappen. Je kunt PayPal dus zeker gebruiken, maar houd rekening met die extra kosten.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Betaal ik extra als ik met PayPal betaal bij jullie?\", \"execution_times\": {\"command_processor\": 619.6639537811279, \"prediction_loop\": 2300.9886741638184, \"rasa_processing_ms\": 2920.6526279449463}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"1b652c83-cf2c-4d68-8bc4-18c58decb9bd\"}, 1789988712.2826822)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 619.6639537811279, \"prediction_loop\": 2306.8931102752686, \"rasa_processing_ms\": 2926.5570640563965}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"1b652c83-cf2c-4d68-8bc4-18c58decb9bd\"}, 1789988712.2885861)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 619.6639537811279, 'prediction_loop': 2308.690309524536, 'rasa_processing_ms': 2928.354263305664}, 'latency_breakdown': {'user_perceived_latency_ms': 619.6639537811279, 'command_generator_ms': 619.6639537811279, 'full_turn': {'prediction_loop_ms': 2308.690309524536}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '1b652c83-cf2c-4d68-8bc4-18c58decb9bd'})"
+
+- name: I | fysieke winkel - zondag open
+  pass_status: false
+  expected_steps:
+  - user: Zijn jullie op zondag open?
+    assertions: *informal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:143
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 143
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Zijn jullie op zondag open?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, De Rode Winkel is op zondag open van 11:00 tot 18:00 uur. Je kunt de openingstijdenpagina raadplegen voor actuele informatie over feestdagen. Zo weet je zeker of ze open zijn!', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Zijn jullie op zondag open?\", \"execution_times\": {\"command_processor\": 645.6716060638428, \"prediction_loop\": 2343.153953552246, \"rasa_processing_ms\": 2988.825559616089}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"c0410340-30ed-40f4-8631-445ea17dfb2e\"}, 1789988715.2838244)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 645.6716060638428, \"prediction_loop\": 2349.0471839904785, \"rasa_processing_ms\": 2994.7187900543213}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"c0410340-30ed-40f4-8631-445ea17dfb2e\"}, 1789988715.2897174)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 645.6716060638428, 'prediction_loop': 2350.850820541382, 'rasa_processing_ms': 2996.5224266052246}, 'latency_breakdown': {'user_perceived_latency_ms': 645.6716060638428, 'command_generator_ms': 645.6716060638428, 'full_turn': {'prediction_loop_ms': 2350.850820541382}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'c0410340-30ed-40f4-8631-445ea17dfb2e'})"
+
+- name: I | garantie - broek stuk na 3 maanden
+  pass_status: false
+  expected_steps:
+  - user: M'n broek is na drie maanden alweer stuk, wat nu?
+    assertions: *informal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:143
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 143
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('M'n broek is na drie maanden alweer stuk, wat nu?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Je broek is stuk na drie maanden? Op jeans geldt een minimale garantietermijn van 6 maanden, dus je kunt de broek meenemen naar de winkel voor beoordeling. Als dat niet kan, kun je foto's sturen naar info@derodewinkel.nl en je ontvangt binnen 14 dagen een reactie.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"M'n broek is na drie maanden alweer stuk, wat nu?\", \"execution_times\": {\"command_processor\": 655.980110168457, \"prediction_loop\": 2540.6205654144287, \"rasa_processing_ms\": 3196.6006755828857}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"e5d5dbf2-8dcc-463b-8a42-8d691f9c7c86\"}, 1789988718.4927342)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 655.980110168457, \"prediction_loop\": 2546.4072227478027, \"rasa_processing_ms\": 3202.3873329162598}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"e5d5dbf2-8dcc-463b-8a42-8d691f9c7c86\"}, 1789988718.498521)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 655.980110168457, 'prediction_loop': 2548.17533493042, 'rasa_processing_ms': 3204.155445098877}, 'latency_breakdown': {'user_perceived_latency_ms': 655.980110168457, 'command_generator_ms': 655.980110168457, 'full_turn': {'prediction_loop_ms': 2548.17533493042}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'e5d5dbf2-8dcc-463b-8a42-8d691f9c7c86'})"
+
+- name: I | assortiment - kinderkleding
+  pass_status: false
+  expected_steps:
+  - user: Hebben jullie ook iets voor kinderen?
+    assertions: *informal
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:143
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 143
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Hebben jullie ook iets voor kinderen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, we hebben een Kids-categorie met kinderkleding in de webshop, vooral kinderjeans en shirts van merken zoals G-Star Kids en Denham. Het aanbod is wel kleiner dan bij dames en heren, dus als je iets specifieks zoekt, kun je het beste even bellen of mailen.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Hebben jullie ook iets voor kinderen?\", \"execution_times\": {\"command_processor\": 657.5932502746582, \"prediction_loop\": 2521.5985774993896, \"rasa_processing_ms\": 3179.191827774048}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"1cfaaef9-b39b-4fa5-baa7-82eec515b4ee\"}, 1789988721.6842015)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 657.5932502746582, \"prediction_loop\": 2527.1966457366943, \"rasa_processing_ms\": 3184.7898960113525}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"1cfaaef9-b39b-4fa5-baa7-82eec515b4ee\"}, 1789988721.689799)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 657.5932502746582, 'prediction_loop': 2528.9528369903564, 'rasa_processing_ms': 3186.5460872650146}, 'latency_breakdown': {'user_perceived_latency_ms': 657.5932502746582, 'command_generator_ms': 657.5932502746582, 'full_turn': {'prediction_loop_ms': 2528.9528369903564}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '1cfaaef9-b39b-4fa5-baa7-82eec515b4ee'})"
+
+- name: M | informal then formal
+  pass_status: false
+  expected_steps:
+  - user: Wat kost het om iets terug te sturen?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+  - user: Kunt u mij ook vertellen hoe lang de levering duurt?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:183
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 183
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Wat kost het om iets terug te sturen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Retourkosten bedragen €7 en worden achteraf verrekend. Bij ruilen zijn er geen kosten, ook niet bij bestellingen onder €49. Je kunt artikelen binnen 14 dagen retourneren via het retourportaal.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Wat kost het om iets terug te sturen?\", \"execution_times\": {\"command_processor\": 656.9187641143799, \"prediction_loop\": 2179.6841621398926, \"rasa_processing_ms\": 2836.6029262542725}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"0850fe7a-134e-4e27-b046-3024799def38\"}, 1789988724.532598)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 656.9187641143799, \"prediction_loop\": 2185.3904724121094, \"rasa_processing_ms\": 2842.3092365264893}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"0850fe7a-134e-4e27-b046-3024799def38\"}, 1789988724.538304)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 656.9187641143799, 'prediction_loop': 2187.2503757476807, 'rasa_processing_ms': 2844.1691398620605}, 'latency_breakdown': {'user_perceived_latency_ms': 656.9187641143799, 'command_generator_ms': 656.9187641143799, 'full_turn': {'prediction_loop_ms': 2187.2503757476807}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '0850fe7a-134e-4e27-b046-3024799def38'})"
+    - UserUttered('Kunt u mij ook vertellen hoe lang de levering duurt?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Bestellingen die op werkdagen vóór 16:00 uur geplaatst worden, worden dezelfde dag nog verzonden. De levering is over het algemeen binnen 48 uur. U kunt uw bestelling retourneren via het retourportaal binnen 14 dagen na ontvangst.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Kunt u mij ook vertellen hoe lang de levering duurt?\", \"execution_times\": {\"command_processor\": 660.2902412414551, \"prediction_loop\": 2416.7068004608154, \"rasa_processing_ms\": 3076.9970417022705}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"0850fe7a-134e-4e27-b046-3024799def38\"}, 1789988727.6208234)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 660.2902412414551, \"prediction_loop\": 2422.8501319885254, \"rasa_processing_ms\": 3083.1403732299805}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"0850fe7a-134e-4e27-b046-3024799def38\"}, 1789988727.626966)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 660.2902412414551, 'prediction_loop': 2425.192356109619, 'rasa_processing_ms': 3085.482597351074}, 'latency_breakdown': {'user_perceived_latency_ms': 660.2902412414551, 'command_generator_ms': 660.2902412414551, 'full_turn': {'prediction_loop_ms': 2425.192356109619}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '0850fe7a-134e-4e27-b046-3024799def38'})"
+
+- name: M | formal then informal
+  pass_status: false
+  expected_steps:
+  - user: Kunt u mij vertellen wat de verzendkosten zijn?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+  - user: En bezorgen jullie ook in België?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:201
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 201
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Kunt u mij vertellen wat de verzendkosten zijn?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('De verzendkosten bedragen €6,96 bij bestellingen onder de €49. Bestellingen van €49 of meer worden gratis verzonden. Internationale verzending naar Europese landen kost €10 tot €15.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Kunt u mij vertellen wat de verzendkosten zijn?\", \"execution_times\": {\"command_processor\": 626.946210861206, \"prediction_loop\": 2261.7013454437256, \"rasa_processing_ms\": 2888.6475563049316}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"8e2737e6-09d5-4589-9ffe-5325614c2b50\"}, 1789988730.5258632)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 626.946210861206, \"prediction_loop\": 2267.5843238830566, \"rasa_processing_ms\": 2894.5305347442627}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"8e2737e6-09d5-4589-9ffe-5325614c2b50\"}, 1789988730.531746)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 626.946210861206, 'prediction_loop': 2269.436836242676, 'rasa_processing_ms': 2896.383047103882}, 'latency_breakdown': {'user_perceived_latency_ms': 626.946210861206, 'command_generator_ms': 626.946210861206, 'full_turn': {'prediction_loop_ms': 2269.436836242676}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '8e2737e6-09d5-4589-9ffe-5325614c2b50'})"
+    - UserUttered('En bezorgen jullie ook in België?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Ja, we verzenden naar alle landen in Europa, dus ook naar België. Internationale verzending naar Europese landen kost €10 tot €15.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"En bezorgen jullie ook in Belgi\\u00eb?\", \"execution_times\": {\"command_processor\": 683.0422878265381, \"prediction_loop\": 2058.384418487549, \"rasa_processing_ms\": 2741.426706314087}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"8e2737e6-09d5-4589-9ffe-5325614c2b50\"}, 1789988733.2786965)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 683.0422878265381, \"prediction_loop\": 2064.467430114746, \"rasa_processing_ms\": 2747.509717941284}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"8e2737e6-09d5-4589-9ffe-5325614c2b50\"}, 1789988733.2847795)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 683.0422878265381, 'prediction_loop': 2066.6897296905518, 'rasa_processing_ms': 2749.73201751709}, 'latency_breakdown': {'user_perceived_latency_ms': 683.0422878265381, 'command_generator_ms': 683.0422878265381, 'full_turn': {'prediction_loop_ms': 2066.6897296905518}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '8e2737e6-09d5-4589-9ffe-5325614c2b50'})"
+
+- name: M | formal then neutral follow-up keeps formal
+  pass_status: false
+  expected_steps:
+  - user: Tot hoe laat bent u op donderdag geopend?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+  - user: En op zondag?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: formeel
+    - bot_did_not_utter:
+        text_matches: \b(je|jij|jou|jouw|jezelf)\b
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:217
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 217
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Tot hoe laat bent u op donderdag geopend?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Op donderdag is De Rode Winkel open tot 21:00 uur. Dit is de koopavond, zoals vermeld in de documenten. U kunt dus tot 21:00 uur terecht op donderdag.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Tot hoe laat bent u op donderdag geopend?\", \"execution_times\": {\"command_processor\": 622.9658126831055, \"prediction_loop\": 2128.610134124756, \"rasa_processing_ms\": 2751.5759468078613}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"b31bc844-1584-451b-88c9-69f03aba31fc\"}, 1789988736.0464957)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 622.9658126831055, \"prediction_loop\": 2134.5267295837402, \"rasa_processing_ms\": 2757.4925422668457}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"b31bc844-1584-451b-88c9-69f03aba31fc\"}, 1789988736.0524125)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 622.9658126831055, 'prediction_loop': 2136.394262313843, 'rasa_processing_ms': 2759.3600749969482}, 'latency_breakdown': {'user_perceived_latency_ms': 622.9658126831055, 'command_generator_ms': 622.9658126831055, 'full_turn': {'prediction_loop_ms': 2136.394262313843}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'b31bc844-1584-451b-88c9-69f03aba31fc'})"
+    - UserUttered('En op zondag?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Op zondag is De Rode Winkel geopend tot 18:00 uur. U kunt dus tot 18:00 uur terecht op zondag. De openingstijden kunnen afwijken op feestdagen, raadpleeg de openingstijdenpagina voor actuele informatie.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"En op zondag?\", \"execution_times\": {\"command_processor\": 671.4034080505371, \"prediction_loop\": 2525.7015228271484, \"rasa_processing_ms\": 3197.1049308776855}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"b31bc844-1584-451b-88c9-69f03aba31fc\"}, 1789988739.2551713)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 671.4034080505371, \"prediction_loop\": 2531.907081604004, \"rasa_processing_ms\": 3203.310489654541}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"b31bc844-1584-451b-88c9-69f03aba31fc\"}, 1789988739.261377)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 671.4034080505371, 'prediction_loop': 2534.311056137085, 'rasa_processing_ms': 3205.714464187622}, 'latency_breakdown': {'user_perceived_latency_ms': 671.4034080505371, 'command_generator_ms': 671.4034080505371, 'full_turn': {'prediction_loop_ms': 2534.311056137085}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'b31bc844-1584-451b-88c9-69f03aba31fc'})"
+
+- name: M | informal then neutral follow-up keeps informal
+  pass_status: false
+  expected_steps:
+  - user: Hoi! Tot hoe laat zijn jullie donderdag open?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+  - user: En op zondag?
+    assertions:
+    - slot_was_set:
+      - name: klant_register
+        value: informeel
+    - bot_did_not_utter:
+        text_matches: \b(u|uw)\b
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:233
+  assertion_failure:
+    assertion:
+      utter_name: null
+      text_matches: (?!)
+      buttons: []
+      line: 233
+      type: bot_uttered
+    error_message: Bot did not utter any response which matches the provided text pattern '(?!)'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Hoi! Tot hoe laat zijn jullie donderdag open?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Hoi! Op donderdag zijn jullie open tot 21:00 uur, dat is koopavond. De reguliere openingstijden op donderdag zijn van 10:00 tot 21:00 uur. Je kunt dus nog even wachten tot donderdagavond!', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Hoi! Tot hoe laat zijn jullie donderdag open?\", \"execution_times\": {\"command_processor\": 626.476526260376, \"prediction_loop\": 2503.298282623291, \"rasa_processing_ms\": 3129.774808883667}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"f8919158-ed8b-492b-b1ea-a1a4b149323b\"}, 1789988742.4015386)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 626.476526260376, \"prediction_loop\": 2508.871078491211, \"rasa_processing_ms\": 3135.347604751587}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"f8919158-ed8b-492b-b1ea-a1a4b149323b\"}, 1789988742.4071112)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 626.476526260376, 'prediction_loop': 2510.6327533721924, 'rasa_processing_ms': 3137.1092796325684}, 'latency_breakdown': {'user_perceived_latency_ms': 626.476526260376, 'command_generator_ms': 626.476526260376, 'full_turn': {'prediction_loop_ms': 2510.6327533721924}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'f8919158-ed8b-492b-b1ea-a1a4b149323b'})"
+    - UserUttered('En op zondag?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Op zondag zijn jullie open van 11:00 tot 18:00 uur. Je kunt de openingstijdenpagina raadplegen voor actuele informatie, mochten er afwijkingen zijn.  Heb je nog andere vragen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"En op zondag?\", \"execution_times\": {\"command_processor\": 628.2987594604492, \"prediction_loop\": 2366.203784942627, \"rasa_processing_ms\": 2994.502544403076}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"f8919158-ed8b-492b-b1ea-a1a4b149323b\"}, 1789988745.4071836)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 628.2987594604492, \"prediction_loop\": 2372.239589691162, \"rasa_processing_ms\": 3000.5383491516113}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"f8919158-ed8b-492b-b1ea-a1a4b149323b\"}, 1789988745.413219)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 628.2987594604492, 'prediction_loop': 2374.474287033081, 'rasa_processing_ms': 3002.7730464935303}, 'latency_breakdown': {'user_perceived_latency_ms': 628.2987594604492, 'command_generator_ms': 628.2987594604492, 'full_turn': {'prediction_loop_ms': 2374.474287033081}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'f8919158-ed8b-492b-b1ea-a1a4b149323b'})"
+
+- name: M | formal greeting
+  pass_status: false
+  expected_steps:
+  - user: Goedemiddag, kunt u mij helpen?
+    assertions:
+    - bot_uttered:
+        utter_name: utter_begroeting
+        text_matches: Goedendag
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:241
+  assertion_failure:
+    assertion:
+      utter_name: utter_begroeting
+      text_matches: Goedendag
+      buttons: []
+      line: 241
+      type: bot_uttered
+    error_message: Bot did not utter 'utter_begroeting' response. Bot did not utter any response which matches the provided text pattern 'Goedendag'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Goedemiddag, kunt u mij helpen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: formeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Goedemiddag. Indien er iets mis is met uw bezorging, neem dan direct contact op via WhatsApp of e-mail. Vermeld daarbij uw ordernummer en een beschrijving van het probleem, zodat we u zo snel mogelijk kunnen helpen.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Goedemiddag, kunt u mij helpen?\", \"execution_times\": {\"command_processor\": 633.5763931274414, \"prediction_loop\": 2288.0024909973145, \"rasa_processing_ms\": 2921.578884124756}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"a7809673-87d5-4091-b570-64d7f364d901\"}, 1789988748.3449178)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik u nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"condition\": [{\"type\": \"slot\", \"name\": \"klant_register\", \"value\": \"formeel\"}], \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 633.5763931274414, \"prediction_loop\": 2293.736696243286, \"rasa_processing_ms\": 2927.3130893707275}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"a7809673-87d5-4091-b570-64d7f364d901\"}, 1789988748.3506517)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 633.5763931274414, 'prediction_loop': 2295.597791671753, 'rasa_processing_ms': 2929.1741847991943}, 'latency_breakdown': {'user_perceived_latency_ms': 633.5763931274414, 'command_generator_ms': 633.5763931274414, 'full_turn': {'prediction_loop_ms': 2295.597791671753}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': 'a7809673-87d5-4091-b570-64d7f364d901'})"
+
+- name: M | informal greeting
+  pass_status: false
+  expected_steps:
+  - user: Hoi! Kun je me helpen?
+    assertions:
+    - bot_uttered:
+        utter_name: utter_begroeting
+        text_matches: Hallo
+    - bot_uttered:
+        text_matches: (?!)
+  error_path: C:\Users\juria\git\prototypeDRW\tests\test_register.yml:250
+  assertion_failure:
+    assertion:
+      utter_name: utter_begroeting
+      text_matches: Hallo
+      buttons: []
+      line: 250
+      type: bot_uttered
+    error_message: Bot did not utter 'utter_begroeting' response. Bot did not utter any response which matches the provided text pattern 'Hallo'.
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('Hoi! Kun je me helpen?', 'None', [])
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'FlowStarted(flow: pattern_search)'
+    - 'ActionExecuted(action: action_detect_register, policy: FlowPolicy, confidence: 1.0)'
+    - 'SlotSet(key: klant_register, value: informeel)'
+    - 'ActionExecuted(action: action_trigger_search, policy: FlowPolicy, confidence: 1.0)'
+    - 'ActionExecuted(action: action_send_text, policy: EnterpriseSearchPolicy, confidence: 1.0)'
+    - "BotUttered('Hoi! Natuurlijk, ik help je graag. Als er iets mis is met je bezorging, neem dan direct contact op via WhatsApp of e-mail met je ordernummer en een beschrijving van het probleem. Zo kunnen we je zo snel mogelijk verder helpen.', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"EnterpriseSearchPolicy\", \"search_query\": \"Hoi! Kun je me helpen?\", \"execution_times\": {\"command_processor\": 667.5379276275635, \"prediction_loop\": 2460.1240158081055, \"rasa_processing_ms\": 3127.661943435669}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"9dd667d3-fd96-415f-ab41-78e3adbcfd03\"}, 1789988751.4844997)"
+    - 'FlowCompleted(flow: pattern_search, step_id: pattern_search_1_action_trigger_search)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_completed, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Kan ik je nog ergens anders mee helpen?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_2_utter_completed\", \"utter_action\": \"utter_completed\", \"utter_source\": \"TemplatedNaturalLanguageGenerator\", \"execution_times\": {\"command_processor\": 667.5379276275635, \"prediction_loop\": 2466.216564178467, \"rasa_processing_ms\": 3133.7544918060303}, \"model_id\": \"a3d4e8b0e1434da4b8a164467eb32ef9\", \"model_name\": \"20260916-123344-presto-kernel.tar.gz\", \"default_language\": \"en\", \"assistant_id\": \"mode-reader\", \"session_id\": \"9dd667d3-fd96-415f-ab41-78e3adbcfd03\"}, 1789988751.490592)"
+    - 'SlotSet(key: begroet, value: False)'
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_2_utter_completed)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'
+    - "BotTurnEnded(metadata: {'execution_times': {'command_processor': 667.5379276275635, 'prediction_loop': 2468.0440425872803, 'rasa_processing_ms': 3135.5819702148438}, 'latency_breakdown': {'user_perceived_latency_ms': 667.5379276275635, 'command_generator_ms': 667.5379276275635, 'full_turn': {'prediction_loop_ms': 2468.0440425872803}, 'first_agent_response': {'generated_by_llm': False}}, 'model_id': 'a3d4e8b0e1434da4b8a164467eb32ef9', 'model_name': '20260916-123344-presto-kernel.tar.gz', 'default_language': 'en', 'assistant_id': 'mode-reader', 'session_id': '9dd667d3-fd96-415f-ab41-78e3adbcfd03'})"
