@@ -1,6 +1,6 @@
 # Plan: full study of contrastive examples for abstention in RAG
 
-Written 2026-09-14, after the pilot grid (gemma3:12b, 7 conditions, 4 repeats, 48 cases) and the gemma3:27b check. Nothing below has been run yet.
+Written 2026-09-14, after the pilot grid (gemma3:12b, 7 conditions, 4 repeats, 48 cases) and the gemma3:27b check. The study described here ran 2026-09-14 to 2026-09-19; the results are in `RESULTS.md`. Sections 1 to 6 are the design as planned, section 7a onwards records what was built.
 
 ## 1. What the pilot showed and what the study has to settle
 
