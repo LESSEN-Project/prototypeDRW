@@ -1,0 +1,11 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/cadeaukaart/cadeaukaart_01.txt (2026-09-21). Loaded into the named graph <doc:cadeaukaart_01>.
+d:DeRodeWinkel drw:offers d:GiftCard .
+d:GiftCard drw:availableVia d:Webshop , d:Store ;
+    drw:howTo "online cadeaukaart: te koop via de webshop, per e-mail bezorgd; invoeren na het adres bij het afrekenen. Fysieke kaart met barcode omzetten naar online code via info@derodewinkel.nl"@nl .
+d:Webshop drw:accepts d:OnlineGiftCard .

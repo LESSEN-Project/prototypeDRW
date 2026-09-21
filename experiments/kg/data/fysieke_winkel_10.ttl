@@ -1,0 +1,9 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/fysieke_winkel/fysieke_winkel_10.txt (2026-09-21). Loaded into the named graph <doc:fysieke_winkel_10>.
+d:Thursday skos:altLabel "koopavond"@nl .
+d:Store drw:openingHours [ drw:day d:Thursday ; drw:opens "10:00" ; drw:closes "21:00" ; skos:altLabel "koopavond"@nl ] .

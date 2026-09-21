@@ -1,0 +1,15 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/garantie_reparatie/garantie_reparatie_02.txt (2026-09-21). Loaded into the named graph <doc:garantie_reparatie_02>.
+d:DeRodeWinkel drw:offers d:RepairService , d:AlterationService .
+d:RepairService drw:appliesTo d:Clothing ; drw:purchaseCondition d:BoughtAtDRW ; drw:availableVia d:Store ;
+    drw:conditionText "atelier boven de paskamers; specialisten voeren bijna dagelijks reparaties en vermakingen uit"@nl .
+d:AlterationService drw:appliesTo d:Clothing ; drw:purchaseCondition d:BoughtAtDRW ; drw:availableVia d:Store .
+# "officiële Nudie Jeans reparatielocatie en herstellen ook Nudie jeans die elders zijn gekocht":
+# the origin condition is lifted for the Nudie brand line, for repairs only.
+d:NudieRepairException a drw:OriginRule ; drw:forService d:RepairService ; drw:forCategory d:NudieJeansJeans ;
+    drw:allowsOrigin d:AnyOrigin ; drw:conditionText "officiële Nudie Jeans reparatielocatie"@nl .

@@ -1,0 +1,10 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/verzending/verzending_01.txt (2026-09-21). Loaded into the named graph <doc:verzending_01>.
+d:DeRodeWinkel drw:hasShippingPolicy d:Shipping ; drw:offers d:ClickAndCollect .
+d:Shipping drw:carrier "PostNL" .
+d:ClickAndCollect drw:availableVia d:Store .

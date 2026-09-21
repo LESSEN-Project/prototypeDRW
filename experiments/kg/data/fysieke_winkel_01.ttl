@@ -1,0 +1,11 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/fysieke_winkel/fysieke_winkel_01.txt (2026-09-21). Loaded into the named graph <doc:fysieke_winkel_01>.
+d:DeRodeWinkel drw:hasStore d:Store ;
+    # "Dit is de enige fysieke winkellocatie."
+    drw:completeFor drw:hasStore .
+d:Store drw:streetAddress "Lange Elisabethstraat 13, 3511 JA Utrecht"@nl ; drw:locatedIn d:Utrecht .

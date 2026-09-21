@@ -1,0 +1,12 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/assortiment/assortiment_01.txt (2026-09-21). Loaded into the named graph <doc:assortiment_01>.
+d:DeRodeWinkel drw:sells d:Clothing , d:Trousers , d:Jeans , d:Shorts , d:Tops , d:TShirts , d:Polos , d:Blouses ,
+    d:Shirts , d:Dresses , d:Skirts , d:Knitwear , d:Sweaters , d:Cardigans , d:Blazers , d:Outerwear ,
+    d:Bodywarmers , d:Overshirts , d:Underwear , d:Accessories .
+d:Blouses drw:forAudience d:Women . d:Dresses drw:forAudience d:Women . d:Skirts drw:forAudience d:Women .
+d:Shirts drw:forAudience d:Men . d:Underwear drw:forAudience d:Men . d:Polos drw:forAudience d:Men .

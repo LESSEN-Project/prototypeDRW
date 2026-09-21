@@ -1,0 +1,10 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/assortiment/assortiment_18.txt (2026-09-21). Loaded into the named graph <doc:assortiment_18>.
+d:DeRodeWinkel drw:sells d:KidsClothing , d:KidsJeans .
+d:KidsClothing drw:forAudience d:Kids ; drw:availableVia d:Webshop ;
+    drw:conditionText "vooral kinderjeans en shirts van G-Star Kids en Denham; kleiner aanbod dan dames en heren"@nl .

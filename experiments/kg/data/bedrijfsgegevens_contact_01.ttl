@@ -1,0 +1,13 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/bedrijfsgegevens_contact/bedrijfsgegevens_contact_01.txt (2026-09-21). Loaded into the named graph <doc:bedrijfsgegevens_contact_01>.
+d:DeRodeWinkel drw:streetAddress "Lange Elisabethstraat 13, 3511 JA Utrecht"@nl ;
+    drw:phone "030 233 63 03" ; drw:email "info@derodewinkel.nl" ;
+    drw:foundedOn "1837-03-19"^^xsd:date ;
+    drw:foundedBy d:JohannesBroekman , d:AnnaatjeVanEssenberg ;
+    drw:hofleverancierSince "2012"^^xsd:gYear ;
+    drw:conditionText "in 2017 overgegaan naar de zesde generatie"@nl .

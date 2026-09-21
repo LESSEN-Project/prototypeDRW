@@ -1,0 +1,17 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/fysieke_winkel/fysieke_winkel_04.txt (2026-09-21). Loaded into the named graph <doc:fysieke_winkel_04>.
+d:Store drw:openingHours
+    [ drw:day d:Monday ;    drw:opens "12:00" ; drw:closes "18:00" ] ,
+    [ drw:day d:Tuesday ;   drw:opens "10:00" ; drw:closes "18:00" ] ,
+    [ drw:day d:Wednesday ; drw:opens "10:00" ; drw:closes "18:00" ] ,
+    [ drw:day d:Thursday ;  drw:opens "10:00" ; drw:closes "21:00" ] ,
+    [ drw:day d:Friday ;    drw:opens "10:00" ; drw:closes "19:00" ] ,
+    [ drw:day d:Saturday ;  drw:opens "09:30" ; drw:closes "19:00" ] ,
+    [ drw:day d:Sunday ;    drw:opens "11:00" ; drw:closes "18:00" ] ;
+    drw:completeFor drw:openingHours ;
+    drw:holidayHoursMayDiffer true .

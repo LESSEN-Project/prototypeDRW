@@ -1,0 +1,9 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/producten/producten_02.txt (2026-09-21). Loaded into the named graph <doc:producten_02>.
+d:DeRodeWinkel drw:sustainabilityNote "werkt uitsluitend met transparante merken die duurzaamheidseisen nakomen (o.a. Kuyichi, Nudie Jeans, MUD Jeans); duurzame producten dragen het groene blad-icoontje en gebruiken materialen zoals GOTS-katoen"@nl ;
+    drw:carries d:Kuyichi , d:NudieJeans , d:MUDJeans .

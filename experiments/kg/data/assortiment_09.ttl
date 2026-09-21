@@ -1,0 +1,9 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/assortiment/assortiment_09.txt (2026-09-21). Loaded into the named graph <doc:assortiment_09>.
+d:DeRodeWinkel drw:sells d:Outerwear , d:Blazers , d:DenimJackets , d:Bodywarmers , d:Overshirts .
+d:Outerwear drw:forAudience d:Women , d:Men .

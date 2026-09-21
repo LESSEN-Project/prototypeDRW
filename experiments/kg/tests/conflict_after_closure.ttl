@@ -1,0 +1,9 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+
+# Deliberate conflict for the second validation pass. Nothing clashes on asserted data:
+# no document says "sells Jeans" or "doesNotSell LevisJeans" outright. After closure,
+# sells propagates up from LevisJeans/Jeans (assortiment_01) and doesNotSell propagates
+# down from Jeans, so both predicates meet on Jeans and every category below it.
+d:DeRodeWinkel drw:doesNotSell d:Jeans .
+d:Webshop drw:doesNotAccept d:PayPal .

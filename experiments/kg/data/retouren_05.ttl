@@ -1,0 +1,10 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/retouren/retouren_05.txt (2026-09-21). Loaded into the named graph <doc:retouren_05>.
+d:ReturnByPost drw:feeEur 7 .
+d:Exchange drw:feeEur 0 ; drw:conditionText "ook geen kosten bij bestellingen onder €49"@nl .
+d:OnlineGiftCard drw:conditionText "aankopen met een cadeaukaart worden teruggestort als tegoedbon"@nl .

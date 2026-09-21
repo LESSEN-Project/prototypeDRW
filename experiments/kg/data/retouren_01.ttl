@@ -1,0 +1,12 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/retouren/retouren_01.txt (2026-09-21). Loaded into the named graph <doc:retouren_01>.
+d:DeRodeWinkel drw:offers d:ReturnByPost .
+d:ReturnByPost drw:windowDays 14 ; drw:feeEur 7 ; drw:forPurchaseChannel d:Webshop ;
+    drw:conditionText "in originele staat; retourkosten worden achteraf verrekend"@nl ;
+    drw:howTo "registreer de retour in het retourportaal: postcode en ordernummer, artikelen en reden, verwerking, verzendmethode (DPD/DHL, printen niet nodig)"@nl ;
+    drw:refundArrivalHours 48 ; drw:refundProcessingDays 3 .

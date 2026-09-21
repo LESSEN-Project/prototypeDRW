@@ -1,0 +1,13 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/betalen/betalen_01.txt (2026-09-21). Loaded into the named graph <doc:betalen_01>.
+d:Webshop drw:accepts d:iDEAL , d:WERO , d:Creditcard , d:PayPal , d:ApplePay , d:Billink , d:OnlineGiftCard ;
+    drw:doesNotAccept d:PhysicalGiftCard , d:VVVBon , d:Fashioncheque ;
+    # "kun je betalen met ...": the online list is complete.
+    drw:completeFor drw:accepts .
+d:Store drw:accepts d:PhysicalGiftCard , d:VVVBon , d:Fashioncheque .
+# The store's list of payment methods is NOT complete (no document lists it).

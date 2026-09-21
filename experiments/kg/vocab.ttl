@@ -1,0 +1,186 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Controlled vocabulary: the individuals every document file refers to.
+# Hand-written 2026-09-21. skos:altLabel carries the customer's wording for
+# entity linking; rdfs:label is the canonical Dutch name.
+
+### The shop and its channels
+d:DeRodeWinkel a drw:Shop ; rdfs:label "De Rode Winkel"@nl ; skos:altLabel "jullie"@nl , "de winkel"@nl , "DRW"@nl .
+d:Webshop a drw:Channel ; rdfs:label "webshop"@nl ; skos:altLabel "online"@nl , "de site"@nl , "website"@nl , "op de site"@nl .
+d:Store a drw:Channel , drw:Store ; rdfs:label "fysieke winkel in Utrecht"@nl ;
+    skos:altLabel "winkel"@nl , "in de winkel"@nl , "vestiging"@nl , "jullie winkel"@nl .
+d:WhatsApp a drw:Channel ; rdfs:label "WhatsApp"@nl .
+d:Email a drw:Channel ; rdfs:label "e-mail"@nl ; skos:altLabel "mail"@nl .
+d:Phone a drw:Channel ; rdfs:label "telefoon"@nl ; skos:altLabel "bellen"@nl .
+
+### Audiences
+d:Women a drw:Audience ; rdfs:label "dames"@nl ; skos:altLabel "vrouwen"@nl .
+d:Men   a drw:Audience ; rdfs:label "heren"@nl ; skos:altLabel "mannen"@nl .
+d:Kids  a drw:Audience ; rdfs:label "kids"@nl ; skos:altLabel "kinderen"@nl .
+
+### Product category tree (subcategoryOf is transitive; sells goes up, appliesTo and doesNotSell go down)
+d:Product a drw:ProductCategory ; rdfs:label "product"@nl .
+d:Clothing a drw:ProductCategory ; rdfs:label "kleding"@nl ; drw:subcategoryOf d:Product ; skos:altLabel "kleren"@nl .
+d:Accessories a drw:ProductCategory ; rdfs:label "accessoires"@nl ; drw:subcategoryOf d:Product .
+d:Shoes a drw:ProductCategory ; rdfs:label "schoenen"@nl ; drw:subcategoryOf d:Product .
+d:Sneakers a drw:ProductCategory ; rdfs:label "sneakers"@nl ; drw:subcategoryOf d:Shoes .
+d:Electronics a drw:ProductCategory ; rdfs:label "elektronica"@nl ; drw:subcategoryOf d:Product .
+d:Laptops a drw:ProductCategory ; rdfs:label "laptops"@nl ; drw:subcategoryOf d:Electronics .
+d:WhiteGoods a drw:ProductCategory ; rdfs:label "witgoed"@nl ; drw:subcategoryOf d:Product .
+d:WashingMachines a drw:ProductCategory ; rdfs:label "wasmachines"@nl ; drw:subcategoryOf d:WhiteGoods .
+d:CareProducts a drw:ProductCategory ; rdfs:label "verzorgingsproducten"@nl ; drw:subcategoryOf d:Product .
+d:Detergent a drw:ProductCategory ; rdfs:label "wasmiddel"@nl ; drw:subcategoryOf d:CareProducts .
+d:SecondHandClothing a drw:ProductCategory ; rdfs:label "tweedehands kleding"@nl ; drw:subcategoryOf d:Clothing .
+
+d:Trousers a drw:ProductCategory ; rdfs:label "broeken"@nl ; drw:subcategoryOf d:Clothing ; skos:altLabel "broek"@nl , "pantalon"@nl , "pants"@nl .
+d:Jeans a drw:ProductCategory ; rdfs:label "jeans"@nl ; drw:subcategoryOf d:Trousers ;
+    skos:altLabel "spijkerbroek"@nl , "spijkerbroeken"@nl , "denim"@nl .
+# Brand lines: the jeans of one brand, so brand questions reach the category tree.
+d:LevisJeans a drw:ProductCategory ; rdfs:label "Levi's jeans"@nl ; drw:subcategoryOf d:Jeans ; drw:ofBrand d:Levis ;
+    skos:altLabel "mijn Levi's"@nl , "een Levi's"@nl .
+d:NudieJeansJeans a drw:ProductCategory ; rdfs:label "Nudie jeans"@nl ; drw:subcategoryOf d:Jeans ; drw:ofBrand d:NudieJeans ;
+    skos:altLabel "mijn Nudie"@nl .
+d:GStarJeans a drw:ProductCategory ; rdfs:label "G-Star jeans"@nl ; drw:subcategoryOf d:Jeans ; drw:ofBrand d:GStarRAW .
+d:DieselJeans a drw:ProductCategory ; rdfs:label "Diesel jeans"@nl ; drw:subcategoryOf d:Jeans ; drw:ofBrand d:Diesel .
+d:KuyichiJeans a drw:ProductCategory ; rdfs:label "Kuyichi jeans"@nl ; drw:subcategoryOf d:Jeans ; drw:ofBrand d:Kuyichi .
+d:ZaraJeans a drw:ProductCategory ; rdfs:label "Zara jeans"@nl ; drw:subcategoryOf d:Jeans ; drw:ofBrand d:Zara .
+d:Chinos a drw:ProductCategory ; rdfs:label "chino's"@nl ; drw:subcategoryOf d:Trousers .
+d:CorduroyTrousers a drw:ProductCategory ; rdfs:label "corduroy broeken"@nl ; drw:subcategoryOf d:Trousers .
+d:CargoTrousers a drw:ProductCategory ; rdfs:label "cargo- en carpenterbroeken"@nl ; drw:subcategoryOf d:Trousers .
+d:JoggingTrousers a drw:ProductCategory ; rdfs:label "joggingbroeken"@nl ; drw:subcategoryOf d:Trousers ; skos:altLabel "trainingsbroek"@nl .
+d:LinenTrousers a drw:ProductCategory ; rdfs:label "linnen broeken"@nl ; drw:subcategoryOf d:Trousers .
+d:Pantalons a drw:ProductCategory ; rdfs:label "pantalons"@nl ; drw:subcategoryOf d:Trousers .
+d:Shorts a drw:ProductCategory ; rdfs:label "shorts"@nl ; drw:subcategoryOf d:Trousers ; skos:altLabel "korte broek"@nl .
+d:SwimShorts a drw:ProductCategory ; rdfs:label "zwembroeken"@nl ; drw:subcategoryOf d:Shorts .
+d:Tops a drw:ProductCategory ; rdfs:label "t-shirts en tops"@nl ; drw:subcategoryOf d:Clothing .
+d:TShirts a drw:ProductCategory ; rdfs:label "t-shirts"@nl ; drw:subcategoryOf d:Tops ; skos:altLabel "shirts"@nl .
+d:Polos a drw:ProductCategory ; rdfs:label "polo's"@nl ; drw:subcategoryOf d:Tops .
+d:Blouses a drw:ProductCategory ; rdfs:label "blouses"@nl ; drw:subcategoryOf d:Tops .
+d:Shirts a drw:ProductCategory ; rdfs:label "overhemden"@nl ; drw:subcategoryOf d:Clothing ; skos:altLabel "overhemd"@nl .
+d:Knitwear a drw:ProductCategory ; rdfs:label "truien en vesten"@nl ; drw:subcategoryOf d:Clothing .
+d:Sweaters a drw:ProductCategory ; rdfs:label "truien"@nl ; drw:subcategoryOf d:Knitwear ; skos:altLabel "trui"@nl , "sweater"@nl .
+d:Hoodies a drw:ProductCategory ; rdfs:label "hoodies"@nl ; drw:subcategoryOf d:Knitwear .
+d:Cardigans a drw:ProductCategory ; rdfs:label "vesten"@nl ; drw:subcategoryOf d:Knitwear ; skos:altLabel "vest"@nl .
+d:Outerwear a drw:ProductCategory ; rdfs:label "jassen"@nl ; drw:subcategoryOf d:Clothing ;
+    skos:altLabel "jas"@nl , "winterjas"@nl , "winterjassen"@nl .
+d:Blazers a drw:ProductCategory ; rdfs:label "blazers en jasjes"@nl ; drw:subcategoryOf d:Outerwear ; skos:altLabel "colbert"@nl .
+d:DenimJackets a drw:ProductCategory ; rdfs:label "spijkerjassen"@nl ; drw:subcategoryOf d:Outerwear .
+d:Bodywarmers a drw:ProductCategory ; rdfs:label "bodywarmers"@nl ; drw:subcategoryOf d:Outerwear .
+d:Overshirts a drw:ProductCategory ; rdfs:label "overshirts"@nl ; drw:subcategoryOf d:Outerwear .
+d:Dresses a drw:ProductCategory ; rdfs:label "jurken"@nl ; drw:subcategoryOf d:Clothing ; skos:altLabel "jurk"@nl .
+d:Skirts a drw:ProductCategory ; rdfs:label "rokken"@nl ; drw:subcategoryOf d:Clothing ; skos:altLabel "rok"@nl .
+d:Underwear a drw:ProductCategory ; rdfs:label "underwear"@nl ; drw:subcategoryOf d:Clothing ; skos:altLabel "ondergoed"@nl .
+d:Boxershorts a drw:ProductCategory ; rdfs:label "boxershorts"@nl ; drw:subcategoryOf d:Underwear .
+d:KidsClothing a drw:ProductCategory ; rdfs:label "kinderkleding"@nl ; drw:subcategoryOf d:Clothing ;
+    skos:altLabel "kids"@nl , "iets voor kinderen"@nl .
+d:KidsJeans a drw:ProductCategory ; rdfs:label "kinderjeans"@nl ; drw:subcategoryOf d:KidsClothing , d:Jeans .
+d:Bags a drw:ProductCategory ; rdfs:label "tassen"@nl ; drw:subcategoryOf d:Accessories ; skos:altLabel "tas"@nl , "tote bag"@nl .
+d:Belts a drw:ProductCategory ; rdfs:label "riemen"@nl ; drw:subcategoryOf d:Accessories ; skos:altLabel "riem"@nl , "leren riem"@nl .
+d:Socks a drw:ProductCategory ; rdfs:label "sokken"@nl ; drw:subcategoryOf d:Accessories .
+d:Caps a drw:ProductCategory ; rdfs:label "petten en caps"@nl ; drw:subcategoryOf d:Accessories ; skos:altLabel "pet"@nl , "cap"@nl .
+d:Scarves a drw:ProductCategory ; rdfs:label "sjaals"@nl ; drw:subcategoryOf d:Accessories ; skos:altLabel "sjaal"@nl .
+d:HairAccessories a drw:ProductCategory ; rdfs:label "haaraccessoires"@nl ; drw:subcategoryOf d:Accessories .
+
+### Brands (the documents say "onder andere": the list is NOT complete)
+d:Levis a drw:Brand ; rdfs:label "Levi's"@nl .
+d:NudieJeans a drw:Brand ; rdfs:label "Nudie Jeans"@nl ; skos:altLabel "Nudie"@nl .
+d:GStarRAW a drw:Brand ; rdfs:label "G-Star RAW"@nl ; skos:altLabel "G-Star"@nl .
+d:Denham a drw:Brand ; rdfs:label "Denham The Jeanmaker"@nl ; skos:altLabel "Denham"@nl .
+d:Diesel a drw:Brand ; rdfs:label "Diesel"@nl .
+d:Kuyichi a drw:Brand ; rdfs:label "Kuyichi Jeans"@nl ; skos:altLabel "Kuyichi"@nl .
+d:CarharttWIP a drw:Brand ; rdfs:label "Carhartt WIP"@nl ; skos:altLabel "Carhartt"@nl .
+d:AmericanVintage a drw:Brand ; rdfs:label "American Vintage"@nl .
+d:Armedangels a drw:Brand ; rdfs:label "Armedangels"@nl .
+d:LeeJeans a drw:Brand ; rdfs:label "Lee Jeans"@nl ; skos:altLabel "Lee"@nl .
+d:WranglerJeans a drw:Brand ; rdfs:label "Wrangler Jeans"@nl ; skos:altLabel "Wrangler"@nl .
+d:Rains a drw:Brand ; rdfs:label "Rains"@nl .
+d:LoisJeans a drw:Brand ; rdfs:label "Lois Jeans"@nl .
+d:MUDJeans a drw:Brand ; rdfs:label "MUD Jeans"@nl .
+d:Pockies a drw:Brand ; rdfs:label "Pockies"@nl .
+d:Olaf a drw:Brand ; rdfs:label "Olaf"@nl .
+d:LesDeux a drw:Brand ; rdfs:label "Les Deux"@nl .
+d:Zara a drw:Brand ; rdfs:label "Zara"@nl .
+
+### Payment methods
+d:iDEAL a drw:PaymentMethod ; rdfs:label "iDEAL"@nl .
+d:WERO a drw:PaymentMethod ; rdfs:label "WERO"@nl .
+d:Creditcard a drw:PaymentMethod ; rdfs:label "creditcard"@nl .
+d:PayPal a drw:PaymentMethod ; rdfs:label "PayPal"@nl .
+d:ApplePay a drw:PaymentMethod ; rdfs:label "Apple Pay"@nl .
+d:Billink a drw:PaymentMethod ; rdfs:label "Billink"@nl ;
+    skos:altLabel "achteraf betalen"@nl , "betalen na ontvangst"@nl .
+d:OnlineGiftCard a drw:PaymentMethod ; rdfs:label "online cadeaukaart van De Rode Winkel"@nl ;
+    skos:altLabel "cadeaubon"@nl , "cadeaukaart"@nl .
+d:PhysicalGiftCard a drw:PaymentMethod ; rdfs:label "fysieke cadeaukaart van De Rode Winkel"@nl .
+d:VVVBon a drw:PaymentMethod ; rdfs:label "VVV-cadeaukaart"@nl ; skos:altLabel "VVV-bon"@nl , "VVV"@nl .
+d:Fashioncheque a drw:PaymentMethod ; rdfs:label "Fashioncheque"@nl .
+d:Klarna a drw:PaymentMethod ; rdfs:label "Klarna"@nl .
+d:Afterpay a drw:PaymentMethod ; rdfs:label "Afterpay"@nl .
+d:Bancontact a drw:PaymentMethod ; rdfs:label "Bancontact"@nl .
+d:DebitCard a drw:PaymentMethod ; rdfs:label "pinpas"@nl ; skos:altLabel "pinnen"@nl , "pin"@nl .
+d:Cash a drw:PaymentMethod ; rdfs:label "contant"@nl ; skos:altLabel "cash"@nl .
+d:Installments a drw:PaymentMethod ; rdfs:label "in termijnen betalen"@nl ; skos:altLabel "gespreid betalen"@nl .
+
+### Services
+d:RepairService a drw:AtelierService ; rdfs:label "reparatie in het atelier"@nl ; skos:altLabel "repareren"@nl , "maken"@nl .
+d:AlterationService a drw:AtelierService ; rdfs:label "vermaken in het atelier"@nl ; skos:altLabel "vermaken"@nl , "inkorten"@nl .
+d:FittingRoomReservation a drw:Service ; rdfs:label "paskamer reserveren"@nl ;
+    skos:altLabel "afspraak maken om te passen"@nl .
+d:ItemReservation a drw:Service ; rdfs:label "artikelen reserveren"@nl .
+d:ClickAndCollect a drw:Service ; rdfs:label "Click & Collect"@nl ; skos:altLabel "afhalen"@nl .
+d:SpecialSizeOrder a drw:Service ; rdfs:label "speciale bestelling van een maat"@nl ; skos:altLabel "nabestellen"@nl .
+d:StudentDiscount a drw:Discount ; rdfs:label "studentenkorting"@nl .
+d:Membership a drw:Service ; rdfs:label "member worden / spaarpunten"@nl ;
+    skos:altLabel "member"@nl , "spaarpunten"@nl , "loyaliteitspunten"@nl , "punten"@nl .
+d:ViewPoints a drw:Service ; rdfs:label "spaarpunten inzien"@nl ; skos:altLabel "puntensaldo"@nl .
+d:GiftCard a drw:Service ; rdfs:label "cadeaukaart"@nl .
+d:DiscountCode a drw:Discount ; rdfs:label "kortingscode"@nl .
+d:ReturnByPost a drw:ReturnRoute ; rdfs:label "retour per post"@nl ; skos:altLabel "terugsturen"@nl , "retour"@nl .
+d:ReturnInStore a drw:ReturnRoute ; rdfs:label "retour in de winkel"@nl ; skos:altLabel "terugbrengen"@nl .
+d:Exchange a drw:Service ; rdfs:label "ruilen"@nl .
+d:ModelAdvice a drw:Service ; rdfs:label "modeladvies jeans"@nl ; skos:altLabel "welke jeans past bij mijn figuur"@nl .
+d:SizeAdvice a drw:Service ; rdfs:label "maatadvies"@nl .
+d:Complaints a drw:Service ; rdfs:label "klachtafhandeling"@nl .
+d:Shipping a drw:ShippingPolicy ; rdfs:label "verzending"@nl ; skos:altLabel "bezorging"@nl , "levering"@nl .
+# Services that customers ask about and no document describes (used by the coverage map; they carry no triples)
+d:OrderChange a drw:Service ; rdfs:label "bestelling wijzigen"@nl .
+d:OrderCancellation a drw:Service ; rdfs:label "bestelling annuleren"@nl .
+d:GiftWrapping a drw:Service ; rdfs:label "cadeauverpakking"@nl .
+d:BusinessInvoice a drw:Service ; rdfs:label "factuur op bedrijfsnaam"@nl .
+d:SeniorDiscount a drw:Discount ; rdfs:label "seniorenkorting"@nl .
+d:AccountDeletion a drw:Service ; rdfs:label "account verwijderen"@nl .
+d:DyeingService a drw:AtelierService ; rdfs:label "jeans verven"@nl .
+
+### Purchase origins
+d:BoughtAtDRW a drw:PurchaseOrigin ; rdfs:label "gekocht bij De Rode Winkel"@nl .
+d:BoughtElsewhere a drw:PurchaseOrigin ; rdfs:label "elders gekocht"@nl .
+d:AnyOrigin a drw:PurchaseOrigin ; rdfs:label "ongeacht waar gekocht"@nl .
+
+### Days
+d:Monday a drw:Weekday ; rdfs:label "maandag"@nl .
+d:Tuesday a drw:Weekday ; rdfs:label "dinsdag"@nl .
+d:Wednesday a drw:Weekday ; rdfs:label "woensdag"@nl .
+d:Thursday a drw:Weekday ; rdfs:label "donderdag"@nl .
+d:Friday a drw:Weekday ; rdfs:label "vrijdag"@nl .
+d:Saturday a drw:Weekday ; rdfs:label "zaterdag"@nl .
+d:Sunday a drw:Weekday ; rdfs:label "zondag"@nl .
+d:Koningsdag a drw:Holiday ; rdfs:label "Koningsdag"@nl .
+
+### Regions (partOf is transitive)
+d:Europe a drw:Region ; rdfs:label "Europa"@nl .
+d:Netherlands a drw:Region ; rdfs:label "Nederland"@nl ; drw:partOf d:Europe .
+d:Belgium a drw:Region ; rdfs:label "België"@nl ; drw:partOf d:Europe .
+d:Germany a drw:Region ; rdfs:label "Duitsland"@nl ; drw:partOf d:Europe .
+d:France a drw:Region ; rdfs:label "Frankrijk"@nl ; drw:partOf d:Europe .
+d:USA a drw:Region ; rdfs:label "Verenigde Staten"@nl .
+d:Utrecht a drw:Region ; rdfs:label "Utrecht"@nl ; drw:partOf d:Netherlands .
+d:Amsterdam a drw:Region ; rdfs:label "Amsterdam"@nl ; drw:partOf d:Netherlands .
+d:Antwerp a drw:Region ; rdfs:label "Antwerpen"@nl ; drw:partOf d:Belgium .
+
+### People
+d:JohannesBroekman a drw:Person ; rdfs:label "Johannes Broekman"@nl .
+d:AnnaatjeVanEssenberg a drw:Person ; rdfs:label "Annaatje van Essenberg"@nl .

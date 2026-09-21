@@ -1,0 +1,11 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+
+# Deliberate completeness clashes. Each value below is asserted by this "document" but is
+# missing from the list that another document declared complete:
+#   Detergent: top level CareProducts is not in assortiment_19's complete top-level list
+#   Bancontact: not in betalen_01's complete list of webshop payment methods
+#   USA: not covered by verzending_05's complete destination list (Netherlands, Europe)
+d:DeRodeWinkel drw:sells d:Detergent .
+d:Webshop drw:accepts d:Bancontact .
+d:Shipping drw:shipsTo d:USA .

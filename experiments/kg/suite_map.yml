@@ -1,0 +1,126 @@
+# Hand-made mapping from the 124-case suite (tests/test_contrastive_suite.yml) to
+# query templates in query.py. Keyed by the case name without the "| v1"/"| v2"
+# paraphrase suffix, so both paraphrases of an answerable question share one entry.
+# This mapping stands in for entity linking + template routing, which the runtime
+# bot will have to do itself (skos:altLabel in vocab.ttl is the material for that).
+#
+# expect: the verdict the knowledge base supports, decided by reading the documents:
+#   A cases -> entailed, or contradicted for "(negative answer)" cases
+#   N cases -> unknown (fact absent), or contradicted when a complete list rules it out
+#   O cases -> no template: nothing in the question links to the graph -> unknown
+# link_note records where the mapping itself is a judgement call.
+
+# ---- answerable ------------------------------------------------------------
+"A | assortiment - jassen":                {template: sells, args: {category: d:Outerwear}, expect: entailed}
+"A | assortiment - kinderkleding":         {template: sells, args: {category: d:KidsClothing}, expect: entailed}
+"A | assortiment - laptops (negative answer)": {template: sells, args: {category: d:Laptops}, expect: contradicted}
+"A | assortiment - merken":                {template: list_brands, args: {}, expect: entailed,
+                                            link_note: "v2 asks for Levi's specifically: carries(d:Levis) is also entailed"}
+"A | assortiment - riemen":                {template: sells, args: {category: d:Belts}, expect: entailed}
+"A | assortiment - schoenen (negative answer)": {template: sells, args: {category: d:Sneakers}, expect: contradicted,
+                                            link_note: "v1 asks schoenen (direct), v2 sneakers (inferred via doesNotSell chain); mapped to the harder one"}
+"A | assortiment - wasmachines (negative answer)": {template: sells, args: {category: d:WashingMachines}, expect: contradicted}
+"A | bedrijfsgegevens - contact":          {template: fact, args: {subject: d:DeRodeWinkel, property: drw:phone}, expect: entailed}
+"A | bedrijfsgegevens - leeftijd van de zaak": {template: fact, args: {subject: d:DeRodeWinkel, property: drw:foundedOn}, expect: entailed,
+                                            link_note: "'hoe oud' needs today's date minus foundedOn; the graph gives the date"}
+"A | bestellen - account verplicht":       {template: fact, args: {subject: d:Webshop, property: drw:requiresAccount}, expect: entailed,
+                                            link_note: "value is false: the answer is 'nee, kan zonder account'"}
+"A | betalen - Klarna (negative answer)":  {template: accepts, args: {payment: d:Klarna, channel: d:Webshop}, expect: contradicted}
+"A | betalen - PayPal toeslag":            {template: fact, args: {subject: d:PayPal, property: drw:surchargePercent}, expect: entailed}
+"A | betalen - achteraf betalen":          {template: accepts, args: {payment: d:Billink, channel: d:Webshop}, expect: entailed,
+                                            link_note: "'achteraf betalen' is an altLabel of Billink"}
+"A | cadeaukaart - VVV-bon online (negative answer)": {template: accepts, args: {payment: d:VVVBon, channel: d:Webshop}, expect: contradicted,
+                                            link_note: "v2 asks Fashioncheque without a channel: accepts(d:Fashioncheque) -> entailed in store, contradicted online"}
+"A | cadeaukaart - cadeaubon online gebruiken": {template: accepts, args: {payment: d:OnlineGiftCard, channel: d:Webshop}, expect: entailed}
+"A | fysieke winkel - openingstijd donderdag": {template: open_on, args: {day: d:Thursday}, expect: entailed,
+                                            link_note: "v2 'koopavond' links through the altLabel on Thursday"}
+"A | fysieke winkel - vestiging Amsterdam (negative answer)": {template: store_in, args: {region: d:Amsterdam}, expect: contradicted,
+                                            link_note: "v2 'meerdere vestigingen' is fact(DRW, hasStore) with completeFor: one store"}
+"A | fysieke winkel - zondag open":        {template: open_on, args: {day: d:Sunday}, expect: entailed}
+"A | garantie - Nudie jeans elders gekocht repareren": {template: repairs, args: {brand: d:NudieJeans, origin: d:BoughtElsewhere}, expect: entailed}
+"A | garantie - broek stuk na 3 maanden":  {template: fact, args: {subject: d:Jeans, property: drw:warrantyMonthsMin}, expect: entailed,
+                                            link_note: "'broek' linked to Jeans (the shop's default); 3 < 6 months is left to the answer model"}
+"A | kortingscode - studentenkorting":     {template: offers, args: {service: d:StudentDiscount}, expect: entailed}
+"A | loyaliteitspunten - punten inzien":   {template: offers, args: {service: d:ViewPoints}, expect: entailed}
+"A | loyaliteitspunten - waarde gespaarde punten": {template: fact, args: {subject: d:Membership, property: drw:savingsPercent}, expect: entailed}
+"A | maatadvies - afspraak om te passen":  {template: offers, args: {service: d:FittingRoomReservation}, expect: entailed}
+"A | maatadvies - welke jeans past bij figuur": {template: offers, args: {service: d:ModelAdvice, category: d:Jeans}, expect: entailed}
+"A | producten - maat uitverkocht":        {template: offers, args: {service: d:SpecialSizeOrder}, expect: entailed}
+"A | producten - milieuvriendelijk":       {template: fact, args: {subject: d:DeRodeWinkel, property: drw:sustainabilityNote}, expect: entailed,
+                                            link_note: "an open question; the graph holds one text-valued note, no structure"}
+"A | retouren - online aankoop in winkel terugbrengen": {template: offers, args: {service: d:ReturnInStore}, expect: entailed,
+                                            link_note: "forPurchaseChannel Webshop is asserted from retouren_03, which does not say 'online' explicitly"}
+"A | retouren - terugsturen kosten":       {template: fact, args: {subject: d:ReturnByPost, property: drw:feeEur}, expect: entailed}
+"A | retouren - wanneer geld terug":       {template: fact, args: {subject: d:ReturnByPost, property: drw:refundProcessingDays}, expect: entailed}
+"A | verzending - bezorging Belgie":       {template: ships_to, args: {region: d:Antwerp}, expect: entailed,
+                                            link_note: "v1 Belgie (one partOf step), v2 Antwerpen (two steps); mapped to the harder one"}
+"A | verzending - levertijd":              {template: fact, args: {subject: d:Shipping, property: drw:deliveryWithinHours}, expect: entailed}
+"A | verzending - niet thuis bij bezorging": {template: fact, args: {subject: d:Shipping, property: drw:retriesDelivery}, expect: entailed}
+"A | verzending - verzendkosten en drempel": {template: fact, args: {subject: d:Shipping, property: drw:freeShippingFromEur}, expect: entailed}
+
+# ---- near-miss -------------------------------------------------------------
+"N | maatadvies - valt groot of klein":    {template: fact, args: {subject: d:Jeans, property: drw:fitNote}, expect: unknown}
+"N | maatadvies - grote maten":            {template: fact, args: {subject: d:Jeans, property: drw:sizeRange}, expect: unknown}
+"N | maatadvies - lengtemaat 38":          {template: fact, args: {subject: d:Jeans, property: drw:availableLengths}, expect: unknown}
+"N | fysieke winkel - parkeren":           {template: fact, args: {subject: d:Store, property: drw:parking}, expect: unknown}
+"N | fysieke winkel - rolstoeltoegankelijk": {template: fact, args: {subject: d:Store, property: drw:wheelchairAccessible}, expect: unknown}
+"N | fysieke winkel - toilet":             {template: fact, args: {subject: d:Store, property: drw:hasToilet}, expect: unknown}
+"N | fysieke winkel - hond":               {template: fact, args: {subject: d:Store, property: drw:dogsAllowed}, expect: unknown}
+"N | fysieke winkel - Koningsdag":         {template: open_on, args: {day: d:Koningsdag}, expect: unknown,
+                                            link_note: "holiday rule: weekly hours are complete but holidayHoursMayDiffer"}
+"N | verzending - bezorgen bij pakketpunt": {template: fact, args: {subject: d:Shipping, property: drw:pickupPointDelivery}, expect: unknown}
+"N | verzending - zondagbezorging":        {template: fact, args: {subject: d:Shipping, property: drw:deliversOnSunday}, expect: unknown}
+"N | verzending - tijdslot":               {template: fact, args: {subject: d:Shipping, property: drw:timeSlotChoice}, expect: unknown}
+"N | verzending - bij de buren":           {template: fact, args: {subject: d:Shipping, property: drw:neighbourDelivery}, expect: unknown}
+"N | bestellen - bestelling wijzigen na betaling": {template: offers, args: {service: d:OrderChange}, expect: unknown}
+"N | bestellen - annuleren":               {template: offers, args: {service: d:OrderCancellation}, expect: unknown}
+"N | bestellen - cadeauverpakking":        {template: offers, args: {service: d:GiftWrapping}, expect: unknown}
+"N | bestellen - via WhatsApp bestellen":  {template: fact, args: {subject: d:WhatsApp, property: drw:canOrder}, expect: unknown,
+                                            link_note: "WhatsApp is a contact channel in the graph; ordering through it is not stated"}
+"N | bestellen - factuur op bedrijfsnaam": {template: offers, args: {service: d:BusinessInvoice}, expect: unknown}
+"N | bestellen - gereserveerd artikel apart": {template: fact, args: {subject: d:ItemReservation, property: drw:holdDays}, expect: unknown}
+"N | bestellen - webshop-app":             {template: fact, args: {subject: d:DeRodeWinkel, property: drw:hasApp}, expect: unknown}
+"N | betalen - minimumbedrag Billink":     {template: fact, args: {subject: d:Billink, property: drw:minimumAmountEur}, expect: unknown}
+"N | betalen - in termijnen":              {template: accepts, args: {payment: d:Installments}, expect: unknown,
+                                            link_note: "channel unspecified: online contradicted (complete list), store unknown -> unknown overall"}
+"N | betalen - Bancontact":                {template: accepts, args: {payment: d:Bancontact}, expect: unknown,
+                                            link_note: "same shape as in termijnen: online contradicted, store unknown"}
+"N | betalen - pinnen in de winkel":       {template: accepts, args: {payment: d:DebitCard, channel: d:Store}, expect: unknown}
+"N | betalen - contant":                   {template: accepts, args: {payment: d:Cash, channel: d:Store}, expect: unknown}
+"N | cadeaukaart - bedragen":              {template: fact, args: {subject: d:GiftCard, property: drw:amountsEur}, expect: unknown}
+"N | cadeaukaart - geldigheid":            {template: fact, args: {subject: d:GiftCard, property: drw:validityMonths}, expect: unknown}
+"N | kortingscode - geldigheidsduur":      {template: fact, args: {subject: d:DiscountCode, property: drw:validityDays}, expect: unknown}
+"N | kortingscode - combineren":           {template: fact, args: {subject: d:DiscountCode, property: drw:combinable}, expect: unknown}
+"N | kortingscode - seniorenkorting":      {template: offers, args: {service: d:SeniorDiscount}, expect: unknown}
+"N | kortingscode - verjaardag":           {template: fact, args: {subject: d:Membership, property: drw:birthdayDiscount}, expect: unknown}
+"N | loyaliteitspunten - vervallen spaarpunten": {template: fact, args: {subject: d:Membership, property: drw:pointsExpire}, expect: unknown}
+"N | loyaliteitspunten - overdragen":      {template: fact, args: {subject: d:Membership, property: drw:pointsTransferable}, expect: unknown}
+"N | loyaliteitspunten - account verwijderen": {template: offers, args: {service: d:AccountDeletion}, expect: unknown}
+"N | garantie - duur inkorten":            {template: fact, args: {subject: d:AlterationService, property: drw:durationDays}, expect: unknown}
+"N | garantie - prijs vermaken":           {template: fact, args: {subject: d:AlterationService, property: drw:feeEur}, expect: unknown,
+                                            link_note: "the document says 'neem contact op voor prijzen'; a priceOnRequest flag would make this entailed"}
+"N | garantie - jeans verven":             {template: offers, args: {service: d:DyeingService}, expect: unknown}
+"N | producten - tweedehands":             {template: sells, args: {category: d:SecondHandClothing}, expect: unknown,
+                                            link_note: "modelled under Clothing (which is sold) -> unknown, not contradicted"}
+"N | producten - wasmiddel":               {template: sells, args: {category: d:Detergent}, expect: contradicted,
+                                            link_note: "CareProducts is outside kleding/accessoires and the top level is complete; the suite says abstain, the graph says grounded 'nee'"}
+"N | bedrijfsgegevens - KvK":              {template: fact, args: {subject: d:DeRodeWinkel, property: drw:kvkNumber}, expect: unknown}
+"N | bedrijfsgegevens - BTW-nummer":       {template: fact, args: {subject: d:DeRodeWinkel, property: drw:vatNumber}, expect: unknown}
+
+# ---- out of scope: nothing links -------------------------------------------
+"O | weer": {template: null}
+"O | recept": {template: null}
+"O | hoofdstad": {template: null}
+"O | trein": {template: null}
+"O | belastingaangifte": {template: null}
+"O | concurrent prijs": {template: null, link_note: "Zara is in the vocabulary as a brand but the question is about Zara's own price"}
+"O | concurrent assortiment": {template: null, link_note: "Nudie Jeans links, 'de Bijenkorf' does not: subject is another shop"}
+"O | gedicht": {template: null}
+"O | rekensom": {template: null}
+"O | tijd": {template: null}
+"O | voetbal": {template: null}
+"O | mop": {template: null}
+"O | pizzeria": {template: null}
+"O | fiets": {template: null}
+"O | cv": {template: null}
+"O | treinkaartje": {template: null}

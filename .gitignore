@@ -23,3 +23,6 @@ Thumbs.db
 experiments/contrastive/endpoints/
 experiments/contrastive/results*/
 experiments/contrastive/grid*.log
+
+# KG build artefact (regenerate with experiments/kg/build.py)
+experiments/kg/graph.trig

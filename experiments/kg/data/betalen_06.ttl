@@ -1,0 +1,10 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/betalen/betalen_06.txt (2026-09-21). Loaded into the named graph <doc:betalen_06>.
+d:Webshop drw:accepts d:Billink ; drw:doesNotAccept d:Klarna , d:Afterpay .
+d:Billink drw:isDeferredPayment true ; drw:payWithinDaysAfterReceipt 14 ;
+    drw:howTo "klik op Billink bij het afrekenen; de stappen volgen vanzelf"@nl .

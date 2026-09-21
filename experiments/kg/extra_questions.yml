@@ -1,0 +1,84 @@
+# Questions outside the 2026-09-14 suite that exercise the reasoning: seeds for a v2 suite.
+# Same format as suite_map.yml plus the question text. Run with:
+#   venv/Scripts/python experiments/kg/coverage.py --extra
+# expect = the verdict the documents support (garantie_reparatie_02/04, maatadvies_04, assortiment_19).
+
+- case: "R | repareren - Levi's"
+  question: "Kunnen jullie mijn Levi's repareren?"
+  template: repairs
+  args: {brand: d:Levis}
+  expect: entailed
+  note: "repair applies to clothing -> trousers -> jeans -> Levi's jeans -> brand Levi's; only for items bought here"
+
+- case: "R | repareren - Levi's spijkerbroek"
+  question: "Mijn Levi's spijkerbroek is kapot, kunnen jullie die maken?"
+  template: repairs
+  args: {category: d:LevisJeans}
+  expect: entailed
+
+- case: "R | repareren - Levi's elders gekocht"
+  question: "Ik heb een Levi's bij een andere winkel gekocht, kunnen jullie die repareren?"
+  template: repairs
+  args: {brand: d:Levis, origin: d:BoughtElsewhere}
+  expect: contradicted
+  note: "RepairService applies (clothing -> ... -> Levi's jeans) but its default origin is BoughtAtDRW and no OriginRule lifts it for the Levi's line"
+
+- case: "R | repareren - Nudie elders gekocht"
+  question: "Repareren jullie Nudie jeans die ik ergens anders heb gekocht?"
+  template: repairs
+  args: {brand: d:NudieJeans, origin: d:BoughtElsewhere}
+  expect: entailed
+  note: "d:NudieRepairException (an OriginRule on the Nudie brand line) overrides the BoughtAtDRW default"
+
+- case: "R | repareren - Nudie hier gekocht"
+  question: "Mijn Nudie van jullie is gescheurd, maken jullie die?"
+  template: repairs
+  args: {brand: d:NudieJeans, origin: d:BoughtAtDRW}
+  expect: entailed
+
+- case: "R | vermaken - broek inkorten"
+  question: "Kunnen jullie mijn broek inkorten?"
+  template: repairs
+  args: {category: d:Trousers, kind: d:AlterationService}
+  expect: entailed
+  note: "'inkorten' is an altLabel of AlterationService; applies to clothing -> trousers"
+
+- case: "R | vermaken - chino hier gekocht"
+  question: "Kunnen jullie een chino die ik bij jullie kocht laten vermaken?"
+  template: repairs
+  args: {category: d:Chinos, origin: d:BoughtAtDRW, kind: d:AlterationService}
+  expect: entailed
+
+- case: "R | repareren - jas"
+  question: "Repareren jullie ook jassen?"
+  template: repairs
+  args: {category: d:Outerwear}
+  expect: entailed
+
+- case: "R | repareren - schoenen"
+  question: "Kunnen jullie mijn schoenen repareren?"
+  template: repairs
+  args: {category: d:Shoes}
+  expect: contradicted
+  note: "shoes are not sold, so they cannot have been bought here; the atelier only does bought items"
+
+- case: "R | repareren - Zara jeans"
+  question: "Kunnen jullie een jeans van Zara repareren?"
+  template: repairs
+  args: {brand: d:Zara}
+  expect: entailed
+  note: "Zara jeans is a brand line in the vocabulary, so repair applies with the default condition 'bought here'. The graph does not know whether Zara is carried (brand list is 'onder andere'), so it cannot say the condition is unsatisfiable; a stricter template would also require carries(brand)."
+
+- case: "R | repareren - tas"
+  question: "Kunnen jullie mijn tas repareren?"
+  template: repairs
+  args: {category: d:Bags}
+  expect: unknown
+  note: "bags are accessories, not clothing; repair is only stated for clothing"
+
+- case: "R | repareren - laptop"
+  question: "Repareren jullie laptops?"
+  template: repairs
+  args: {category: d:Laptops}
+  expect: unknown
+  note: "not explicitly not-sold (only top-level completeness), so the origin argument does not fire; the sells() template gives contradicted, repairs() gives unknown. A combined answer would say: we do not sell them and only repair clothing."

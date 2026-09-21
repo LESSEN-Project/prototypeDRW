@@ -1,0 +1,10 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/maatadvies/maatadvies_02.txt (2026-09-21). Loaded into the named graph <doc:maatadvies_02>.
+d:DeRodeWinkel drw:offers d:ModelAdvice .
+d:ModelAdvice drw:appliesTo d:Jeans ; drw:availableVia d:Store , d:WhatsApp ;
+    drw:howTo "de winkel analyseert je figuur en bepaalt welk jeansmodel bij je lichaamsbouw past; uitleg op de blog, persoonlijk advies via WhatsApp"@nl .

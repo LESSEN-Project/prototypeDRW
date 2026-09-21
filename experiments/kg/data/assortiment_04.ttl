@@ -1,0 +1,12 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Hand-converted from docs/assortiment/assortiment_04.txt (2026-09-21). Loaded into the named graph <doc:assortiment_04>.
+d:DeRodeWinkel drw:carries d:AmericanVintage , d:Armedangels , d:Denham , d:Diesel , d:GStarRAW , d:Kuyichi ,
+    d:Levis , d:LoisJeans , d:NudieJeans , d:Rains .
+d:AmericanVintage drw:forAudience d:Women . d:Denham drw:forAudience d:Women . d:Levis drw:forAudience d:Women .
+d:NudieJeans drw:forAudience d:Women . d:GStarRAW drw:forAudience d:Women . d:Kuyichi drw:forAudience d:Women .
+# "onder andere": the brand list is NOT complete, so no drw:completeFor drw:carries.

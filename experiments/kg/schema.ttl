@@ -1,0 +1,191 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+
+# De Rode Winkel knowledge-graph schema, first draft 2026-09-21.
+# Hand-written from the 97 Q&A documents in docs/. Reasoning happens at build
+# time (OWL RL closure via owlrl); the runtime asks simple pattern queries.
+# Three-valued answers need explicit completeness: a `drw:completeFor` triple
+# says that the listed values of a property on a subject are ALL of them.
+
+<https://derodewinkel.nl/kg/schema> a owl:Ontology ;
+    rdfs:label "De Rode Winkel schema"@nl .
+
+### Classes ###################################################################
+
+drw:Shop            a owl:Class ; rdfs:label "winkelbedrijf"@nl .
+drw:Store           a owl:Class ; rdfs:label "fysieke winkel"@nl .
+drw:Channel         a owl:Class ; rdfs:label "kanaal"@nl ;
+    rdfs:comment "Waar een klant iets doet: webshop, winkel, WhatsApp, e-mail, telefoon."@nl .
+drw:ProductCategory a owl:Class ; rdfs:label "productcategorie"@nl .
+drw:Brand           a owl:Class ; rdfs:label "merk"@nl .
+drw:PaymentMethod   a owl:Class ; rdfs:label "betaalmethode"@nl .
+drw:Service         a owl:Class ; rdfs:label "dienst"@nl ;
+    rdfs:comment "Reparatie, vermaken, reserveren, retour, ruilen, korting, spaarprogramma."@nl .
+drw:Discount        a owl:Class ; rdfs:subClassOf drw:Service ; rdfs:label "korting"@nl .
+drw:AtelierService  a owl:Class ; rdfs:subClassOf drw:Service ; rdfs:label "atelierdienst"@nl ;
+    rdfs:comment "Reparatie en vermaken. The repairs() template reasons over all instances of this class."@nl .
+drw:OriginRule      a owl:Class ; rdfs:label "uitzondering op de herkomstvoorwaarde"@nl ;
+    rdfs:comment "A service's purchaseCondition is the default; an OriginRule overrides it for one category (and everything below it). The most specific rule on the category path wins."@nl .
+drw:ReturnRoute     a owl:Class ; rdfs:subClassOf drw:Service ; rdfs:label "retourroute"@nl .
+drw:ShippingPolicy  a owl:Class ; rdfs:label "verzendbeleid"@nl .
+drw:OpeningHours    a owl:Class ; rdfs:label "openingstijd"@nl .
+drw:Day             a owl:Class ; rdfs:label "dag"@nl .
+drw:Weekday         a owl:Class ; rdfs:subClassOf drw:Day .
+drw:Holiday         a owl:Class ; rdfs:subClassOf drw:Day ; rdfs:label "feestdag"@nl .
+drw:Region          a owl:Class ; rdfs:label "regio"@nl .
+drw:PurchaseOrigin  a owl:Class ; rdfs:label "herkomst van de aankoop"@nl .
+drw:Person          a owl:Class .
+drw:Audience        a owl:Class ; rdfs:label "doelgroep"@nl .
+
+### Object properties #########################################################
+
+# Assortment. `sells` propagates UP the category tree: selling jeans entails
+# selling trousers. It does not propagate down.
+drw:sells a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:ProductCategory ;
+    rdfs:label "verkoopt"@nl ;
+    owl:propertyChainAxiom ( drw:sells drw:subcategoryOf ) .
+# `doesNotSell` propagates DOWN: not selling shoes entails not selling sneakers.
+drw:doesNotSell a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:ProductCategory ;
+    rdfs:label "verkoopt niet"@nl ; owl:propertyDisjointWith drw:sells ;
+    owl:propertyChainAxiom ( drw:doesNotSell drw:hasSubcategory ) .
+drw:subcategoryOf a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain drw:ProductCategory ; rdfs:range drw:ProductCategory ;
+    rdfs:label "is een soort"@nl ; owl:inverseOf drw:hasSubcategory .
+drw:hasSubcategory a owl:ObjectProperty , owl:TransitiveProperty .
+drw:carries a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:Brand ; rdfs:label "voert merk"@nl .
+drw:forAudience a owl:ObjectProperty ; rdfs:label "voor doelgroep"@nl .   # dames / heren / kids
+
+# Payment. Acceptance is per channel; the webshop list is complete, the store list is not.
+drw:accepts a owl:ObjectProperty ; rdfs:domain drw:Channel ; rdfs:range drw:PaymentMethod ;
+    rdfs:label "accepteert"@nl .
+drw:doesNotAccept a owl:ObjectProperty ; rdfs:domain drw:Channel ; rdfs:range drw:PaymentMethod ;
+    rdfs:label "accepteert niet"@nl ; owl:propertyDisjointWith drw:accepts .
+
+# Services. `appliesTo` propagates DOWN the category tree: a service for
+# clothing applies to jeans.
+drw:offers a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:Service ; rdfs:label "biedt"@nl .
+drw:doesNotOffer a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:Service ;
+    rdfs:label "biedt niet"@nl ; owl:propertyDisjointWith drw:offers .
+drw:appliesTo a owl:ObjectProperty ; rdfs:domain drw:Service ; rdfs:range drw:ProductCategory ;
+    rdfs:label "geldt voor"@nl ;
+    owl:propertyChainAxiom ( drw:appliesTo drw:hasSubcategory ) .
+# Brand lines: "Levi's jeans" is a category under jeans that belongs to the brand Levi's.
+# Brand questions resolve to the brand's lines at query time; nothing is derived at brand level.
+drw:ofBrand a owl:ObjectProperty ; rdfs:domain drw:ProductCategory ; rdfs:range drw:Brand ; rdfs:label "van merk"@nl .
+drw:forService a owl:ObjectProperty ; rdfs:domain drw:OriginRule ; rdfs:range drw:Service .
+drw:forCategory a owl:ObjectProperty ; rdfs:domain drw:OriginRule ; rdfs:range drw:ProductCategory .
+drw:allowsOrigin a owl:ObjectProperty ; rdfs:domain drw:OriginRule ; rdfs:range drw:PurchaseOrigin .
+drw:purchaseCondition a owl:ObjectProperty ; rdfs:domain drw:Service ; rdfs:range drw:PurchaseOrigin ;
+    rdfs:label "voorwaarde herkomst aankoop"@nl .
+drw:availableVia a owl:ObjectProperty ; rdfs:range drw:Channel ; rdfs:label "beschikbaar via"@nl .
+drw:requires a owl:ObjectProperty ; rdfs:domain drw:Service ; rdfs:label "vereist"@nl .
+
+# Shipping and locations. `shipsTo` propagates down `partOf`: Europe covers Belgium.
+drw:shipsTo a owl:ObjectProperty ; rdfs:domain drw:ShippingPolicy ; rdfs:range drw:Region ;
+    rdfs:label "verzendt naar"@nl ;
+    owl:propertyChainAxiom ( drw:shipsTo drw:hasPart ) .
+drw:partOf a owl:ObjectProperty , owl:TransitiveProperty ; rdfs:domain drw:Region ; rdfs:range drw:Region ;
+    owl:inverseOf drw:hasPart .
+drw:hasPart a owl:ObjectProperty , owl:TransitiveProperty .
+drw:carrier a owl:ObjectProperty ; rdfs:domain drw:ShippingPolicy .
+drw:hasStore a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:Store ; rdfs:label "heeft vestiging"@nl .
+# `locatedIn` propagates up `partOf`: a store in Utrecht is a store in the Netherlands.
+drw:locatedIn a owl:ObjectProperty ; rdfs:domain drw:Store ; rdfs:range drw:Region ;
+    owl:propertyChainAxiom ( drw:locatedIn drw:partOf ) .
+drw:forPurchaseChannel a owl:ObjectProperty ; rdfs:domain drw:Service ; rdfs:range drw:Channel ;
+    rdfs:label "voor aankopen via"@nl .
+drw:hasShippingPolicy a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:ShippingPolicy .
+drw:openingHours a owl:ObjectProperty ; rdfs:domain drw:Store ; rdfs:range drw:OpeningHours .
+drw:day a owl:ObjectProperty ; rdfs:domain drw:OpeningHours ; rdfs:range drw:Day .
+drw:foundedBy a owl:ObjectProperty ; rdfs:range drw:Person .
+
+# Completeness: "all values of property P on subject S are listed".
+drw:completeFor a owl:ObjectProperty ; rdfs:range rdf:Property ;
+    rdfs:label "lijst is volledig voor"@nl ;
+    rdfs:comment "Closed-world switch per (subject, property). Without it an empty query result is 'unknown'."@nl .
+
+### Datatype properties #######################################################
+
+drw:opens  a owl:DatatypeProperty ; rdfs:range xsd:string .
+drw:closes a owl:DatatypeProperty ; rdfs:range xsd:string .
+drw:holidayHoursMayDiffer a owl:DatatypeProperty ; rdfs:domain drw:Store ; rdfs:range xsd:boolean .
+drw:feeEur a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "kosten in euro"@nl .
+drw:surchargePercent a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:discountPercent  a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:freeShippingFromEur a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:shippingFeeBelowThresholdEur a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:internationalFeeMinEur a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:internationalFeeMaxEur a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:sameDayDispatchCutoff a owl:DatatypeProperty ; rdfs:range xsd:string .
+drw:deliveryWithinHours a owl:DatatypeProperty ; rdfs:range xsd:integer .
+drw:windowDays a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:label "termijn in dagen"@nl .
+drw:payWithinDaysAfterReceipt a owl:DatatypeProperty ; rdfs:range xsd:integer .
+drw:refundProcessingDays a owl:DatatypeProperty ; rdfs:range xsd:integer .
+drw:refundArrivalHours a owl:DatatypeProperty ; rdfs:range xsd:integer .
+drw:warrantyMonthsMin a owl:DatatypeProperty ; rdfs:domain drw:ProductCategory ; rdfs:range xsd:integer .
+drw:requiresAccount a owl:DatatypeProperty ; rdfs:domain drw:Channel ; rdfs:range xsd:boolean .
+drw:savingsPercent a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+drw:responseWithinDays a owl:DatatypeProperty ; rdfs:range xsd:integer .
+drw:phone a owl:DatatypeProperty . drw:email a owl:DatatypeProperty . drw:streetAddress a owl:DatatypeProperty .
+drw:foundedOn a owl:DatatypeProperty ; rdfs:range xsd:date .
+drw:retriesDelivery a owl:DatatypeProperty ; rdfs:range xsd:boolean .
+drw:conditionText a owl:DatatypeProperty ; rdfs:label "voorwaarde (tekst)"@nl .
+drw:howTo a owl:DatatypeProperty ; rdfs:label "hoe (procedure, tekst)"@nl .
+drw:sustainabilityNote a owl:DatatypeProperty ; rdfs:domain drw:Shop .
+drw:legalWarranty a owl:DatatypeProperty ; rdfs:domain drw:ProductCategory ; rdfs:range xsd:boolean .
+drw:hofleverancierSince a owl:DatatypeProperty ; rdfs:range xsd:gYear .
+drw:isDeferredPayment a owl:DatatypeProperty ; rdfs:domain drw:PaymentMethod ; rdfs:range xsd:boolean .
+
+### SHACL shapes (validation of extracted data) ###############################
+
+# d:Store is both a Channel and a Store, so the Store's own properties are ignored here.
+drw:ChannelShape a sh:NodeShape ; sh:targetClass drw:Channel ; sh:closed true ;
+    sh:ignoredProperties ( rdf:type rdfs:label skos:altLabel drw:howTo
+                           drw:openingHours drw:locatedIn drw:streetAddress drw:holidayHoursMayDiffer ) ;
+    sh:property [ sh:path drw:accepts ; sh:class drw:PaymentMethod ] ,
+                [ sh:path drw:doesNotAccept ; sh:class drw:PaymentMethod ] ,
+                [ sh:path drw:completeFor ; sh:nodeKind sh:IRI ] ,
+                [ sh:path drw:requiresAccount ; sh:datatype xsd:boolean ; sh:maxCount 1 ] .
+
+drw:NoAcceptConflictShape a sh:NodeShape ; sh:targetClass drw:Channel ; drw:phase drw:afterClosure ;
+    sh:sparql [ sh:message "A payment method is both accepted and not accepted on the same channel." ;
+                sh:select """SELECT $this ?value WHERE { $this <https://derodewinkel.nl/kg/schema#accepts> ?value .
+                                                         $this <https://derodewinkel.nl/kg/schema#doesNotAccept> ?value }""" ] .
+
+drw:NoOfferConflictShape a sh:NodeShape ; sh:targetClass drw:Shop ; drw:phase drw:afterClosure ;
+    sh:sparql [ sh:message "A service is both offered and not offered." ;
+                sh:select """SELECT $this ?value WHERE { $this <https://derodewinkel.nl/kg/schema#offers> ?value .
+                                                         $this <https://derodewinkel.nl/kg/schema#doesNotOffer> ?value }""" ] .
+
+drw:OpeningHoursShape a sh:NodeShape ; sh:targetClass drw:OpeningHours ;
+    sh:property [ sh:path drw:day ; sh:minCount 1 ; sh:maxCount 1 ; sh:class drw:Day ] ,
+                [ sh:path drw:opens ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[0-2][0-9]:[0-5][0-9]$" ] ,
+                [ sh:path drw:closes ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[0-2][0-9]:[0-5][0-9]$" ] .
+
+drw:PaymentMethodShape a sh:NodeShape ; sh:targetClass drw:PaymentMethod ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ,
+                [ sh:path drw:surchargePercent ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ] .
+
+drw:ProductCategoryShape a sh:NodeShape ; sh:targetClass drw:ProductCategory ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] .
+
+drw:OriginRuleShape a sh:NodeShape ; sh:targetClass drw:OriginRule ;
+    sh:property [ sh:path drw:forService ; sh:minCount 1 ; sh:maxCount 1 ; sh:class drw:Service ] ,
+                [ sh:path drw:forCategory ; sh:minCount 1 ; sh:maxCount 1 ; sh:class drw:ProductCategory ] ,
+                [ sh:path drw:allowsOrigin ; sh:minCount 1 ; sh:maxCount 1 ; sh:class drw:PurchaseOrigin ] .
+
+# Shapes tagged drw:phase drw:afterClosure run in the second validation pass, over the
+# OWL RL closure, so that conflicts produced by the chains (sells up, doesNotSell down) are
+# caught. Shapes without the tag run on asserted data only.
+drw:phase a owl:AnnotationProperty .
+
+drw:NoSellsConflictShape a sh:NodeShape ; sh:targetClass drw:Shop ; drw:phase drw:afterClosure ;
+    sh:sparql [ sh:message "A category is both sold and not sold (after closure)." ;
+                sh:select """SELECT $this ?value WHERE { $this <https://derodewinkel.nl/kg/schema#sells> ?value .
+                                                         $this <https://derodewinkel.nl/kg/schema#doesNotSell> ?value }""" ] .
