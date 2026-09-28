@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "rasa-tools": {
-      "command": "venv/Scripts/python.exe",
+      "command": "${RASA_PYTHON:-python}",
       "args": [
         "-m",
         "rasa",
