@@ -90,17 +90,18 @@ Start `kg_web.py` before the talk and open http://127.0.0.1:8765 in the browser.
 3. Verkopen jullie wasmachines? Contradicted by completeness; no negative triple exists anywhere for white goods.
 4. Verkopen jullie hoodies? Unknown: clothing is sold, the clothing list is "onder andere", hoodies are not listed. This is the honest answer and the text bot's hedge in typed form.
 5. Kan ik met Bancontact betalen? Unknown overall, with the note that online the list is complete (contradicted) and in the store nothing is known.
-6. Bezorgen jullie in Antwerpen? Entailed through two partOf steps from "alle landen in Europa". The extra values in the verdict line (10, 10, 15, 15) are the international shipping fee range in euro, asserted by two documents.
-7. Repareren jullie een Nudie die ik elders heb gekocht? Entailed: repair applies to clothing, reaches the Nudie line through the tree, and an origin rule on that line allows any origin.
-8. Repareren jullie een Levi's die ik elders heb gekocht? Contradicted: same service, default purchase condition, no rule for Levi's.
-9. Zijn jullie op zondag open? Entailed with the hours.
-10. Zijn jullie op Koningsdag open? Unknown: the weekly list is complete, and the document says holiday hours may differ.
+6. Kan ik in termijnen betalen? Contradicted on both channels: online by the complete webshop list, in the store by one curated explicit negative in `data/curated_store_payment.ttl`, a fact the FAQ does not contain. The evidence cites both sources. Compare with Bancontact: same question shape, one triple fewer, and the verdict is unknown.
+7. Bezorgen jullie in Antwerpen? Entailed through two partOf steps from "alle landen in Europa". The extra values in the verdict line (10, 10, 15, 15) are the international shipping fee range in euro, asserted by two documents.
+8. Repareren jullie een Nudie die ik elders heb gekocht? Entailed: repair applies to clothing, reaches the Nudie line through the tree, and an origin rule on that line allows any origin.
+9. Repareren jullie een Levi's die ik elders heb gekocht? Contradicted: same service, default purchase condition, no rule for Levi's.
+10. Zijn jullie op zondag open? Entailed with the hours.
+11. Zijn jullie op Koningsdag open? Unknown: the weekly list is complete, and the document says holiday hours may differ.
 
-Questions 2, 6, 7 and 8 rest on derived triples. Questions 3, 5 and 10 show completeness doing its work in three different ways. The evidence lines under each verdict are what a verbaliser will hand to the answer model.
+Questions 2, 7, 8 and 9 rest on derived triples. Questions 3, 5, 6 and 11 show completeness doing its work in different ways, and question 6 adds the explicit negative. The evidence lines under each verdict are what a verbaliser will hand to the answer model.
 
 ### 11. Coverage and the comparison
 
-On the suite, under the hand mapping: all 68 answerable cases typed (56 entailed, 12 contradicted, six needing inference), 39 of 40 near-miss cases unknown and one contradicted (wasmiddel, a grounded "nee" where the suite expects abstention), all 16 out-of-scope cases unknown.
+On the suite, under the hand mapping: all 68 answerable cases typed (56 entailed, 12 contradicted, six needing inference), 38 of 40 near-miss cases unknown and two contradicted (wasmiddel and in termijnen, each a grounded "nee" where the suite expects abstention; the second rests on a curated triple the FAQ lacks), all 16 out-of-scope cases unknown.
 
 | system | A false-abstain | N false-answer | O false-answer |
 |---|---|---|---|

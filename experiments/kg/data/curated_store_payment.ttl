@@ -1,0 +1,12 @@
+@prefix drw:  <https://derodewinkel.nl/kg/schema#> .
+@prefix d:    <https://derodewinkel.nl/kg/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Curated fact, not in the FAQ (2026-09-28). No document lists the store's payment methods,
+# and the store does not offer installment payment. This file is the graph's way of taking a
+# reviewed fact that the text knowledge base lacks: one explicit negative, with its own named
+# graph <doc:curated_store_payment> as provenance, so the evidence line shows where it came from.
+# The store's accepted list stays open (no completeFor), so pinnen and contant remain unknown.
+d:Store drw:doesNotAccept d:Installments .

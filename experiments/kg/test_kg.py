@@ -129,6 +129,17 @@ def test_bancontact_unknown_overall_contradicted_online():
     assert v.verdict == "unknown" and "Webshop: contradicted" in v.note and "Store: unknown" in v.note
 
 
+def test_installments_contradicted_on_both_channels():
+    # online: the webshop list is complete; in store: a curated explicit negative (not in the FAQ)
+    assert ask("ASK { d:Store drw:doesNotAccept d:Installments }")
+    assert not ask("ASK { d:Store drw:completeFor drw:accepts }")
+    assert kg().accepts(D.Installments, D.Webshop).note == "accepted list is complete"
+    assert kg().accepts(D.Installments, D.Store).note == "explicit doesNotAccept"
+    v = kg().accepts(D.Installments)
+    assert v.verdict == "contradicted" and "Webshop: contradicted" in v.note and "Store: contradicted" in v.note
+    assert any("curated_store_payment" in str(g) for _, _, _, g in v.evidence)
+
+
 # ---- "Kunnen jullie mijn Levi's repareren, ook als die niet van jullie is?" -------------------
 
 def test_repair_applies_to_levis_through_the_tree():

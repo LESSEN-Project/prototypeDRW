@@ -81,8 +81,8 @@
 "N | bestellen - gereserveerd artikel apart": {template: fact, args: {subject: d:ItemReservation, property: drw:holdDays}, expect: unknown}
 "N | bestellen - webshop-app":             {template: fact, args: {subject: d:DeRodeWinkel, property: drw:hasApp}, expect: unknown}
 "N | betalen - minimumbedrag Billink":     {template: fact, args: {subject: d:Billink, property: drw:minimumAmountEur}, expect: unknown}
-"N | betalen - in termijnen":              {template: accepts, args: {payment: d:Installments}, expect: unknown,
-                                            link_note: "channel unspecified: online contradicted (complete list), store unknown -> unknown overall"}
+"N | betalen - in termijnen":              {template: accepts, args: {payment: d:Installments}, expect: contradicted,
+                                            link_note: "channel unspecified: online contradicted (complete list), store contradicted by the curated explicit negative in data/curated_store_payment.ttl (not in the FAQ) -> a grounded nee where the suite expects abstention"}
 "N | betalen - Bancontact":                {template: accepts, args: {payment: d:Bancontact}, expect: unknown,
                                             link_note: "same shape as in termijnen: online contradicted, store unknown"}
 "N | betalen - pinnen in de winkel":       {template: accepts, args: {payment: d:DebitCard, channel: d:Store}, expect: unknown}

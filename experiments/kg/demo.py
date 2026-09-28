@@ -38,7 +38,7 @@ QUESTIONS = [
      "per channel: webshop list complete -> contradicted online; store list open -> unknown; overall unknown"),
     ("Kan ik in termijnen betalen?",
      "accepts", {"payment": "d:Installments"},
-     "per channel, same shape as Bancontact: contradicted online, unknown in store; every RAG model answered this from the Billink document"),
+     "contradicted on both channels: online by the complete webshop list, in store by a curated explicit negative (not in the FAQ); every RAG model answered this from the Billink document"),
     ("Bezorgen jullie in Antwerpen?",
      "ships_to", {"region": "d:Antwerp"},
      "inferred: shipsTo Europe, Antwerp partOf Belgium partOf Europe (two steps)"),

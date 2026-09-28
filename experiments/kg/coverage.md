@@ -1,6 +1,6 @@
 # KG coverage of the 124-case suite
 
-Graph: 39 converted documents; text-bot column = gemma3:12b at k0, per-case majority over 5 repeats.
+Graph: 40 converted documents; text-bot column = gemma3:12b at k0, per-case majority over 5 repeats.
 
 ## Stratum A (68 cases)
 
@@ -80,7 +80,7 @@ Text bot (gemma3:12b, k0): answered 62, hedged 0, abstained 6.
 
 ## Stratum N (40 cases)
 
-entailed 0, contradicted 1, unknown 39, unmapped 0; via inference 0; verdict differs from the hand expectation on 0.
+entailed 0, contradicted 2, unknown 38, unmapped 0; via inference 0; verdict differs from the hand expectation on 0.
 Text bot (gemma3:12b, k0): answered 7, hedged 2, abstained 31.
 
 | case | template | verdict | inferred | note / value | text bot k0 |
@@ -104,7 +104,7 @@ Text bot (gemma3:12b, k0): answered 7, hedged 2, abstained 31.
 | N | bestellen - factuur op bedrijfsnaam | offers | unknown |  |  | abstained |
 | N | bestellen - gereserveerd artikel apart | fact | unknown |  |  | abstained |
 | N | betalen - minimumbedrag Billink | fact | unknown |  |  | hedged |
-| N | betalen - in termijnen | accepts | unknown |  | Webshop: contradicted; Store: unknown | answered |
+| N | betalen - in termijnen | accepts | contradicted |  | Webshop: contradicted; Store: contradicted | answered |
 | N | betalen - Bancontact | accepts | unknown |  | Webshop: contradicted; Store: unknown | abstained |
 | N | betalen - pinnen in de winkel | accepts | unknown |  | Store | abstained |
 | N | betalen - contant | accepts | unknown |  | Store | abstained |
@@ -212,190 +212,4 @@ DeRodeWinkel doesNotSell Shoes  [doc:assortiment_19]
 ```
 DeRodeWinkel doesNotSell Sneakers  [inferred]
 DeRodeWinkel doesNotSell Shoes  [doc:assortiment_19]
-```
-
-## Extra questions (v2-suite seeds, extra_questions.yml)
-
-| case | question | template | verdict | inferred | note | expected |
-|---|---|---|---|---|---|---|
-| R | repareren - Levi's | Kunnen jullie mijn Levi's repareren? | repairs | entailed | yes | only for BoughtAtDRW | entailed |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo LevisJeans  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-LevisJeans subcategoryOf Clothing  [inferred]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo LevisJeans  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-LevisJeans subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | repareren - Levi's spijkerbroek | Mijn Levi's spijkerbroek is kapot, kunnen jullie die maken? | repairs | entailed | yes | only for BoughtAtDRW | entailed |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo LevisJeans  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-LevisJeans subcategoryOf Clothing  [inferred]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo LevisJeans  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-LevisJeans subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | repareren - Levi's elders gekocht | Ik heb een Levi's bij een andere winkel gekocht, kunnen jullie die repareren? | repairs | contradicted | yes | applicable services require BoughtAtDRW | contradicted |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo LevisJeans  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-LevisJeans subcategoryOf Clothing  [inferred]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo LevisJeans  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-LevisJeans subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | repareren - Nudie elders gekocht | Repareren jullie Nudie jeans die ik ergens anders heb gekocht? | repairs | entailed | yes |  | entailed |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo NudieJeansJeans  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-NudieJeansJeans subcategoryOf Clothing  [inferred]
-NudieRepairException type OriginRule  [doc:garantie_reparatie_02]
-NudieRepairException forService RepairService  [doc:garantie_reparatie_02]
-NudieRepairException forCategory NudieJeansJeans  [doc:garantie_reparatie_02]
-NudieRepairException allowsOrigin AnyOrigin  [doc:garantie_reparatie_02]
-NudieRepairException conditionText officiële Nudie Jeans reparatielocatie  [doc:garantie_reparatie_02]
-```
-
-| R | repareren - Nudie hier gekocht | Mijn Nudie van jullie is gescheurd, maken jullie die? | repairs | entailed | yes |  | entailed |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo NudieJeansJeans  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-NudieJeansJeans subcategoryOf Clothing  [inferred]
-NudieRepairException type OriginRule  [doc:garantie_reparatie_02]
-NudieRepairException forService RepairService  [doc:garantie_reparatie_02]
-NudieRepairException forCategory NudieJeansJeans  [doc:garantie_reparatie_02]
-NudieRepairException allowsOrigin AnyOrigin  [doc:garantie_reparatie_02]
-NudieRepairException conditionText officiële Nudie Jeans reparatielocatie  [doc:garantie_reparatie_02]
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo NudieJeansJeans  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-NudieJeansJeans subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | vermaken - broek inkorten | Kunnen jullie mijn broek inkorten? | repairs | entailed | yes | only for BoughtAtDRW | entailed |
-
-```
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo Trousers  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-Trousers subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | vermaken - chino hier gekocht | Kunnen jullie een chino die ik bij jullie kocht laten vermaken? | repairs | entailed | yes |  | entailed |
-
-```
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo Chinos  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-Chinos subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | repareren - jas | Repareren jullie ook jassen? | repairs | entailed | yes | only for BoughtAtDRW | entailed |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo Outerwear  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-Outerwear subcategoryOf Clothing  [inferred]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo Outerwear  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-Outerwear subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | repareren - schoenen | Kunnen jullie mijn schoenen repareren? | repairs | contradicted |  | Shoes is not sold here, so it cannot have been bought here | contradicted |
-
-```
-DeRodeWinkel doesNotSell Shoes  [doc:assortiment_19]
-```
-
-| R | repareren - Zara jeans | Kunnen jullie een jeans van Zara repareren? | repairs | entailed | yes | only for BoughtAtDRW | entailed |
-
-```
-DeRodeWinkel offers RepairService  [doc:garantie_reparatie_02]
-RepairService appliesTo ZaraJeans  [inferred]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
-RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
-ZaraJeans subcategoryOf Clothing  [inferred]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-RepairService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-DeRodeWinkel offers AlterationService  [doc:maatadvies_04]
-AlterationService appliesTo ZaraJeans  [inferred]
-AlterationService appliesTo Clothing  [doc:maatadvies_04]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_02]
-AlterationService appliesTo Clothing  [doc:garantie_reparatie_04]
-ZaraJeans subcategoryOf Clothing  [inferred]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_02]
-AlterationService purchaseCondition BoughtAtDRW  [doc:garantie_reparatie_04]
-```
-
-| R | repareren - tas | Kunnen jullie mijn tas repareren? | repairs | unknown |  | no atelier service is stated to apply | unknown |
-
-```
-
-```
-
-| R | repareren - laptop | Repareren jullie laptops? | repairs | unknown |  | no atelier service is stated to apply | unknown |
-
-```
-
 ```

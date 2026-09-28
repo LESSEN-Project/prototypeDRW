@@ -8,7 +8,7 @@ Started 2026-09-21. This directory holds the first artefacts of the second resea
 
 `vocab.ttl` is the controlled vocabulary: the category tree, brands, payment methods, services, days, regions and channels as individuals, each with a canonical Dutch label and `skos:altLabel` entries in the customer's wording ("spijkerbroek", "achteraf betalen", "koopavond", "pinnen").
 
-`data/` holds 39 documents converted to triples by hand, one file per source document, 283 triples in total. Each file is loaded into its own named graph, so every asserted triple carries the document it came from. The documents were chosen to cover the answerable stratum of the suite; the other 60 documents are not converted yet.
+`data/` holds 39 documents converted to triples by hand, one file per source document, plus one curated file (`curated_store_payment.ttl`, a single explicit negative that the FAQ lacks: the store does not take installment payment), 284 triples in total. Each file is loaded into its own named graph, so every asserted triple carries the document it came from. The documents were chosen to cover the answerable stratum of the suite; the other 60 documents are not converted yet.
 
 `build.py` loads schema, vocabulary and documents, validates the union against the SHACL shapes, computes the OWL RL closure with owlrl and stores the 475 derived triples in a separate `inferred` graph, and writes `graph.trig`. The inferred graph holds domain facts only: OWL and RDFS bookkeeping that the closure also produces (a class being an `rdfs:Class`, a datatype property being an `rdf:Property`) is filtered out, so the count depends only on the schema, vocabulary and documents. pyshacl writes into the graphs it is given, so validation always runs on copies; an earlier version passed the live schema graph and the injected vocabulary triples inflated the count by 53. The SHACL step caught a real modelling conflict on the first run (the physical store node being both a closed `Channel` and a `Store`), which is the kind of check an LLM extraction step will need.
 
@@ -20,7 +20,7 @@ Started 2026-09-21. This directory holds the first artefacts of the second resea
 
 On the answerable stratum all 68 cases receive a typed answer: 56 entailed and 12 contradicted, the latter being the six negative-answer questions in both paraphrases (Klarna, VVV-bon online, vestiging Amsterdam, schoenen, wasmachines, laptops). Six of the 68 need inference: the shipping questions about Belgium and Antwerp (Europe covers Belgium covers Antwerp), the sneakers paraphrase of the shoes question (not selling shoes entails not selling sneakers), and the Nudie repair question (repair is stated for clothing and reaches the Nudie brand line through the tree; the origin exception on that line does the rest). The text bot at k0 answered 62 of these 68 and abstained on 6, three of them negative-answer cases the graph settles by completeness.
 
-On the near-miss stratum 39 of 40 cases come out unknown and one contradicted: "Verkopen jullie wasmiddel?" falls outside clothing and accessories, which the assortment document declares to be the whole assortment, so the graph gives a grounded "nee" where the suite expects an abstention. The text bot answered 7 of these 40 and hedged on 2. All 16 out-of-scope questions are unknown because nothing in them links to the graph.
+On the near-miss stratum 38 of 40 cases come out unknown and two contradicted, each a grounded "nee" where the suite expects an abstention. "Verkopen jullie wasmiddel?" falls outside clothing and accessories, which the assortment document declares to be the whole assortment. "Kan ik in termijnen betalen?" is contradicted online by the complete webshop list and in the store by the curated negative in `data/curated_store_payment.ttl`; without that one triple the store side is unknown and so is the verdict, because a channel-unspecified question is only contradicted when every channel is. The text bot answered 7 of these 40 and hedged on 2. All 16 out-of-scope questions are unknown because nothing in them links to the graph.
 
 These numbers are an upper bound. The mapping from question to template and entities was written by hand with the graph in view, so they measure what the graph can express, and say nothing yet about how often an automatic linker would pick the right template and entity. The four inference cases are also a small count; the suite was not written to exercise reasoning, and a v2 suite with compositional questions ("repareren jullie ook een Levi's van een andere winkel?") is where the reasoning claim has to be tested.
 
@@ -76,7 +76,7 @@ The two research lines were run on the same 124-case suite, so their abstention 
 
 | system | A false-abstain | N false-answer | O false-answer |
 |---|---|---|---|
-| graph, hand mapping | 0 of 68 | 1 of 40 (a grounded "nee" on wasmiddel) | 0 of 16 |
+| graph, hand mapping | 0 of 68 | 2 of 40 (a grounded "nee" on wasmiddel and in termijnen) | 0 of 16 |
 | qwen3.5:27b, k0 | 2.9% | 10.0% | 0.0% |
 | mistral-small3.2, k0 | 13.2% | 2.5% | 0.0% |
 | gemma3:12b, k0 | 8.8% | 17.5% | 0.0% |
@@ -113,6 +113,6 @@ venv\Scripts\python experiments\kg\coverage.py     # run the suite mapping, writ
 venv\Scripts\python -m pytest experiments\kg\test_kg.py -v   # SPARQL end-to-end checks (also runs without pytest)
 ```
 
-`test_kg.py` builds the graph and asks it fourteen questions as SPARQL over the union of all named graphs, the way a runtime endpoint would see it: shipping to Antwerp (derived through partOf), Thursday and koopavond, sneakers (derived doesNotSell), washing machines (top-level completeness), Klarna and Bancontact per channel, repairs on a Levi's bought here or elsewhere and the Nudie exception, evidence provenance, and the two conflict test files. Each SPARQL answer is compared with the verdict of the matching template in `query.py`.
+`test_kg.py` builds the graph and asks it fifteen questions as SPARQL over the union of all named graphs, the way a runtime endpoint would see it: shipping to Antwerp (derived through partOf), Thursday and koopavond, sneakers (derived doesNotSell), washing machines (top-level completeness), Klarna and Bancontact per channel, repairs on a Levi's bought here or elsewhere and the Nudie exception, evidence provenance, and the two conflict test files. Each SPARQL answer is compared with the verdict of the matching template in `query.py`.
 
 They need `rdflib`, `owlrl` and `pyshacl` in the venv (`pip install rdflib owlrl pyshacl`); the tests use `pytest` when it is installed.
