@@ -21,7 +21,7 @@ vector_store:
   source: "./docs"
   # relevant documents passed to the LLM (Rasa default 4)
   top_k: 4
-  contrast_k: 2
+  contrast_k: 0
   # bottom | random | next  (see addons/contrastive_retriever.py)
   contrast_mode: bottom
   contrast_seed: 0
