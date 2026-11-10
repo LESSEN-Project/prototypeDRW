@@ -16,8 +16,63 @@ slots:
       - type: custom
         action: action_detect_register
 
+  # ---- knowledge-graph flow slots (data/flows.yml, actions/kg_actions.py) ----
+  # Filled by the command generator with the customer's own words; the action links them.
+  product_categorie:
+    type: text
+    mappings:
+      - type: from_llm
+  betaalmethode:
+    type: text
+    mappings:
+      - type: from_llm
+  kanaal:
+    type: categorical
+    values:
+      - online
+      - winkel
+      - beide
+    initial_value: beide      # optional argument: the collect step never asks for it
+    mappings:
+      - type: from_llm
+  regio:
+    type: text
+    mappings:
+      - type: from_llm
+  dag:
+    type: text
+    mappings:
+      - type: from_llm
+  merk:
+    type: text
+    mappings:
+      - type: from_llm
+  herkomst:
+    type: categorical
+    values:
+      - hier
+      - elders
+      - onbekend
+    initial_value: onbekend   # optional argument: the collect step never asks for it
+    mappings:
+      - type: from_llm
+  # Set by the kg actions: entailed | contradicted | unknown | unlinked, and the source documents.
+  kg_verdict:
+    type: text
+    mappings:
+      - type: controlled
+  kg_bron:
+    type: text
+    mappings:
+      - type: controlled
+
 actions:
   - action_detect_register
+  - action_kg_sells
+  - action_kg_accepts
+  - action_kg_ships_to
+  - action_kg_open_on
+  - action_kg_repairs
 
 responses:
   utter_begroeting:
@@ -86,3 +141,44 @@ responses:
           value: formeel
       text: "Kan ik u nog ergens anders mee helpen?"
     - text: "Kan ik je nog ergens anders mee helpen?"
+
+  # ---- collect steps of the knowledge-graph flows ----
+  utter_ask_product_categorie:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Naar welk soort product bent u op zoek?"
+    - text: "Naar welk soort product ben je op zoek?"
+  utter_ask_betaalmethode:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Met welke betaalmethode wilt u betalen?"
+    - text: "Met welke betaalmethode wil je betalen?"
+  utter_ask_kanaal:   # never asked: the slot has an initial value
+    - text: "Gaat het om de webshop of om de winkel?"
+  utter_ask_regio:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Naar welk land of welke plaats wilt u de bestelling laten bezorgen?"
+    - text: "Naar welk land of welke plaats wil je de bestelling laten bezorgen?"
+  utter_ask_dag:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Over welke dag wilt u de openingstijden weten?"
+    - text: "Over welke dag wil je de openingstijden weten?"
+  utter_ask_merk:
+    - condition:
+        - type: slot
+          name: klant_register
+          value: formeel
+      text: "Van welk merk is het kledingstuk?"
+    - text: "Van welk merk is het kledingstuk?"
+  utter_ask_herkomst:   # never asked: the slot has an initial value
+    - text: "Is het artikel bij De Rode Winkel gekocht of ergens anders?"

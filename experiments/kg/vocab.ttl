@@ -123,7 +123,7 @@ d:Afterpay a drw:PaymentMethod ; rdfs:label "Afterpay"@nl .
 d:Bancontact a drw:PaymentMethod ; rdfs:label "Bancontact"@nl .
 d:DebitCard a drw:PaymentMethod ; rdfs:label "pinpas"@nl ; skos:altLabel "pinnen"@nl , "pin"@nl .
 d:Cash a drw:PaymentMethod ; rdfs:label "contant"@nl ; skos:altLabel "cash"@nl .
-d:Installments a drw:PaymentMethod ; rdfs:label "in termijnen betalen"@nl ; skos:altLabel "gespreid betalen"@nl .
+d:Installments a drw:PaymentMethod ; rdfs:label "in termijnen betalen"@nl ; skos:altLabel "gespreid betalen"@nl , "termijnen"@nl .
 
 ### Services
 d:RepairService a drw:AtelierService ; rdfs:label "reparatie in het atelier"@nl ; skos:altLabel "repareren"@nl , "maken"@nl .

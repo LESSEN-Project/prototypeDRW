@@ -1,0 +1,184 @@
+# Knowledge-graph flows (data/flows.yml, actions/kg_actions.py): the eleven questions of
+# the 2026-09-29 demo (experiments/kg/demo.py), asked to the bot instead of to demo.py.
+# Each case asserts that the command generator started the right flow and filled the
+# slot with the customer's words, and that the answer carries the verdict the graph gives.
+#
+# Case names: "KG-E |" entailed, "KG-C |" contradicted, "KG-U |" unknown (the graph
+# says nothing and the flow falls through to retrieval), "RAG |" outside the five shapes.
+#
+#   rasa test e2e tests/test_kg_flows.yml
+
+test_cases:
+# ---- sells ---------------------------------------------------------------------------
+- test_case: KG-E | assortiment - jeans
+  steps:
+  - user: Verkopen jullie jeans?
+    assertions:
+    - flow_started: kg_assortiment
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, jeans verkopen we\.
+- test_case: KG-C | assortiment - sneakers (inferred from doesNotSell Shoes)
+  steps:
+  - user: Verkopen jullie sneakers?
+    assertions:
+    - flow_started: kg_assortiment
+    - slot_was_set:
+      - name: kg_verdict
+        value: contradicted
+    - bot_uttered:
+        text_matches: ^Nee, sneakers verkopen we niet\.
+- test_case: KG-C | assortiment - wasmachines (top-level completeness)
+  steps:
+  - user: Verkopen jullie wasmachines?
+    assertions:
+    - flow_started: kg_assortiment
+    - slot_was_set:
+      - name: kg_verdict
+        value: contradicted
+    - bot_uttered:
+        text_matches: ^Nee, wasmachines verkopen we niet\.
+- test_case: KG-U | assortiment - hoodies (clothing list is open)
+  steps:
+  - user: Verkopen jullie hoodies?
+    assertions:
+    - flow_started: kg_assortiment
+    - slot_was_set:
+      - name: kg_verdict
+        value: unknown
+    - bot_did_not_utter:
+        text_matches: kennisgraaf
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+
+# ---- accepts -------------------------------------------------------------------------
+- test_case: KG-U | betalen - Bancontact (online contradicted, store unknown)
+  steps:
+  - user: Kan ik met Bancontact betalen?
+    assertions:
+    - flow_started: kg_betaalmethode
+    - slot_was_set:
+      - name: kg_verdict
+        value: unknown
+    - bot_did_not_utter:
+        text_matches: kennisgraaf
+- test_case: KG-C | betalen - in termijnen (both channels)
+  steps:
+  - user: Kan ik in termijnen betalen?
+    assertions:
+    - flow_started: kg_betaalmethode
+    - slot_was_set:
+      - name: kg_verdict
+        value: contradicted
+    - bot_uttered:
+        text_matches: ^Nee, in termijnen betalen kan online en in de winkel niet\.
+- test_case: KG-C | betalen - Klarna online (channel set by the command generator)
+  steps:
+  - user: Kan ik online met Klarna betalen?
+    assertions:
+    - flow_started: kg_betaalmethode
+    - slot_was_set:
+      - name: kanaal
+        value: online
+      - name: kg_verdict
+        value: contradicted
+    - bot_uttered:
+        text_matches: ^Nee, met Klarna betalen kan online niet\.
+
+# ---- ships_to ------------------------------------------------------------------------
+- test_case: KG-E | verzending - Antwerpen (two partOf steps)
+  steps:
+  - user: Bezorgen jullie in Antwerpen?
+    assertions:
+    - flow_started: kg_bezorging
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, we bezorgen in Antwerpen\.
+
+# ---- repairs -------------------------------------------------------------------------
+- test_case: KG-E | reparatie - Nudie elders gekocht (origin rule)
+  steps:
+  - user: Repareren jullie een Nudie die ik elders heb gekocht?
+    assertions:
+    - flow_started: kg_reparatie
+    - slot_was_set:
+      - name: herkomst
+        value: elders
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, een Nudie Jeans die ergens anders is gekocht kunnen we
+- test_case: KG-C | reparatie - Levi's elders gekocht (default purchase condition)
+  steps:
+  - user: Repareren jullie een Levi's die ik elders heb gekocht?
+    assertions:
+    - flow_started: kg_reparatie
+    - slot_was_set:
+      - name: herkomst
+        value: elders
+      - name: kg_verdict
+        value: contradicted
+    - bot_uttered:
+        text_matches: ^Nee, een Levi's die ergens anders is gekocht kunnen we niet repareren
+
+# ---- open_on -------------------------------------------------------------------------
+- test_case: KG-E | openingstijden - zondag
+  steps:
+  - user: Zijn jullie op zondag open?
+    assertions:
+    - flow_started: kg_openingstijden
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, op zondag zijn we open van 11:00 tot 18:00 uur\.
+- test_case: KG-U | openingstijden - Koningsdag (holiday hours may differ)
+  steps:
+  - user: Zijn jullie op Koningsdag open?
+    assertions:
+    - flow_started: kg_openingstijden
+    - slot_was_set:
+      - name: kg_verdict
+        value: unknown
+    - bot_did_not_utter:
+        text_matches: kennisgraaf
+
+# ---- shape without an entity: the collect step asks -----------------------------------
+- test_case: KG-E | assortiment - vraag zonder product, dan spijkerbroeken
+  steps:
+  - user: Ik wil weten of jullie iets verkopen
+    assertions:
+    - flow_started: kg_assortiment
+    - bot_uttered:
+        utter_name: utter_ask_product_categorie
+  - user: spijkerbroeken
+    assertions:
+    - slot_was_set:
+      - name: product_categorie
+        value: spijkerbroeken
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, jeans verkopen we\.
+
+# ---- a product mentioned, but the question is about something else: retrieval ---------
+- test_case: RAG | producten - milieuvriendelijk stays with search
+  steps:
+  - user: Zijn jullie spijkerbroeken een beetje milieuvriendelijk?
+    assertions:
+    - flow_started: pattern_search
+    - bot_did_not_utter:
+        text_matches: verkopen we
+
+# ---- outside the five shapes: retrieval as before ------------------------------------
+- test_case: RAG | retouren - terugsturen kosten stays with search
+  steps:
+  - user: Wat kost het om iets terug te sturen?
+    assertions:
+    - flow_started: pattern_search
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa

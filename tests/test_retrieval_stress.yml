@@ -3,6 +3,10 @@
 # enterprise search retrieves on meaning rather than exact vocabulary.
 # One test case per knowledge base category, plus abstention checks.
 #
+# Since 2026-11-10 four of the questions have the shape of a knowledge-graph flow
+# (data/flows.yml) and are answered from the graph with a template sentence instead
+# of by enterprise search; those cases assert the flow and the sentence.
+#
 # Run with the SSH tunnel to the Ollama server open:
 #   rasa test e2e tests/test_retrieval_stress.yml
 
@@ -28,11 +32,13 @@ test_cases:
   - test_case: verzending - bezorging Belgie (previously missed in English)
     steps:
       - user: "Bezorgen jullie ook in België?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "Er wordt verzonden naar alle landen in Europa, dus ook naar België. Internationale verzending naar Europese landen kost €10 tot €15. Bestellingen worden verzonden via PostNL; als het pakket verstuurd is ontvang je van PostNL meer informatie over het levermoment."
+        assertions:   # answered from the graph: shipsTo Europe, Belgium partOf Europe
+          - flow_started: kg_bezorging
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^Ja, we bezorgen in België\.
 
   - test_case: bestellen - account verplicht
     steps:
@@ -46,11 +52,13 @@ test_cases:
   - test_case: betalen - achteraf betalen (colloquial for Billink)
     steps:
       - user: "Kan ik m'n bestelling ook achteraf betalen?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "Ja, achteraf betalen kan met Billink. Klik op Billink bij het afrekenen en de stappen volgen vanzelf. Met Billink heb je tot 14 dagen na ontvangst om te betalen. Klarna en Afterpay worden niet geaccepteerd. Andere betaalmogelijkheden in de webshop zijn iDEAL, WERO, Creditcard, PayPal, Apple Pay en de online cadeaukaart."
+        assertions:   # answered from the graph: "achteraf betalen" is an altLabel of Billink
+          - flow_started: kg_betaalmethode
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^Ja, online kun je met Billink betalen\.
 
   - test_case: kortingscode - studentenkorting
     steps:
@@ -91,11 +99,13 @@ test_cases:
   - test_case: fysieke winkel - openingstijd donderdag (colloquial)
     steps:
       - user: "Tot hoe laat kan ik donderdag bij jullie terecht?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "Op donderdag is De Rode Winkel geopend van 10:00 tot 21:00. Feestdagentijden kunnen afwijken; raadpleeg de openingstijdenpagina op de website voor actuele informatie."
+        assertions:   # answered from the graph: the Thursday opening-hours node
+          - flow_started: kg_openingstijden
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^Ja, op donderdag zijn we open van 10:00 tot 21:00 uur\.
 
   - test_case: garantie - broek stuk na 3 maanden (colloquial, no garantie keyword)
     steps:
@@ -127,9 +137,13 @@ test_cases:
   - test_case: abstention - out of scope product
     steps:
       - user: "Verkopen jullie ook wasmachines?"
-        assertions:
+        assertions:   # a grounded "nee" from the graph (top-level assortment list is complete), no longer an abstention
+          - flow_started: kg_assortiment
+          - slot_was_set:
+              - name: kg_verdict
+                value: contradicted
           - bot_uttered:
-              utter_name: utter_no_relevant_answer_found
+              text_matches: ^Nee, wasmachines verkopen we niet\.
 
   - test_case: abstention - unanswerable sizing question (known content gap)
     steps:

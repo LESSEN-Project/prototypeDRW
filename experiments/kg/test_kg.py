@@ -19,6 +19,7 @@ from rdflib import Graph  # noqa: E402
 
 from build import build, union  # noqa: E402
 from query import KG, D, DRW, verbalise  # noqa: E402
+from link import Linker  # noqa: E402
 
 PREFIXES = """
 PREFIX drw: <https://derodewinkel.nl/kg/schema#>
@@ -175,6 +176,48 @@ def test_conflict_files_are_reported():
     assert n >= 3
     _, n = build(write=False, quiet=True, extra=[HERE / "tests" / "conflict_completeness.ttl"])
     assert n == 3
+
+
+# ---- entity linking: the customer's words reach the right individual ------------------------
+
+def linker() -> Linker:
+    graph()
+    if "lk" not in _cache:
+        _cache["lk"] = Linker(_cache["ds"])
+    return _cache["lk"]
+
+
+def test_linker_resolves_labels_and_altlabels():
+    lk = linker()
+    expected = [
+        ("spijkerbroek", DRW.ProductCategory, D.Jeans),         # altLabel
+        ("een hoodie", DRW.ProductCategory, D.Hoodies),         # sub-phrase, singular
+        ("wasmachine", DRW.ProductCategory, D.WashingMachines), # singular of the label
+        ("achteraf betalen", DRW.PaymentMethod, D.Billink),     # altLabel, two words
+        ("in termijnen", DRW.PaymentMethod, D.Installments),
+        ("koopavond", DRW.Day, D.Thursday),                     # altLabel asserted by a document
+        ("op zondag", DRW.Day, D.Sunday),
+        ("Antwerpen", DRW.Region, D.Antwerp),
+        ("een Levi's die ik elders kocht", DRW.Brand, D.Levis), # apostrophe, sub-phrase
+        ("Nudie", DRW.Brand, D.NudieJeans),
+        ("in de winkel", DRW.Channel, D.Store),
+        ("online", DRW.Channel, D.Webshop),
+    ]
+    for text, cls, iri in expected:
+        got = lk.link(text, cls)
+        assert got is not None and got.iri == iri, f"{text!r} -> {got}"
+
+
+def test_linker_uses_the_class_to_disambiguate_and_misses_honestly():
+    lk = linker()
+    assert lk.link("cadeaukaart", DRW.PaymentMethod).iri == D.OnlineGiftCard
+    assert lk.link("cadeaukaart", DRW.Service).iri == D.GiftCard
+    assert lk.link("cadeaukaart") is None                    # ambiguous without a class
+    assert lk.link("Nudie jeans", DRW.Brand).iri == D.NudieJeans
+    assert lk.link("Nudie jeans", DRW.ProductCategory).iri == D.NudieJeansJeans
+    assert lk.link("de Bijenkorf", DRW.Region) is None       # another shop: nothing links
+    assert lk.link("Bijenkorf") is None
+    assert lk.link("", DRW.Brand) is None
 
 
 if __name__ == "__main__":

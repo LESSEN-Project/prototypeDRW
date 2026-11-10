@@ -8,3 +8,88 @@ flows:
       - action: utter_begroeting
       - set_slots:
           - begroet: true
+
+  # ---- knowledge-graph flows: one per query template in experiments/kg/query.py ----
+  # The command generator starts the flow and fills the slots with the customer's own
+  # words; the action links them to the vocabulary, runs the template and answers. When
+  # the graph does not settle the question (unknown, or a word that links to nothing),
+  # the flow falls through to retrieval over docs/ (action_trigger_search).
+
+  kg_assortiment:
+    description: De klant vraagt of De Rode Winkel een bepaald soort product verkoopt (bijvoorbeeld jeans, sneakers, hoodies, wasmachines, kinderkleding).
+    name: assortiment
+    steps:
+      - action: action_detect_register
+      - collect: product_categorie
+        description: Het soort product waar de klant naar vraagt, in de woorden van de klant (bijvoorbeeld "sneakers", "een hoodie", "wasmachines").
+      - action: action_kg_sells
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_betaalmethode:
+    description: De klant vraagt of een bepaalde betaalmethode mogelijk is (bijvoorbeeld iDEAL, Bancontact, Klarna, PayPal, achteraf betalen, in termijnen, contant, pinnen, cadeaukaart), eventueel specifiek online of in de winkel.
+    name: betaalmethode
+    steps:
+      - action: action_detect_register
+      - collect: betaalmethode
+        description: De betaalmethode waar de klant naar vraagt, in de woorden van de klant (bijvoorbeeld "Bancontact", "in termijnen", "achteraf betalen").
+      - collect: kanaal
+        description: Alleen als de klant het noemt. "online" voor de webshop, "winkel" voor de fysieke winkel. Anders niet zetten.
+      - action: action_kg_accepts
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_bezorging:
+    description: De klant vraagt of De Rode Winkel bezorgt of verzendt naar een bepaald land, een bepaalde regio of een bepaalde stad (bijvoorbeeld België, Antwerpen, Duitsland).
+    name: bezorging
+    steps:
+      - action: action_detect_register
+      - collect: regio
+        description: Het land, de regio of de stad waar de klant naar vraagt (bijvoorbeeld "België", "Antwerpen").
+      - action: action_kg_ships_to
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_openingstijden:
+    description: De klant vraagt of de winkel op een bepaalde dag open is, of tot hoe laat (bijvoorbeeld zondag, donderdag, koopavond, Koningsdag).
+    name: openingstijden
+    steps:
+      - action: action_detect_register
+      - collect: dag
+        description: De dag waar de klant naar vraagt (bijvoorbeeld "zondag", "koopavond", "Koningsdag").
+      - action: action_kg_open_on
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_reparatie:
+    description: De klant vraagt of De Rode Winkel een kledingstuk van een bepaald merk kan repareren of vermaken (bijvoorbeeld een Levi's, een Nudie), eventueel een artikel dat elders is gekocht.
+    name: reparatie
+    steps:
+      - action: action_detect_register
+      - collect: merk
+        description: Het merk van het kledingstuk, in de woorden van de klant (bijvoorbeeld "Levi's", "Nudie").
+      - collect: herkomst
+        description: Alleen als de klant het noemt. "elders" als het artikel ergens anders is gekocht, "hier" als het bij De Rode Winkel is gekocht. Anders niet zetten.
+      - action: action_kg_repairs
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
