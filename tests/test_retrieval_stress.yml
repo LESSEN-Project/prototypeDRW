@@ -3,9 +3,12 @@
 # enterprise search retrieves on meaning rather than exact vocabulary.
 # One test case per knowledge base category, plus abstention checks.
 #
-# Since 2026-11-10 four of the questions have the shape of a knowledge-graph flow
-# (data/flows.yml) and are answered from the graph with a template sentence instead
-# of by enterprise search; those cases assert the flow and the sentence.
+# Eight of the questions have the shape of a knowledge-graph flow (data/flows.yml) and
+# are answered from the graph with a template sentence instead of by enterprise search;
+# those cases assert the flow and the sentence. Four were rewritten on 2026-11-10 and
+# four on 2026-11-11, after the flows for brands, services, facts and jeans models were
+# added. Two more questions are captured by a graph flow with a worse answer than
+# retrieval gave; they are marked KNOWN FAILURE below.
 #
 # Run with the SSH tunnel to the Ollama server open:
 #   rasa test e2e tests/test_retrieval_stress.yml
@@ -14,20 +17,24 @@ test_cases:
   - test_case: retouren - terugsturen kosten (colloquial for retourkosten)
     steps:
       - user: "Wat kost het om iets terug te sturen?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "Retourkosten bedragen €7 en worden achteraf verrekend. Bij ruilen zijn er geen kosten, ook niet bij bestellingen onder €49. Artikelen kunnen binnen 14 dagen na ontvangst worden geretourneerd, mits in originele staat, via het retourportaal. Aankopen met een cadeaukaart worden teruggestort als tegoedbon, niet als contant geld."
+        assertions:   # answered from the graph since 2026-11-10: the return fee fact
+          - flow_started: kg_feit
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^De retourkosten per post zijn 7 euro\.
 
   - test_case: verzending - gratis verzending drempel
     steps:
       - user: "Vanaf welk bedrag hoef ik geen verzendkosten te betalen?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "Bestellingen van €49 of meer worden gratis verzonden. Bij bestellingen onder €49 bedragen de verzendkosten €6,96. Internationale verzending naar Europese landen kost €10 tot €15. Er wordt verzonden naar alle landen in Europa."
+        assertions:   # answered from the graph since 2026-11-10: the free-shipping threshold
+          - flow_started: kg_feit
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^Vanaf 49 euro is de verzending gratis\.
 
   - test_case: verzending - bezorging Belgie (previously missed in English)
     steps:
@@ -43,11 +50,13 @@ test_cases:
   - test_case: bestellen - account verplicht
     steps:
       - user: "Moet ik verplicht een account hebben om iets te kopen?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "Online bestellen kan ook zonder account."
+        assertions:   # answered from the graph since 2026-11-10: requiresAccount false
+          - flow_started: kg_feit
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^Nee, bestellen kan ook zonder account\.
 
   - test_case: betalen - achteraf betalen (colloquial for Billink)
     steps:
@@ -60,6 +69,10 @@ test_cases:
           - bot_uttered:
               text_matches: ^Ja, online kun je met Billink betalen\.
 
+  # KNOWN FAILURE since the four flows of 2026-11-10 (run of 2026-11-11): the question goes to
+  # kg_dienst and gets the terse how-to literal of kortingscode_02, without a yes and without
+  # the percentage that retrieval used to give. The assertion below still states what a good
+  # answer contains. Left unfixed when the graph line was parked.
   - test_case: kortingscode - studentenkorting
     steps:
       - user: "Krijg ik korting als student?"
@@ -116,6 +129,11 @@ test_cases:
               utter_source: EnterpriseSearchPolicy
               ground_truth: "Op jeans geldt een minimale garantietermijn van 6 maanden. Een broek die na drie maanden stukgaat valt dus nog binnen de garantietermijn. Je kunt het artikel meenemen naar de winkel voor beoordeling of foto's sturen naar info@derodewinkel.nl als winkelbezoek niet mogelijk is. Je ontvangt binnen 14 dagen een inhoudelijke reactie. De wettelijke garantie geldt voor alle aankopen."
 
+  # KNOWN FAILURE since the four flows of 2026-11-10 (run of 2026-11-11): the question asks how
+  # much the points are worth; the generator starts kg_dienst with a slot value copied from the
+  # prompt's service list, and the bot explains where to redeem points. Right entity, wrong
+  # question. The assertion below still states what a good answer contains. Left unfixed when
+  # the graph line was parked.
   - test_case: loyaliteitspunten - waarde gespaarde punten
     steps:
       - user: "Hoeveel korting leveren m'n gespaarde punten eigenlijk op?"
@@ -128,11 +146,13 @@ test_cases:
   - test_case: bedrijfsgegevens - leeftijd van de zaak (colloquial)
     steps:
       - user: "Hoe oud is jullie zaak eigenlijk?"
-        assertions:
-          - generative_response_is_grounded:
-              threshold: 0.80
-              utter_source: EnterpriseSearchPolicy
-              ground_truth: "De Rode Winkel is opgericht op 19 maart 1837 door Johannes Broekman en Annaatje van Essenberg als kleermakerij en winkel in fournituren. Het bedrijf bestaat dus al sinds 1837 en de continuïteit bestaat tot vandaag. Na het overlijden van Johannes zette Annaatje de zaak voort als Weduwe Johannes Broekman. In 2017 is het familiebedrijf overgegaan naar de zesde generatie. In 2012 ontving De Rode Winkel het predicaat Hofleverancier. Het uitgangspunt van De Rode Winkel is betekenisvol ondernemen, vertaald naar betrouwbaar zijn en lange termijn denken, met duurzame relaties met klanten en leveranciers."
+        assertions:   # answered from the graph since 2026-11-10: the founding date, uttered as a raw ISO date
+          - flow_started: kg_feit
+          - slot_was_set:
+              - name: kg_verdict
+                value: entailed
+          - bot_uttered:
+              text_matches: ^De Rode Winkel is opgericht op 1837-03-19\.
 
   - test_case: abstention - out of scope product
     steps:

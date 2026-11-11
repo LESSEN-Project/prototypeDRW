@@ -17,6 +17,10 @@ Analyze the user's message and output the commands from the list below, one per 
 * `start flow kg_bezorging` + `set slot regio "<words>"`: the user asks whether the shop DELIVERS or ships to a country, region or city (België, Antwerpen, Duitsland, ...).
 * `start flow kg_openingstijden` + `set slot dag "<words>"`: the user asks whether the shop is OPEN on a certain day, or until what time (zondag, donderdag, koopavond, Koningsdag, ...).
 * `start flow kg_reparatie` + `set slot merk "<words>"`: the user asks whether the shop can REPAIR or alter a garment of a certain brand (Levi's, Nudie, G-Star, ...). Add `set slot herkomst "elders"` ONLY when the user says the item was bought elsewhere (elders, ergens anders, bij een andere winkel), and `set slot herkomst "hier"` ONLY when they say it was bought at De Rode Winkel.
+* `start flow kg_merk` + `set slot merk "<words>"`: the user asks whether the shop CARRIES or sells a certain BRAND (Levi's, Nudie, G-Star, Carhartt, Diesel, ...), with no product, repair or other question attached.
+* `start flow kg_dienst` + `set slot dienst "<words>"`: the user asks whether a certain SERVICE or arrangement exists, or how it works: reserveren, paskamer reserveren, kortingscode, spaarpunten / punten inzetten, member worden, ruilen, retour, klacht indienen, nabestellen / uitverkocht, cadeaukaart, Click & Collect, probleem met de bezorging, studentenkorting, repareren of vermaken in het algemeen (without a brand). Put the service in the user's words in the slot.
+* `start flow kg_feit` + `set slot feit "<value>"`: the user asks for ONE FACT about the shop. The slot value MUST be one of: adres, postcode, telefoonnummer, e-mailadres, bezorger, verzendkosten, gratis_verzending, levertijd, retourkosten, retourtermijn, terugbetaling, garantie, reactietermijn, opgericht, spaarpercentage, studentenkorting, paypal_toeslag, account_verplicht, sale_nabestellen. If the fact asked for is not in that list, output `search and reply`.
+* `start flow kg_jeansmodel` + `set slot jeansmodel "<words>"`: the user asks whether the shop HAS a certain JEANS MODEL or fit (bootcut, skinny, mom jeans, straight fit, wide leg, flared, tapered, ...). Add `set slot doelgroep "dames"` or `set slot doelgroep "heren"` ONLY when the user says so.
 * `set slot <name> "<words>"` on its own: the assistant just asked for a value (see Current State) and the user's message answers it.
 * `search and reply`: every other question or message: how-to questions, returns, delivery times, sizes, loyalty points, addresses, prices, complaints, and any question that does not fit one of the five flows above.
 * `start flow begroeting`: ONLY when the message is nothing but a greeting (e.g. "Hallo!", "Hoi", "Hey", "Goedemorgen", "Goedemiddag", "Goedendag", "Hello") with no question or request in it.
@@ -25,10 +29,13 @@ Analyze the user's message and output the commands from the list below, one per 
 ---
 
 ## Rules
-* The five `kg_` flows are for yes/no questions of exactly those shapes: DO YOU SELL X, CAN I PAY WITH X, DO YOU DELIVER TO X, ARE YOU OPEN ON X, CAN YOU REPAIR BRAND X. The question must be about that and nothing else. When in doubt, output `search and reply`.
-* A question that merely mentions a product, a payment method, a place, a day or a brand but asks something else about it (quality, sustainability, price, size, fit, delivery time, how to do something, what the hours are in general) is `search and reply`. "Zijn jullie jeans duurzaam?" asks about sustainability, not whether jeans are sold.
+* The `kg_` flows are for questions of exactly these shapes: DO YOU SELL product X, CAN I PAY WITH X, DO YOU DELIVER TO X, ARE YOU OPEN ON X, CAN YOU REPAIR BRAND X, DO YOU CARRY BRAND X, DO YOU OFFER / HOW DOES SERVICE X WORK, WHAT IS FACT X, DO YOU HAVE JEANS MODEL X. The question must be about that and nothing else. When in doubt, output `search and reply`.
+* A question that merely mentions a product, a payment method, a place, a day, a brand or a service but asks something else about it (quality, sustainability, price, size, what the hours are in general, the story of the shop, the team, washing advice) is `search and reply`. "Zijn jullie jeans duurzaam?" asks about sustainability, not whether jeans are sold.
+* Brand versus repair: "hebben jullie Levi's?" is kg_merk; "kunnen jullie mijn Levi's repareren?" is kg_reparatie. Brand versus jeans model: "hebben jullie Nudie?" is kg_merk; "hebben jullie bootcut?" is kg_jeansmodel.
+* Service versus fact: "hoe werkt retourneren?" or "kan ik ruilen?" is kg_dienst; "wat kost retourneren?" or "binnen hoeveel dagen kan ik retourneren?" is kg_feit (retourkosten, retourtermijn).
+* Delivery place versus delivery fact: "bezorgen jullie in X?" (a place) is kg_bezorging; "wie bezorgt?", "wat kost verzenden?", "hoe lang duurt de levering?" are kg_feit (bezorger, verzendkosten, levertijd). Never put a thing such as "pakket" in the regio slot.
 * When the question has the right shape but does not name the product, payment method, place, day or brand ("verkopen jullie iets?", "kan ik ergens mee betalen?"), output only the `start flow kg_...` line and NO `set slot` line; the assistant will ask. Never put a vague word such as "iets", "dat", "het" or "iets anders" in a slot.
-* Otherwise a `start flow kg_...` command is followed by the `set slot` line(s) with the value taken from the user's message, in the user's own words, without articles or verbs where possible ("sneakers", not "jullie sneakers verkopen").
+* Otherwise a `start flow kg_...` command is followed by the `set slot` line(s) with the value taken from the user's message, in the user's own words, without articles or verbs where possible ("sneakers", not "jullie sneakers verkopen"). Copy the user's words; never replace them with a synonym ("in termijnen" stays "in termijnen", not "achteraf betalen").
 * Only set `kanaal` and `herkomst` when the user mentions them. Never guess them.
 * A greeting followed by a question (e.g. "Hoi, hebben jullie koopavond?") is handled by the question, not by `start flow begroeting`.
 * Output ONLY the command lines. Do not add any explanation, sentences, or extra text.
@@ -41,11 +48,6 @@ User: "Verkopen jullie sneakers?"
 Commands:
 start flow kg_assortiment
 set slot product_categorie "sneakers"
-
-User: "Hebben jullie ook wasmachines?"
-Commands:
-start flow kg_assortiment
-set slot product_categorie "wasmachines"
 
 User: "Kan ik met Bancontact betalen?"
 Commands:
@@ -84,10 +86,74 @@ start flow kg_reparatie
 set slot merk "Nudie"
 set slot herkomst "elders"
 
-User: "Kunnen jullie mijn Levi's repareren?"
+User: "Hebben jullie Carhartt?"
 Commands:
-start flow kg_reparatie
-set slot merk "Levi's"
+start flow kg_merk
+set slot merk "Carhartt"
+
+User: "Kan ik iets reserveren om in de winkel te passen?"
+Commands:
+start flow kg_dienst
+set slot dienst "reserveren"
+
+User: "Hoe werkt de kortingscode?"
+Commands:
+start flow kg_dienst
+set slot dienst "kortingscode"
+
+User: "Ik wil een klacht indienen"
+Commands:
+start flow kg_dienst
+set slot dienst "klacht indienen"
+
+User: "Kunnen jullie het als cadeau inpakken?"
+Commands:
+start flow kg_dienst
+set slot dienst "cadeauverpakking"
+
+User: "Wat is jullie adres?"
+Commands:
+start flow kg_feit
+set slot feit "adres"
+
+User: "Wie bezorgt mijn pakket?"
+Commands:
+start flow kg_feit
+set slot feit "bezorger"
+
+User: "Moet ik een account hebben om te bestellen?"
+Commands:
+start flow kg_feit
+set slot feit "account_verplicht"
+
+User: "Vanaf welk bedrag is verzenden gratis?"
+Commands:
+start flow kg_feit
+set slot feit "gratis_verzending"
+
+User: "Binnen hoeveel dagen kan ik iets terugsturen?"
+Commands:
+start flow kg_feit
+set slot feit "retourtermijn"
+
+User: "Wat is jullie KvK-nummer?"
+Commands:
+search and reply
+
+User: "Wat is het verhaal achter De Rode Winkel?"
+Commands:
+search and reply
+
+User: "Hebben jullie mom jeans voor heren?"
+Commands:
+start flow kg_jeansmodel
+set slot jeansmodel "mom jeans"
+set slot doelgroep "heren"
+
+User: "Verkopen jullie bootcut jeans?"
+Commands:
+start flow kg_jeansmodel
+set slot jeansmodel "bootcut"
 
 User: "Ik wil weten of jullie iets verkopen"
 Commands:
@@ -97,23 +163,11 @@ User: "Zijn jullie spijkerbroeken een beetje milieuvriendelijk?"
 Commands:
 search and reply
 
-User: "Hoeveel kosten jullie jeans?"
-Commands:
-search and reply
-
 User: "Wat zijn de openingstijden?"
 Commands:
 search and reply
 
 User: "Hoe kan ik een broek retourneren?"
-Commands:
-search and reply
-
-User: "Wat kost verzenden?"
-Commands:
-search and reply
-
-User: "Hoi, kan ik een broek laten inkorten?"
 Commands:
 search and reply
 

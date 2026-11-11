@@ -148,6 +148,10 @@ test_cases:
         text_matches: kennisgraaf
 
 # ---- shape without an entity: the collect step asks -----------------------------------
+# KNOWN FAILURE (run of 2026-11-11, 33 of 35): gemma3:4b sets product_categorie to "iets"
+# despite the prompt rule, the linker finds nothing and the turn falls through to
+# retrieval, so the collect question is never asked. Left unfixed when the line was
+# parked; a guard in the action that resets vague values is the proposed fix.
 - test_case: KG-E | assortiment - vraag zonder product, dan spijkerbroeken
   steps:
   - user: Ik wil weten of jullie iets verkopen
@@ -174,10 +178,225 @@ test_cases:
     - bot_did_not_utter:
         text_matches: verkopen we
 
-# ---- outside the five shapes: retrieval as before ------------------------------------
-- test_case: RAG | retouren - terugsturen kosten stays with search
+# ---- carries (added 2026-11-10) --------------------------------------------------------
+- test_case: KG-E | merk - Carhartt
+  steps:
+  - user: Hebben jullie Carhartt?
+    assertions:
+    - flow_started: kg_merk
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, Carhartt WIP voeren we\.
+- test_case: KG-E | merk - Levi's, verkopen-phrasing
+  steps:
+  - user: Verkopen jullie ook Levi's?
+    assertions:
+    - flow_started: kg_merk
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, Levi's voeren we\.
+- test_case: RAG | merk - repair question with a brand goes to kg_reparatie, not kg_merk
+  steps:
+  - user: Kunnen jullie mijn Levi's repareren?
+    assertions:
+    - flow_started: kg_reparatie
+    - bot_uttered:
+        text_matches: ^Ja, een Levi's kunnen we in ons atelier repareren
+
+# ---- offers: the FAQ answer verbatim -------------------------------------------------
+- test_case: KG-E | dienst - reserveren
+  steps:
+  - user: Kan ik iets reserveren om in de winkel te passen?
+    assertions:
+    - flow_started: kg_dienst
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: Mail naar info@derodewinkel.nl om artikelen te reserveren
+- test_case: KG-E | dienst - kortingscode
+  steps:
+  - user: Hoe werkt de kortingscode?
+    assertions:
+    - flow_started: kg_dienst
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: De kortingscode is in te voeren na het invullen van het adres
+- test_case: KG-E | dienst - spaarpunten inzetten
+  steps:
+  - user: Hoe kan ik mijn spaarpunten inzetten?
+    assertions:
+    - flow_started: kg_dienst
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: Daar kun je het aantal punten inzetten
+- test_case: KG-E | dienst - klacht indienen
+  steps:
+  - user: Ik wil een klacht indienen
+    assertions:
+    - flow_started: kg_dienst
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: binnen 14 dagen een inhoudelijke reactie
+# KNOWN FAILURE (run of 2026-11-11, 33 of 35): the generator sends this problem report to
+# pattern_search; the prompt's service examples all read "does X exist / how does X
+# work". Retrieval gives the same content in looser wording. Left unfixed when the line
+# was parked; one prompt example for a delivery problem is the proposed fix.
+- test_case: KG-E | dienst - bezorgprobleem
+  steps:
+  - user: Mijn pakket is beschadigd aangekomen, wat nu?
+    assertions:
+    - flow_started: kg_dienst
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Neem direct contact op via WhatsApp of e-mail met je ordernummer
+- test_case: KG-U | dienst - cadeauverpakking (no document)
+  steps:
+  - user: Kunnen jullie het als cadeau inpakken?
+    assertions:
+    - flow_started: kg_dienst
+    - slot_was_set:
+      - name: kg_verdict
+        value: unknown
+    - bot_did_not_utter:
+        text_matches: kennisgraaf
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+
+# ---- fact ----------------------------------------------------------------------------
+- test_case: KG-E | feit - adres
+  steps:
+  - user: Wat is jullie adres?
+    assertions:
+    - flow_started: kg_feit
+    - slot_was_set:
+      - name: feit
+        value: adres
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ons adres is Lange Elisabethstraat 13
+- test_case: KG-E | feit - bezorger
+  steps:
+  - user: Wie bezorgt mijn pakket?
+    assertions:
+    - flow_started: kg_feit
+    - slot_was_set:
+      - name: feit
+        value: bezorger
+    - bot_uttered:
+        text_matches: ^Pakketten worden bezorgd door PostNL\.
+- test_case: KG-E | feit - gratis verzending
+  steps:
+  - user: Vanaf welk bedrag hoef ik geen verzendkosten te betalen?
+    assertions:
+    - flow_started: kg_feit
+    - slot_was_set:
+      - name: feit
+        value: gratis_verzending
+    - bot_uttered:
+        text_matches: ^Vanaf 49 euro is de verzending gratis\.
+- test_case: KG-E | feit - account verplicht (boolean, nee)
+  steps:
+  - user: Moet ik verplicht een account hebben om iets te kopen?
+    assertions:
+    - flow_started: kg_feit
+    - slot_was_set:
+      - name: feit
+        value: account_verplicht
+    - bot_uttered:
+        text_matches: ^Nee, bestellen kan ook zonder account\.
+- test_case: KG-E | sale nabestellen (fact or service, both answer from the graph)
+  steps:
+  - user: Kan ik een sale-artikel nabestellen in mijn maat?
+    assertions:
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: (?i)sale-artikelen kunnen niet worden nabesteld
+- test_case: KG-U | feit - KvK-nummer is not a known fact, falls through to search
+  steps:
+  - user: Wat is jullie KvK-nummer?
+    assertions:
+    - slot_was_set:
+      - name: kg_verdict
+        value: unlinked
+    - bot_did_not_utter:
+        text_matches: ^Ons
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+
+# ---- offers_fit ----------------------------------------------------------------------
+- test_case: KG-C | jeansmodel - mom jeans voor heren (heren list is complete)
+  steps:
+  - user: Hebben jullie mom jeans voor heren?
+    assertions:
+    - flow_started: kg_jeansmodel
+    - slot_was_set:
+      - name: doelgroep
+        value: heren
+      - name: kg_verdict
+        value: contradicted
+    - bot_uttered:
+        text_matches: ^Nee, mom jeans hebben we niet voor heren\.
+- test_case: KG-E | jeansmodel - bootcut, audience unspecified
+  steps:
+  - user: Verkopen jullie bootcut jeans?
+    assertions:
+    - flow_started: kg_jeansmodel
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, bootcut hebben we voor dames en heren\.
+- test_case: KG-E | jeansmodel - rechte pijp voor dames (altLabel)
+  steps:
+  - user: Hebben jullie jeans met een rechte pijp voor dames?
+    assertions:
+    - flow_started: kg_jeansmodel
+    - slot_was_set:
+      - name: kg_verdict
+        value: entailed
+    - bot_uttered:
+        text_matches: ^Ja, straight fit hebben we voor dames\.
+- test_case: RAG | jeansmodel - fit advice question gets no graph answer
+  steps:
+  - user: Welk jeansmodel past het beste bij brede heupen?
+    assertions:
+    - bot_did_not_utter:
+        text_matches: hebben we voor
+    - bot_did_not_utter:
+        utter_name: utter_internal_error_rasa
+
+# ---- a fact that used to be a retrieval control: now kg_feit ------------------------
+- test_case: KG-E | feit - retourkosten (was the retrieval control until 2026-11-10)
   steps:
   - user: Wat kost het om iets terug te sturen?
+    assertions:
+    - flow_started: kg_feit
+    - slot_was_set:
+      - name: feit
+        value: retourkosten
+    - bot_uttered:
+        text_matches: ^De retourkosten per post zijn 7 euro\.
+
+# ---- outside the nine shapes: retrieval as before ------------------------------------
+- test_case: RAG | bedrijf - het verhaal achter de winkel stays with search
+  steps:
+  - user: Wat is het verhaal achter De Rode Winkel?
     assertions:
     - flow_started: pattern_search
     - bot_did_not_utter:

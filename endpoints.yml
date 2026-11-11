@@ -60,7 +60,10 @@ model_groups:
       - provider: ollama
         model: gemma3:4b
         api_base: "http://localhost:11434"
-        num_ctx: 4096
+        # 6144 since 2026-11-10: the command prompt with nine flows renders to ~2,500 tokens.
+        # At num_ctx 4096 gemma3:4b degenerates on it ("startstart..."); 6144 works and takes
+        # the same VRAM as 4096 (4.5 GB), where 8192 failed to load on a busy server.
+        num_ctx: 6144
         temperature: 0.0
 
   - id: ollama_answer_llm

@@ -93,3 +93,67 @@ flows:
           - else:
               - action: action_trigger_search
                 next: END
+
+  # ---- added 2026-11-10: carries, offers, fact and offers_fit as flows ----
+
+  kg_merk:
+    description: De klant vraagt of De Rode Winkel een bepaald merk voert of verkoopt (bijvoorbeeld Levi's, Nudie, G-Star, Carhartt, Zara).
+    name: merk
+    steps:
+      - action: action_detect_register
+      - collect: merk
+        description: Het merk waar de klant naar vraagt, in de woorden van de klant (bijvoorbeeld "Levi's", "Carhartt").
+      - action: action_kg_carries
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_dienst:
+    description: De klant vraagt of een bepaalde dienst of regeling bestaat, of hoe die werkt (bijvoorbeeld reserveren, paskamer reserveren, kortingscode, spaarpunten, member worden, ruilen, retour, klacht indienen, nabestellen, cadeaukaart, Click & Collect, probleem met de bezorging, studentenkorting).
+    name: dienst
+    steps:
+      - action: action_detect_register
+      - collect: dienst
+        description: De dienst of regeling waar de klant naar vraagt, in de woorden van de klant (bijvoorbeeld "reserveren", "kortingscode", "punten inzetten", "klacht indienen").
+      - action: action_kg_offers
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_feit:
+    description: De klant vraagt naar een enkel feit over De Rode Winkel, zoals het adres, de postcode, het telefoonnummer, het e-mailadres, wie bezorgt, de verzendkosten, vanaf welk bedrag verzending gratis is, de levertijd, de retourkosten, de retourtermijn, wanneer het geld terug is, de garantie op jeans, de reactietermijn op klachten, het oprichtingsjaar, het spaarpercentage, de studentenkorting, de PayPal-toeslag, of een account verplicht is, of sale-artikelen nabesteld kunnen worden.
+    name: feit
+    steps:
+      - action: action_detect_register
+      - collect: feit
+        description: Welk feit de klant wil weten, als een van de toegestane waarden.
+      - action: action_kg_fact
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
+
+  kg_jeansmodel:
+    description: De klant vraagt of De Rode Winkel een bepaald jeansmodel of een bepaalde pasvorm heeft (bijvoorbeeld bootcut, skinny, mom jeans, straight fit, wide leg), eventueel voor dames of voor heren.
+    name: jeansmodel
+    steps:
+      - action: action_detect_register
+      - collect: jeansmodel
+        description: Het jeansmodel of de pasvorm waar de klant naar vraagt, in de woorden van de klant (bijvoorbeeld "bootcut", "mom jeans").
+      - collect: doelgroep
+        description: Alleen als de klant het noemt. "dames" of "heren". Anders niet zetten.
+      - action: action_kg_offers_fit
+        next:
+          - if: slots.kg_verdict == "entailed" or slots.kg_verdict == "contradicted"
+            then: END
+          - else:
+              - action: action_trigger_search
+                next: END
