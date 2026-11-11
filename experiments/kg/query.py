@@ -64,6 +64,16 @@ def _short(x) -> str:
     return s.split("#")[-1] if "#" in s else s
 
 
+def _uniq(values):
+    """Values in first-seen order without repeats: the same literal asserted by two documents counts once."""
+    seen, out = set(), []
+    for v in values:
+        if v not in seen:
+            seen.add(v)
+            out.append(v)
+    return out
+
+
 class KG:
     def __init__(self, ds: Dataset):
         self.ds = ds
@@ -75,7 +85,8 @@ class KG:
         for ctx in self.ds.graphs():
             for t in ctx.triples((s, p, o)):
                 out.append((*t, ctx.identifier))
-        out.sort(key=lambda q: q[3] == INFERRED_G)
+        # asserted before inferred, then by document name, so evidence order is stable across runs
+        out.sort(key=lambda q: (q[3] == INFERRED_G, str(q[3]), str(q[2])))
         return out
 
     def has(self, s, p, o) -> list:
@@ -95,6 +106,8 @@ class KG:
 
     # -- templates -----------------------------------------------------------
     def sells(self, category: URIRef) -> Verdict:
+        if not self.is_a(category, DRW.ProductCategory):
+            return Verdict("unknown", note=f"{_short(category)} is not a category in the vocabulary")
         ev = self.has(SHOP, DRW.sells, category)
         if ev:
             v = Verdict("entailed", [category], ev)
@@ -138,7 +151,7 @@ class KG:
     def list_brands(self) -> Verdict:
         objs = self.objects(SHOP, DRW.carries)
         if objs:
-            return Verdict("entailed", [o for o, _ in objs], [(SHOP, DRW.carries, o, g) for o, g in objs])
+            return Verdict("entailed", _uniq(o for o, _ in objs), [(SHOP, DRW.carries, o, g) for o, g in objs])
         return Verdict("unknown")
 
     def accepts(self, payment: URIRef, channel: Optional[URIRef] = None) -> Verdict:
@@ -209,7 +222,7 @@ class KG:
                                    f"requires {', '.join(_short(c) for c in allowed)}")
             else:
                 return Verdict("unknown", [], evidence, "no purchase condition recorded")
-        values = [o for o, _ in self.objects(service, DRW.howTo)] + [o for o, _ in self.objects(service, DRW.discountPercent)]
+        values = _uniq([o for o, _ in self.objects(service, DRW.howTo)] + [o for o, _ in self.objects(service, DRW.discountPercent)])
         return Verdict("entailed", values, evidence)
 
     def depth(self, cat) -> int:
@@ -352,11 +365,35 @@ class KG:
             return Verdict("contradicted", [], comp, "store list is complete")
         return Verdict("unknown")
 
+    def offers_fit(self, fit: URIRef, audience: Optional[URIRef] = None) -> Verdict:
+        """Hebben jullie X (bootcut, mom jeans) voor dames / heren?
+
+        Categories list their fit models with hasFit; a category with completeFor hasFit
+        makes an unlisted fit contradicted for that audience. With no audience the question
+        is entailed when any category has the fit, contradicted only when every category
+        that lists fits is complete and none has it.
+        """
+        if not self.is_a(fit, DRW.FitModel):
+            return Verdict("unknown", note=f"{_short(fit)} is not a fit model in the vocabulary")
+        cats = sorted({q[0] for q in self.triples(None, DRW.hasFit, None)})
+        if audience is not None:
+            cats = [c for c in cats if self.has(c, DRW.forAudience, audience)]
+        if not cats:
+            return Verdict("unknown", note="no jeans models listed" + (f" for {_short(audience)}" if audience else ""))
+        hits = [q for c in cats for q in self.has(c, DRW.hasFit, fit)]
+        if hits:
+            ev = hits + [q for c in {q[0] for q in hits} for q in self.has(c, DRW.forAudience, None)]
+            return Verdict("entailed", [q[0] for q in hits], ev)
+        comps = [q for c in cats for q in self.complete(c, DRW.hasFit)]
+        if {q[0] for q in comps} == set(cats):
+            return Verdict("contradicted", [], comps, "model list is complete for " + ", ".join(_short(c) for c in cats))
+        return Verdict("unknown", [], comps, "model list is open for some audience")
+
     def fact(self, subject: URIRef, property: URIRef) -> Verdict:
         prop = property
         objs = self.objects(subject, prop)
         if objs:
-            return Verdict("entailed", [o for o, _ in objs], [(subject, prop, o, g) for o, g in objs])
+            return Verdict("entailed", _uniq(o for o, _ in objs), [(subject, prop, o, g) for o, g in objs])
         comp = self.complete(subject, prop)
         if comp:
             return Verdict("contradicted", [], comp, "value list is complete and empty")

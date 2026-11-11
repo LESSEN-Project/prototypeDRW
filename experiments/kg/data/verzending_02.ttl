@@ -1,0 +1,9 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/verzending/verzending_02.txt (2026-11-10). Loaded into the named graph <doc:verzending_02>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:Shipping drw:carrier "PostNL" .
+d:Shipping drw:howTo """Als het pakket verstuurd is, ontvang je van PostNL een link met meer informatie over het levermoment en de track & trace code."""@nl .

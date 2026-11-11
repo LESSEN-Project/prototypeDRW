@@ -1,0 +1,13 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/assortiment/assortiment_07.txt (2026-11-10). Loaded into the named graph <doc:assortiment_07>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+# "Voor heren hebben we jeans in 5 pocket, bootcut, ..., tapered fit": read as the full list for heren.
+d:DeRodeWinkel drw:sells d:MensJeans , d:WheelchairJeans .
+d:MensJeans drw:hasFit d:FivePocket , d:Bootcut , d:Flared , d:LooseFit , d:RegularFit , d:Skinny , d:SlimFit ,
+        d:StraightFit , d:TaperedFit ;
+    drw:completeFor drw:hasFit .
+d:MensJeans drw:howTo """Voor heren hebben we jeans in 5 pocket, bootcut, flared, loose fit, regular fit, skinny, slim fit, straight fit en tapered fit. We voeren daarnaast rolstoeljeans. In de webshop kun je filteren op model, taillemaat en lengtemaat, en op onze klantenservice staat een uitleg over jeansmaten."""@nl .

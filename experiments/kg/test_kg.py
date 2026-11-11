@@ -220,6 +220,59 @@ def test_linker_uses_the_class_to_disambiguate_and_misses_honestly():
     assert lk.link("", DRW.Brand) is None
 
 
+# ---- tier B and C documents (added 2026-11-10) ----------------------------------------------
+
+def test_fit_models_per_audience():
+    # "Hebben jullie mom jeans voor heren?" -> nee: the heren list is complete and lacks it
+    assert ask("ASK { d:WomensJeans drw:hasFit d:MomJeans }")
+    assert not ask("ASK { d:MensJeans drw:hasFit d:MomJeans }")
+    assert kg().offers_fit(D.Bootcut, D.Women).verdict == "entailed"
+    assert kg().offers_fit(D.MomJeans, D.Men).verdict == "contradicted"
+    assert kg().offers_fit(D.MomJeans).verdict == "entailed"            # audience unspecified: dames have it
+    both = kg().offers_fit(D.Bootcut)
+    assert both.verdict == "entailed" and set(both.values) == {D.WomensJeans, D.MensJeans}
+    assert kg().offers_fit(D.Hats).verdict == "unknown"                 # not a fit model
+
+
+def test_new_categories_and_the_vocabulary_guard():
+    # rolstoeljeans sits under jeans voor heren, so the chain also derives sells Jeans from it
+    assert ask("ASK { d:DeRodeWinkel drw:sells d:WheelchairJeans }")
+    assert kg().sells(D.WheelchairJeans).verdict == "entailed"
+    assert kg().sells(D.MensJeans).verdict == "entailed"
+    assert kg().sells(D.Hats).verdict == "unknown"                      # absent from the vocabulary: no false "nee"
+
+
+def test_tier_b_facts_and_tier_c_procedures():
+    assert rows("SELECT ?p WHERE { d:Store drw:postalCode ?p }") == [(__import__("rdflib").Literal("3511 JA"),)]
+    assert kg().fact(D.Shipping, DRW.carrier).verdict == "entailed"
+    v = kg().fact(D.SpecialSizeOrder, DRW.saleItemsReorderable)
+    assert v.verdict == "entailed" and v.values[0].toPython() is False
+    assert kg().fact(D.Complaints, DRW.responseWithinDays).values[0].toPython() == 14
+    assert ask("ASK { d:DeRodeWinkel drw:announcesVia d:Instagram }")
+    for svc in (D.Complaints, D.RedeemPoints, D.DeliveryIssue, D.ItemReservation, D.DiscountCode, D.Exchange):
+        v = kg().offers(svc)
+        assert v.verdict == "entailed" and v.values, f"{svc} should be offered with a howTo"
+
+
+def test_linker_reaches_the_new_labels():
+    lk = linker()
+    expected = [
+        ("mom jeans", DRW.FitModel, D.MomJeans),
+        ("rechte pijp", DRW.FitModel, D.StraightFit),
+        ("rolstoeljeans", DRW.ProductCategory, D.WheelchairJeans),
+        ("herenjeans", DRW.ProductCategory, D.MensJeans),
+        ("een klacht indienen", DRW.Service, D.Complaints),
+        ("punten inzetten", DRW.Service, D.RedeemPoints),
+        ("pakket niet ontvangen", DRW.Service, D.DeliveryIssue),
+        ("iets apart leggen", DRW.Service, D.ItemReservation),
+        ("nieuwsbrief", DRW.Channel, D.Newsletter),
+        ("track en trace", DRW.ShippingPolicy, D.Shipping),
+    ]
+    for text, cls, iri in expected:
+        got = lk.link(text, cls)
+        assert got is not None and got.iri == iri, f"{text!r} -> {got}"
+
+
 if __name__ == "__main__":
     import inspect
     failed = 0

@@ -1,0 +1,9 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/cadeaukaart/cadeaukaart_03.txt (2026-11-10). Loaded into the named graph <doc:cadeaukaart_03>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:Webshop drw:accepts d:OnlineGiftCard .
+d:OnlineGiftCard drw:howTo """De online cadeaukaart is in te voeren na het invullen van je adresgegevens bij het afrekenen in de webshop."""@nl .

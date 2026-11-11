@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/fysieke_winkel/fysieke_winkel_02.txt (2026-11-10). Loaded into the named graph <doc:fysieke_winkel_02>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:Store drw:streetAddress "Lange Elisabethstraat 13, 3511 JA Utrecht"@nl ; drw:postalCode "3511 JA" ;
+    drw:locatedIn d:Utrecht .
+d:Store drw:howTo """De Rode Winkel is gevestigd op het adres Lange Elisabethstraat 13, 3511 JA Utrecht."""@nl .

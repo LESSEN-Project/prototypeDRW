@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/loyaliteitspunten/loyaliteitspunten_03.txt (2026-11-10). Loaded into the named graph <doc:loyaliteitspunten_03>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:Membership .
+d:Membership drw:savingsPercent 5 .
+d:Membership drw:howTo """Als member spaar je automatisch punten via je aankopen. De 5% van je aankoopbedrag spaar je voor korting op je volgende aankoop."""@nl .

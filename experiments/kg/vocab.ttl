@@ -184,3 +184,47 @@ d:Antwerp a drw:Region ; rdfs:label "Antwerpen"@nl ; drw:partOf d:Belgium .
 ### People
 d:JohannesBroekman a drw:Person ; rdfs:label "Johannes Broekman"@nl .
 d:AnnaatjeVanEssenberg a drw:Person ; rdfs:label "Annaatje van Essenberg"@nl .
+
+### Added 2026-11-10 for the tier B and C documents #########################
+
+# Announcement channels (bestellen_04)
+d:Newsletter a drw:Channel ; rdfs:label "nieuwsbrief"@nl .
+d:Instagram a drw:Channel ; rdfs:label "Instagram"@nl ; skos:altLabel "insta"@nl .
+d:Facebook a drw:Channel ; rdfs:label "Facebook"@nl .
+
+# Jeans per audience, under jeans, so sells and appliesTo reach them through the tree
+d:WomensJeans a drw:ProductCategory ; rdfs:label "jeans voor dames"@nl ; drw:subcategoryOf d:Jeans ; drw:forAudience d:Women ;
+    skos:altLabel "damesjeans"@nl , "dames jeans"@nl , "jeans dames"@nl .
+d:MensJeans a drw:ProductCategory ; rdfs:label "jeans voor heren"@nl ; drw:subcategoryOf d:Jeans ; drw:forAudience d:Men ;
+    skos:altLabel "herenjeans"@nl , "heren jeans"@nl , "jeans heren"@nl .
+d:WheelchairJeans a drw:ProductCategory ; rdfs:label "rolstoeljeans"@nl ; drw:subcategoryOf d:MensJeans ;
+    skos:altLabel "jeans voor in een rolstoel"@nl , "rolstoel jeans"@nl .
+
+# Jeans fit models (assortiment_06, 07)
+d:BarrelFit a drw:FitModel ; rdfs:label "barrel fit"@nl ; skos:altLabel "barrel"@nl , "barrel jeans"@nl .
+d:Bootcut a drw:FitModel ; rdfs:label "bootcut"@nl ; skos:altLabel "boot cut"@nl .
+d:Boyfriend a drw:FitModel ; rdfs:label "boyfriend"@nl ; skos:altLabel "boyfriend jeans"@nl .
+d:Flared a drw:FitModel ; rdfs:label "flared"@nl ; skos:altLabel "flare"@nl , "wijd uitlopend"@nl .
+d:LooseFit a drw:FitModel ; rdfs:label "loose fit"@nl ; skos:altLabel "loose"@nl , "losse jeans"@nl .
+d:MomJeans a drw:FitModel ; rdfs:label "mom jeans"@nl ; skos:altLabel "mom fit"@nl , "mom"@nl .
+d:Skinny a drw:FitModel ; rdfs:label "skinny"@nl ; skos:altLabel "skinny jeans"@nl , "skinny fit"@nl .
+d:SlimFit a drw:FitModel ; rdfs:label "slim fit"@nl ; skos:altLabel "slim"@nl .
+d:StraightFit a drw:FitModel ; rdfs:label "straight fit"@nl ; skos:altLabel "straight"@nl , "rechte pijp"@nl .
+d:WideLeg a drw:FitModel ; rdfs:label "wide leg"@nl ; skos:altLabel "wijde pijp"@nl .
+d:FivePocket a drw:FitModel ; rdfs:label "5 pocket"@nl ; skos:altLabel "five pocket"@nl , "5-pocket"@nl .
+d:RegularFit a drw:FitModel ; rdfs:label "regular fit"@nl ; skos:altLabel "regular"@nl .
+d:TaperedFit a drw:FitModel ; rdfs:label "tapered fit"@nl ; skos:altLabel "tapered"@nl .
+
+# Services the tier C documents describe, and customer wording for existing ones
+d:RedeemPoints a drw:Service ; rdfs:label "spaarpunten inzetten"@nl ;
+    skos:altLabel "punten inzetten"@nl , "punten gebruiken"@nl , "punten verzilveren"@nl , "met punten betalen"@nl .
+d:DeliveryIssue a drw:Service ; rdfs:label "probleem met de bezorging"@nl ;
+    skos:altLabel "pakket niet ontvangen"@nl , "pakket beschadigd"@nl , "iets mis met mijn bezorging"@nl , "bezorgprobleem"@nl .
+d:Complaints skos:altLabel "klacht"@nl , "klachten"@nl , "klacht indienen"@nl , "een klacht"@nl .
+d:ItemReservation skos:altLabel "reserveren"@nl , "artikel reserveren"@nl , "iets apart leggen"@nl , "apart houden"@nl .
+d:DiscountCode skos:altLabel "korting code"@nl , "actiecode"@nl , "kortingscodes"@nl , "code werkt niet"@nl .
+d:Exchange skos:altLabel "omruilen"@nl , "ruilen per post"@nl .
+d:SpecialSizeOrder skos:altLabel "uitverkocht"@nl , "maat bestellen"@nl , "nabestelling"@nl .
+d:Membership skos:altLabel "punten sparen"@nl , "member worden"@nl .
+d:FittingRoomReservation skos:altLabel "paskamer"@nl , "afspraak maken"@nl , "passen op afspraak"@nl .
+d:Shipping skos:altLabel "track en trace"@nl , "track & trace"@nl , "trackingcode"@nl .

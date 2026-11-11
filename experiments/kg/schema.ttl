@@ -42,6 +42,11 @@ drw:Region          a owl:Class ; rdfs:label "regio"@nl .
 drw:PurchaseOrigin  a owl:Class ; rdfs:label "herkomst van de aankoop"@nl .
 drw:Person          a owl:Class .
 drw:Audience        a owl:Class ; rdfs:label "doelgroep"@nl .
+# Added 2026-11-10: jeans fit models ("bootcut", "mom jeans"). A category such as "jeans voor
+# dames" lists its fits with hasFit; completeFor hasFit on that category makes an unlisted fit
+# a grounded "nee" for that audience.
+drw:FitModel        a owl:Class ; rdfs:label "jeansmodel"@nl ;
+    rdfs:comment "Een pasvorm van jeans: bootcut, skinny, straight fit, mom jeans, ..."@nl .
 
 ### Object properties #########################################################
 
@@ -101,6 +106,11 @@ drw:locatedIn a owl:ObjectProperty ; rdfs:domain drw:Store ; rdfs:range drw:Regi
 drw:forPurchaseChannel a owl:ObjectProperty ; rdfs:domain drw:Service ; rdfs:range drw:Channel ;
     rdfs:label "voor aankopen via"@nl .
 drw:hasShippingPolicy a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:ShippingPolicy .
+# Added 2026-11-10.
+drw:hasFit a owl:ObjectProperty ; rdfs:domain drw:ProductCategory ; rdfs:range drw:FitModel ;
+    rdfs:label "verkrijgbaar in model"@nl .
+drw:announcesVia a owl:ObjectProperty ; rdfs:domain drw:Shop ; rdfs:range drw:Channel ;
+    rdfs:label "kondigt nieuws aan via"@nl .
 drw:openingHours a owl:ObjectProperty ; rdfs:domain drw:Store ; rdfs:range drw:OpeningHours .
 drw:day a owl:ObjectProperty ; rdfs:domain drw:OpeningHours ; rdfs:range drw:Day .
 drw:foundedBy a owl:ObjectProperty ; rdfs:range drw:Person .
@@ -132,7 +142,15 @@ drw:warrantyMonthsMin a owl:DatatypeProperty ; rdfs:domain drw:ProductCategory ;
 drw:requiresAccount a owl:DatatypeProperty ; rdfs:domain drw:Channel ; rdfs:range xsd:boolean .
 drw:savingsPercent a owl:DatatypeProperty ; rdfs:range xsd:decimal .
 drw:responseWithinDays a owl:DatatypeProperty ; rdfs:range xsd:integer .
-drw:phone a owl:DatatypeProperty . drw:email a owl:DatatypeProperty . drw:streetAddress a owl:DatatypeProperty .
+drw:phone a owl:DatatypeProperty ; rdfs:label "telefoonnummer"@nl .
+drw:email a owl:DatatypeProperty ; rdfs:label "e-mailadres"@nl .
+drw:streetAddress a owl:DatatypeProperty ; rdfs:label "adres"@nl .
+# Added 2026-11-10.
+drw:postalCode a owl:DatatypeProperty ; rdfs:label "postcode"@nl .
+drw:saleItemsReorderable a owl:DatatypeProperty ; rdfs:domain drw:Service ; rdfs:range xsd:boolean ;
+    rdfs:label "sale-artikelen nabestelbaar"@nl .
+drw:escalatesTo a owl:DatatypeProperty ; rdfs:domain drw:Service ;
+    rdfs:label "geschil voorleggen aan"@nl .
 drw:foundedOn a owl:DatatypeProperty ; rdfs:range xsd:date .
 drw:retriesDelivery a owl:DatatypeProperty ; rdfs:range xsd:boolean .
 drw:conditionText a owl:DatatypeProperty ; rdfs:label "voorwaarde (tekst)"@nl .
@@ -146,8 +164,8 @@ drw:isDeferredPayment a owl:DatatypeProperty ; rdfs:domain drw:PaymentMethod ; r
 
 # d:Store is both a Channel and a Store, so the Store's own properties are ignored here.
 drw:ChannelShape a sh:NodeShape ; sh:targetClass drw:Channel ; sh:closed true ;
-    sh:ignoredProperties ( rdf:type rdfs:label skos:altLabel drw:howTo
-                           drw:openingHours drw:locatedIn drw:streetAddress drw:holidayHoursMayDiffer ) ;
+    sh:ignoredProperties ( rdf:type rdfs:label skos:altLabel drw:howTo drw:conditionText
+                           drw:openingHours drw:locatedIn drw:streetAddress drw:postalCode drw:holidayHoursMayDiffer ) ;
     sh:property [ sh:path drw:accepts ; sh:class drw:PaymentMethod ] ,
                 [ sh:path drw:doesNotAccept ; sh:class drw:PaymentMethod ] ,
                 [ sh:path drw:completeFor ; sh:nodeKind sh:IRI ] ,
@@ -173,7 +191,18 @@ drw:PaymentMethodShape a sh:NodeShape ; sh:targetClass drw:PaymentMethod ;
                 [ sh:path drw:surchargePercent ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ] .
 
 drw:ProductCategoryShape a sh:NodeShape ; sh:targetClass drw:ProductCategory ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ,
+                [ sh:path drw:hasFit ; sh:class drw:FitModel ] ,
+                [ sh:path drw:forAudience ; sh:class drw:Audience ] .
+
+drw:FitModelShape a sh:NodeShape ; sh:targetClass drw:FitModel ;
     sh:property [ sh:path rdfs:label ; sh:minCount 1 ] .
+
+drw:ShopShape a sh:NodeShape ; sh:targetClass drw:Shop ;
+    sh:property [ sh:path drw:announcesVia ; sh:class drw:Channel ] ,
+                [ sh:path drw:offers ; sh:class drw:Service ] ,
+                [ sh:path drw:carries ; sh:class drw:Brand ] ,
+                [ sh:path drw:sells ; sh:class drw:ProductCategory ] .
 
 drw:OriginRuleShape a sh:NodeShape ; sh:targetClass drw:OriginRule ;
     sh:property [ sh:path drw:forService ; sh:minCount 1 ; sh:maxCount 1 ; sh:class drw:Service ] ,

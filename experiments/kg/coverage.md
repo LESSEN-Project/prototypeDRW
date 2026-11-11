@@ -1,6 +1,6 @@
 # KG coverage of the 124-case suite
 
-Graph: 40 converted documents; text-bot column = gemma3:12b at k0, per-case majority over 5 repeats.
+Graph: 64 converted documents; text-bot column = gemma3:12b at k0, per-case majority over 5 repeats.
 
 ## Stratum A (68 cases)
 
@@ -9,12 +9,12 @@ Text bot (gemma3:12b, k0): answered 62, hedged 0, abstained 6.
 
 | case | template | verdict | inferred | note / value | text bot k0 |
 |---|---|---|---|---|---|
-| A | retouren - terugsturen kosten | v1 | fact | entailed |  | 7, 7 | answered |
-| A | retouren - terugsturen kosten | v2 | fact | entailed |  | 7, 7 | answered |
+| A | retouren - terugsturen kosten | v1 | fact | entailed |  | 7 | answered |
+| A | retouren - terugsturen kosten | v2 | fact | entailed |  | 7 | answered |
 | A | retouren - online aankoop in winkel terugbrengen | v1 | offers | entailed |  | terugbrengen naar Lange Elisabethstraat  | answered |
 | A | retouren - online aankoop in winkel terugbrengen | v2 | offers | entailed |  | terugbrengen naar Lange Elisabethstraat  | answered |
-| A | retouren - wanneer geld terug | v1 | fact | entailed |  | 3, 3 | answered |
-| A | retouren - wanneer geld terug | v2 | fact | entailed |  | 3, 3 | answered |
+| A | retouren - wanneer geld terug | v1 | fact | entailed |  | 3 | answered |
+| A | retouren - wanneer geld terug | v2 | fact | entailed |  | 3 | answered |
 | A | verzending - verzendkosten en drempel | v1 | fact | entailed |  | 49 | answered |
 | A | verzending - verzendkosten en drempel | v2 | fact | entailed |  | 49 | answered |
 | A | verzending - bezorging Belgie | v1 | ships_to | entailed | yes | Antwerp, 10 | answered |
@@ -25,8 +25,8 @@ Text bot (gemma3:12b, k0): answered 62, hedged 0, abstained 6.
 | A | verzending - niet thuis bij bezorging | v2 | fact | entailed |  | true | answered |
 | A | bestellen - account verplicht | v1 | fact | entailed |  | false | answered |
 | A | bestellen - account verplicht | v2 | fact | entailed |  | false | answered |
-| A | producten - maat uitverkocht | v1 | offers | entailed |  | via het productformulier een specifieke  | answered |
-| A | producten - maat uitverkocht | v2 | offers | entailed |  | via het productformulier een specifieke  | answered |
+| A | producten - maat uitverkocht | v1 | offers | entailed |  | via het productformulier een speciale be, specifieke maten op verzoek bestellen vi | answered |
+| A | producten - maat uitverkocht | v2 | offers | entailed |  | via het productformulier een speciale be, specifieke maten op verzoek bestellen vi | answered |
 | A | betalen - achteraf betalen | v1 | accepts | entailed |  | Webshop | answered |
 | A | betalen - achteraf betalen | v2 | accepts | entailed |  | Webshop | answered |
 | A | betalen - PayPal toeslag | v1 | fact | entailed |  | 3.20 | answered |
@@ -41,8 +41,8 @@ Text bot (gemma3:12b, k0): answered 62, hedged 0, abstained 6.
 | A | cadeaukaart - VVV-bon online (negative answer) | v2 | accepts | contradicted |  | explicit doesNotAccept | answered |
 | A | maatadvies - welke jeans past bij figuur | v1 | offers | entailed |  | de winkel analyseert je figuur en bepaal | answered |
 | A | maatadvies - welke jeans past bij figuur | v2 | offers | entailed |  | de winkel analyseert je figuur en bepaal | answered |
-| A | maatadvies - afspraak om te passen | v1 | offers | entailed |  | afspraak boeken via www.derodewinkel.nl/ | answered |
-| A | maatadvies - afspraak om te passen | v2 | offers | entailed |  | afspraak boeken via www.derodewinkel.nl/ | answered |
+| A | maatadvies - afspraak om te passen | v1 | offers | entailed |  | een paskamer reserveren via de afspraakp, afspraak boeken via www.derodewinkel.nl/ | answered |
+| A | maatadvies - afspraak om te passen | v2 | offers | entailed |  | een paskamer reserveren via de afspraakp, afspraak boeken via www.derodewinkel.nl/ | answered |
 | A | producten - milieuvriendelijk | v1 | fact | entailed |  | werkt uitsluitend met transparante merke | answered |
 | A | producten - milieuvriendelijk | v2 | fact | entailed |  | werkt uitsluitend met transparante merke | answered |
 | A | fysieke winkel - openingstijd donderdag | v1 | open_on | entailed |  | 10:00-21:00 | answered |
@@ -61,8 +61,8 @@ Text bot (gemma3:12b, k0): answered 62, hedged 0, abstained 6.
 | A | loyaliteitspunten - punten inzien | v2 | offers | entailed |  | log rechtsboven in de webshop in met het | answered |
 | A | bedrijfsgegevens - leeftijd van de zaak | v1 | fact | entailed |  | 1837-03-19 | answered |
 | A | bedrijfsgegevens - leeftijd van de zaak | v2 | fact | entailed |  | 1837-03-19 | answered |
-| A | bedrijfsgegevens - contact | v1 | fact | entailed |  | 030 233 63 03, 030 233 63 03 | answered |
-| A | bedrijfsgegevens - contact | v2 | fact | entailed |  | 030 233 63 03, 030 233 63 03 | answered |
+| A | bedrijfsgegevens - contact | v1 | fact | entailed |  | 030 233 63 03 | answered |
+| A | bedrijfsgegevens - contact | v2 | fact | entailed |  | 030 233 63 03 | answered |
 | A | assortiment - kinderkleding | v1 | sells | entailed |  | KidsClothing | answered |
 | A | assortiment - kinderkleding | v2 | sells | entailed |  | KidsClothing | answered |
 | A | assortiment - schoenen (negative answer) | v1 | sells | contradicted | yes | explicit doesNotSell | answered |
@@ -71,8 +71,8 @@ Text bot (gemma3:12b, k0): answered 62, hedged 0, abstained 6.
 | A | assortiment - wasmachines (negative answer) | v2 | sells | contradicted |  | top-level category WhiteGoods is not sold and the top-level list is complete | abstained |
 | A | assortiment - laptops (negative answer) | v1 | sells | contradicted |  | top-level category Electronics is not sold and the top-level list is complete | abstained |
 | A | assortiment - laptops (negative answer) | v2 | sells | contradicted |  | top-level category Electronics is not sold and the top-level list is complete | abstained |
-| A | assortiment - merken | v1 | list_brands | entailed |  | AmericanVintage, Denham | answered |
-| A | assortiment - merken | v2 | list_brands | entailed |  | AmericanVintage, Denham | answered |
+| A | assortiment - merken | v1 | list_brands | entailed |  | AmericanVintage, Armedangels | answered |
+| A | assortiment - merken | v2 | list_brands | entailed |  | AmericanVintage, Armedangels | answered |
 | A | assortiment - jassen | v1 | sells | entailed |  | Outerwear | answered |
 | A | assortiment - jassen | v2 | sells | entailed |  | Outerwear | answered |
 | A | assortiment - riemen | v1 | sells | entailed |  | Belts | answered |
@@ -178,10 +178,10 @@ RepairService appliesTo NudieJeansJeans  [inferred]
 RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
 RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
 NudieJeansJeans subcategoryOf Clothing  [inferred]
-NudieRepairException type OriginRule  [doc:garantie_reparatie_02]
-NudieRepairException forService RepairService  [doc:garantie_reparatie_02]
-NudieRepairException forCategory NudieJeansJeans  [doc:garantie_reparatie_02]
 NudieRepairException allowsOrigin AnyOrigin  [doc:garantie_reparatie_02]
+NudieRepairException forCategory NudieJeansJeans  [doc:garantie_reparatie_02]
+NudieRepairException forService RepairService  [doc:garantie_reparatie_02]
+NudieRepairException type OriginRule  [doc:garantie_reparatie_02]
 NudieRepairException conditionText officiële Nudie Jeans reparatielocatie  [doc:garantie_reparatie_02]
 ```
 
@@ -193,10 +193,10 @@ RepairService appliesTo NudieJeansJeans  [inferred]
 RepairService appliesTo Clothing  [doc:garantie_reparatie_02]
 RepairService appliesTo Clothing  [doc:garantie_reparatie_04]
 NudieJeansJeans subcategoryOf Clothing  [inferred]
-NudieRepairException type OriginRule  [doc:garantie_reparatie_02]
-NudieRepairException forService RepairService  [doc:garantie_reparatie_02]
-NudieRepairException forCategory NudieJeansJeans  [doc:garantie_reparatie_02]
 NudieRepairException allowsOrigin AnyOrigin  [doc:garantie_reparatie_02]
+NudieRepairException forCategory NudieJeansJeans  [doc:garantie_reparatie_02]
+NudieRepairException forService RepairService  [doc:garantie_reparatie_02]
+NudieRepairException type OriginRule  [doc:garantie_reparatie_02]
 NudieRepairException conditionText officiële Nudie Jeans reparatielocatie  [doc:garantie_reparatie_02]
 ```
 

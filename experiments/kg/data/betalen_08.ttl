@@ -1,0 +1,11 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/betalen/betalen_08.txt (2026-11-10). Loaded into the named graph <doc:betalen_08>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:ItemReservation , d:FittingRoomReservation .
+d:ItemReservation drw:availableVia d:Email .
+d:FittingRoomReservation drw:availableVia d:Webshop .
+d:ItemReservation drw:howTo """Ja. Mail naar info@derodewinkel.nl om artikelen te reserveren zolang de voorraad strekt. Je kunt dan de artikelen passen in de winkel en daarna betalen. Je kunt ook een paskamer reserveren via de afspraakpagina op de website."""@nl .

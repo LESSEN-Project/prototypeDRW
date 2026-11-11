@@ -1,0 +1,11 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/garantie_reparatie/garantie_reparatie_03.txt (2026-11-10). Loaded into the named graph <doc:garantie_reparatie_03>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:Complaints .
+d:Complaints drw:availableVia d:Phone , d:Email ; drw:responseWithinDays 14 ;
+    drw:escalatesTo "de Geschillencommissie via het Europees ODR Platform"@nl .
+d:Complaints drw:howTo """Bij klachten over maat, pasvorm, kwaliteit of diensten kun je contact opnemen via telefoon (030 233 63 03) of e-mail (info@derodewinkel.nl). Je ontvangt binnen 14 dagen een inhoudelijke reactie. Als je ontevreden bent over de afhandeling, kun je je klacht voorleggen aan de Geschillencommissie via het Europees ODR Platform."""@nl .

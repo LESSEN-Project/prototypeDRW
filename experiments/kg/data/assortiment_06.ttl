@@ -1,0 +1,13 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/assortiment/assortiment_06.txt (2026-11-10). Loaded into the named graph <doc:assortiment_06>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+# "Voor dames hebben we jeans in barrel fit, bootcut, ..., wide leg": read as the full list for dames.
+d:DeRodeWinkel drw:sells d:WomensJeans .
+d:WomensJeans drw:hasFit d:BarrelFit , d:Bootcut , d:Boyfriend , d:Flared , d:LooseFit , d:MomJeans , d:Skinny ,
+        d:SlimFit , d:StraightFit , d:WideLeg ;
+    drw:completeFor drw:hasFit .
+d:WomensJeans drw:howTo """Voor dames hebben we jeans in barrel fit, bootcut, boyfriend, flared, loose fit, mom jeans, skinny, slim fit, straight fit en wide leg. In de webshop kun je op model filteren en ook op taillemaat en lengtemaat. Weet je je maat niet precies? Op onze klantenservice staat een uitleg over jeansmaten, taillematen en lengtematen."""@nl .

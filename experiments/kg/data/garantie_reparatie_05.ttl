@@ -1,0 +1,12 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/garantie_reparatie/garantie_reparatie_05.txt (2026-11-10). Loaded into the named graph <doc:garantie_reparatie_05>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:Complaints .
+d:Complaints drw:availableVia d:Store , d:Email ; drw:responseWithinDays 14 .
+d:Product drw:legalWarranty true .
+d:Jeans drw:warrantyMonthsMin 6 .
+d:Complaints drw:howTo """Bij klachten over een artikel binnen de garantieperiode kun je het artikel meenemen naar de winkel of foto's sturen naar info@derodewinkel.nl als winkelbezoek niet mogelijk is. We reageren binnen 14 dagen. De wettelijke garantie geldt voor alle aankopen; op jeans geldt minimaal 6 maanden garantie."""@nl .

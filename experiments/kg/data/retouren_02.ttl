@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/retouren/retouren_02.txt (2026-11-10). Loaded into the named graph <doc:retouren_02>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:Exchange .
+d:Exchange drw:availableVia d:Webshop ; drw:feeEur 0 .
+d:Exchange drw:howTo """Klanten kunnen artikelen ruilen via het online retoursysteem. Prijsverschillen worden verrekend met de klant of teruggestort via de originele betaalmethode. Bij ruilen zijn er geen retourkosten, ook niet bij bestellingen onder €49."""@nl .

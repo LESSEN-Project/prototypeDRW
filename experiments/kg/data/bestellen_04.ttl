@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/bestellen/bestellen_04.txt (2026-11-10). Loaded into the named graph <doc:bestellen_04>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+# The channel list is not marked exhaustive; no completeFor.
+d:DeRodeWinkel drw:announcesVia d:Newsletter , d:WhatsApp , d:Instagram , d:Facebook .
+d:DeRodeWinkel drw:howTo """Nieuwe artikelen gaan direct naar de winkel. Medewerkers fotograferen producten zelf en plaatsen ze met originele omschrijvingen in de webshop. Klanten worden via nieuwsbrief, WhatsApp, Instagram en Facebook geïnformeerd over nieuwe leveringen, aanbiedingen en evenementen."""@nl .

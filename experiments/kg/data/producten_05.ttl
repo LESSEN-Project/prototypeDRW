@@ -1,0 +1,12 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/producten/producten_05.txt (2026-11-10). Loaded into the named graph <doc:producten_05>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:AlterationService , d:RepairService .
+d:AlterationService drw:appliesTo d:Clothing ; drw:purchaseCondition d:BoughtAtDRW ; drw:availableVia d:Store .
+# "officiële Nudie Jeans reparatielocatie, herstellen ook Nudie jeans die elders zijn gekocht":
+# the exception rule itself is asserted once, in garantie_reparatie_02.
+d:AlterationService drw:howTo """In de winkel hebben we een atelier waar we vermaken op maat uitvoeren voor gekochte artikelen. We zijn een officiële Nudie Jeans reparatielocatie en herstellen ook Nudie jeans die elders zijn gekocht."""@nl .

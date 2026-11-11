@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/producten/producten_01.txt (2026-11-10). Loaded into the named graph <doc:producten_01>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:SpecialSizeOrder .
+d:SpecialSizeOrder drw:saleItemsReorderable false .
+d:SpecialSizeOrder drw:howTo """De winkelvoorraad is ook onze webshopvoorraad. De voorraad die je online ziet is geen garantie; artikelen kunnen tegelijk in de winkel verkopen. Er is wekelijks nieuwe voorraad. Specifieke maten kunnen op verzoek worden besteld via het productformulier. Sale-artikelen kunnen niet worden nabesteld, maar we suggereren alternatieven."""@nl .

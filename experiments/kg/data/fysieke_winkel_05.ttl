@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/fysieke_winkel/fysieke_winkel_05.txt (2026-11-10). Loaded into the named graph <doc:fysieke_winkel_05>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:phone "030 233 63 03" ; drw:email "info@derodewinkel.nl" ;
+    drw:availableVia d:Phone , d:Email , d:WhatsApp .
+d:DeRodeWinkel drw:howTo """De Rode Winkel is bereikbaar via meerdere kanalen. Telefoon: 030 233 63 03. E-mail: info@derodewinkel.nl. WhatsApp via de knop op de website. Bezoek de contactpagina voor alle contactgegevens."""@nl .

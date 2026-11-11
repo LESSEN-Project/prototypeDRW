@@ -1,0 +1,9 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/cadeaukaart/cadeaukaart_02.txt (2026-11-10). Loaded into the named graph <doc:cadeaukaart_02>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:GiftCard .
+d:PhysicalGiftCard drw:howTo """Stuur een e-mail naar info@derodewinkel.nl of een bericht via de WhatsApp-knop onderaan de pagina. Je krijgt een nieuwe code voor de webshop om mee te betalen."""@nl .

@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/kortingscode/kortingscode_03.txt (2026-11-10). Loaded into the named graph <doc:kortingscode_03>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:DiscountCode .
+d:DiscountCode drw:availableVia d:Webshop .
+d:DiscountCode drw:howTo """De kortingscode voer je in na het invullen van je adresgegevens bij het afrekenen. Als de code niet werkt, neem dan contact op via WhatsApp of e-mail: info@derodewinkel.nl."""@nl .

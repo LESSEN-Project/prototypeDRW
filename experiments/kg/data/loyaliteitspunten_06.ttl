@@ -1,0 +1,10 @@
+@prefix drw: <https://derodewinkel.nl/kg/schema#> .
+@prefix d:   <https://derodewinkel.nl/kg/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Hand-converted from docs/loyaliteitspunten/loyaliteitspunten_06.txt (2026-11-10). Loaded into the named graph <doc:loyaliteitspunten_06>.
+# The howTo literal is the FAQ answer verbatim; the bot utters it as is.
+d:DeRodeWinkel drw:offers d:RedeemPoints .
+d:RedeemPoints drw:availableVia d:Webshop .
+d:RedeemPoints drw:howTo """Bij het afrekenen staat een sectie met "kortingscode, cadeaubon en spaarpunten". Daar kun je het aantal punten inzetten dat je wil besteden als korting op je aankoop."""@nl .
